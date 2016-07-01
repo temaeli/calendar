@@ -69,45 +69,11 @@ public class CalenderApp extends AppCompatActivity {
 
         });
 
-        Calendar cal = Calendar.getInstance();
         mensDays = 3;
         cycleDays = 30;
-        ovulationDays = 7;
-        Double temp;
-        Integer daysBeforeOvulation;
-        cal.set(2016,4,19,0,0,0);
 
-        for(Integer k = 0; k <= 11; k++){
-
-//        Add mens days to the calendar
-            cal.add(Calendar.DATE, cycleDays);
-
-            for (Integer i = 0; i < mensDays; i++){
-
-                compactCalendarView.addEvent(new CalendarDayEvent(cal.getTimeInMillis(), Color.argb(255, 255, 0, 0)), false);
-                cal.add(Calendar.DATE, 1);
-            }
-
-            //Add ovulating days to the calendar
-            temp = (Double) Math.floor(cycleDays/2) - 4;
-            daysBeforeOvulation = temp.intValue();
-            cal.add(Calendar.DATE, -mensDays);
-            cal.add(Calendar.DATE, daysBeforeOvulation);
-            for (Integer j = 0; j < ovulationDays; j++){
-                cal.add(Calendar.DATE, 1);
-                compactCalendarView.addEvent(new CalendarDayEvent(cal.getTimeInMillis(), Color.argb(255, 0, 255, 0)), false);
-            }
-            cal.add(Calendar.DATE, -(daysBeforeOvulation + ovulationDays)); //Reset calender day to the previous month first mens day
-        }
-
+        addMensCycleDays(mensDays,cycleDays);
         gotoToday();
-
-
-//        addDummyEvents();
-
-        //  gotoToday();
-
-
     }
 
     // Adding dummy events in calendar view for April, may, june 2016
@@ -139,6 +105,40 @@ public class CalenderApp extends AppCompatActivity {
 //        }
 //    }
 
+    //Adding ovulation and mens days
+    private void addMensCycleDays(int mensDays, int cycleDays) {
+
+        ovulationDays = 7; // Avoiding days if you don't want to conceive and viceversa
+        Double temp;
+        Integer daysBeforeOvulation;
+
+        Calendar cal = Calendar.getInstance();
+        cal.set(2016, 4, 19, 0, 0, 0);
+
+        for (Integer k = 0; k <= 11; k++) {
+
+//        Add mens days to the calendar
+            cal.add(Calendar.DATE, cycleDays);
+
+            for (Integer i = 0; i < mensDays; i++) {
+
+                compactCalendarView.addEvent(new CalendarDayEvent(cal.getTimeInMillis(), Color.argb(255, 255, 0, 0)), false);
+                cal.add(Calendar.DATE, 1);
+            }
+
+            //Add ovulating days to the calendar
+            temp = (Double) Math.floor(cycleDays / 2) - 4;
+            daysBeforeOvulation = temp.intValue();
+            cal.add(Calendar.DATE, -mensDays);
+            cal.add(Calendar.DATE, daysBeforeOvulation);
+            for (Integer j = 0; j < ovulationDays; j++) {
+                cal.add(Calendar.DATE, 1);
+                compactCalendarView.addEvent(new CalendarDayEvent(cal.getTimeInMillis(), Color.argb(255, 0, 255, 0)), false);
+            }
+            cal.add(Calendar.DATE, -(daysBeforeOvulation + ovulationDays)); //Reset calender day to the previous month first mens day
+        }
+    }
+
 
     private void setToMidnight(Calendar calendar) {
         calendar.set(Calendar.HOUR_OF_DAY, 0);
@@ -146,7 +146,6 @@ public class CalenderApp extends AppCompatActivity {
         calendar.set(Calendar.SECOND, 0);
         calendar.set(Calendar.MILLISECOND, 0);
     }
-
 
 
     public void gotoToday() {
