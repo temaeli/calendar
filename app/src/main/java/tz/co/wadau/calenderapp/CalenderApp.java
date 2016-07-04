@@ -1,14 +1,14 @@
 package tz.co.wadau.calenderapp;
 
-import android.graphics.Interpolator;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.graphics.Color;
-import android.os.Bundle;
 import android.support.v7.app.ActionBar;
-import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.text.style.LocaleSpan;
 import android.util.Log;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.widget.Toast;
 
 import com.github.sundeepk.compactcalendarview.CompactCalendarView;
@@ -29,7 +29,6 @@ public class CalenderApp extends AppCompatActivity {
 
     private SimpleDateFormat dateFormatForMonth = new SimpleDateFormat("MMMM yyyy", Locale.getDefault());
 
-    private Calendar currentCalender = Calendar.getInstance(Locale.getDefault());
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -44,7 +43,6 @@ public class CalenderApp extends AppCompatActivity {
         actionBar.setDisplayHomeAsUpEnabled(true);
         // Setting default toolbar title to empty
         actionBar.setTitle(null);
-
 
         compactCalendarView = (CompactCalendarView) findViewById(R.id.compactcalendar_view);
         compactCalendarView.drawSmallIndicatorForEvents(true);
@@ -72,8 +70,26 @@ public class CalenderApp extends AppCompatActivity {
         mensDays = 3;
         cycleDays = 30;
 
-        addMensCycleDays(mensDays,cycleDays);
+        addMensCycleDays(mensDays, cycleDays);
         gotoToday();
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.calendar_app, menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+
+        switch (item.getItemId()) {
+            case R.id.action_settings:
+                Log.d("MENU CLICK", "Menu clicked");
+                return true;
+            default:
+                return super.onOptionsItemSelected(item);
+        }
     }
 
     // Adding dummy events in calendar view for April, may, june 2016
@@ -112,7 +128,7 @@ public class CalenderApp extends AppCompatActivity {
         Double temp;
         Integer daysBeforeOvulation;
 
-        Calendar cal = Calendar.getInstance();
+        Calendar cal = Calendar.getInstance(Locale.getDefault());
         cal.set(2016, 4, 19, 0, 0, 0);
 
         for (Integer k = 0; k <= 11; k++) {
@@ -127,7 +143,7 @@ public class CalenderApp extends AppCompatActivity {
             }
 
             //Add ovulating days to the calendar
-            temp = (Double) Math.floor(cycleDays / 2) - 4;
+            temp = Math.floor(cycleDays / 2) - 4;
             daysBeforeOvulation = temp.intValue();
             cal.add(Calendar.DATE, -mensDays);
             cal.add(Calendar.DATE, daysBeforeOvulation);
@@ -140,12 +156,12 @@ public class CalenderApp extends AppCompatActivity {
     }
 
 
-    private void setToMidnight(Calendar calendar) {
-        calendar.set(Calendar.HOUR_OF_DAY, 0);
-        calendar.set(Calendar.MINUTE, 0);
-        calendar.set(Calendar.SECOND, 0);
-        calendar.set(Calendar.MILLISECOND, 0);
-    }
+//    private void setToMidnight(Calendar calendar) {
+//        calendar.set(Calendar.HOUR_OF_DAY, 0);
+//        calendar.set(Calendar.MINUTE, 0);
+//        calendar.set(Calendar.SECOND, 0);
+//        calendar.set(Calendar.MILLISECOND, 0);
+//    }
 
 
     public void gotoToday() {
