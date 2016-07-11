@@ -15,6 +15,14 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <activity
+            android:name="tz.co.wadau.calenderapp.SettingsActivity"
+            android:label="Settings"
+            android:parentActivityName="tz.co.wadau.calenderapp.CalenderApp">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="tz.co.wadau.calenderapp.CalenderApp" />
+        </activity>
     </application>
 
 </manifest>

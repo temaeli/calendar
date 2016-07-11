@@ -1,11 +1,11 @@
 package tz.co.wadau.calenderapp;
 
+import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.graphics.Color;
 import android.support.v7.app.ActionBar;
 import android.support.v7.widget.Toolbar;
-import android.text.style.LocaleSpan;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -26,9 +26,7 @@ public class CalenderApp extends AppCompatActivity {
     Date lastMonthMensDate, ovulationStartDate;
     Integer mensDays, ovulationDays, cycleDays;
 
-
-    private SimpleDateFormat dateFormatForMonth = new SimpleDateFormat("MMMM yyyy", Locale.getDefault());
-
+    private SimpleDateFormat dateFormatForMonth = new SimpleDateFormat("MMM yyyy", Locale.getDefault());
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -39,8 +37,8 @@ public class CalenderApp extends AppCompatActivity {
         setSupportActionBar(toolbar);
 
         final ActionBar actionBar = getSupportActionBar();
-        actionBar.setHomeAsUpIndicator(R.drawable.ic_menu_white_24dp);
-        actionBar.setDisplayHomeAsUpEnabled(true);
+//        actionBar.setHomeAsUpIndicator(R.drawable.ic_menu_white_24dp);
+//        actionBar.setDisplayHomeAsUpEnabled(true);
         // Setting default toolbar title to empty
         actionBar.setTitle(null);
 
@@ -85,7 +83,10 @@ public class CalenderApp extends AppCompatActivity {
 
         switch (item.getItemId()) {
             case R.id.action_settings:
-                Log.d("MENU CLICK", "Menu clicked");
+                showSettings();
+                return true;
+            case R.id.action_today:
+                gotoToday();
                 return true;
             default:
                 return super.onOptionsItemSelected(item);
@@ -129,7 +130,7 @@ public class CalenderApp extends AppCompatActivity {
         Integer daysBeforeOvulation;
 
         Calendar cal = Calendar.getInstance(Locale.getDefault());
-        cal.set(2016, 4, 19, 0, 0, 0);
+        cal.set(2016, 4, 21, 0, 0, 1);
 
         for (Integer k = 0; k <= 11; k++) {
 
@@ -153,6 +154,13 @@ public class CalenderApp extends AppCompatActivity {
             }
             cal.add(Calendar.DATE, -(daysBeforeOvulation + ovulationDays)); //Reset calender day to the previous month first mens day
         }
+    }
+
+    //Show settings
+    private void  showSettings(){
+        Intent intent = new Intent(this, SettingsActivity.class);
+        startActivity(intent);
+        Log.d("STARTED", "Activity started");
     }
 
 
