@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.graphics.Color;
 import android.support.v7.app.ActionBar;
 import android.support.v7.widget.Toolbar;
+import android.text.style.LocaleSpan;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -83,6 +84,7 @@ public class CalenderApp extends AppCompatActivity {
 
         switch (item.getItemId()) {
             case R.id.action_settings:
+//                Log.d("MENU CLICK", "Menu clicked");
                 showSettings();
                 return true;
             case R.id.action_today:
