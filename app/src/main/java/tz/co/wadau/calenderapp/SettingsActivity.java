@@ -4,10 +4,7 @@ import android.content.SharedPreferences;
 import android.preference.Preference;
 import android.preference.PreferenceActivity;
 import android.preference.PreferenceManager;
-import android.support.v4.app.NavUtils;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.view.MenuItem;
 
 public class SettingsActivity extends PreferenceActivity {
     public static final String KEY_PREF_SYNC_CONN = "pref_syncConnectionType";
@@ -28,9 +25,9 @@ public class SettingsActivity extends PreferenceActivity {
                 public void onSharedPreferenceChanged(SharedPreferences prefs, String key) {
                     // listener implementation
                     if (key.equals(KEY_PREF_SYNC_CONN)) {
-                        Preference connectionPref = Preference.findPreference(key);
+                        Preference connectionPref = findPreference(key);
                         // Set summary to be the user-description for the selected value
-                        connectionPref.setSummary(sharedPreferences.getString(key, ""));
+                        connectionPref.setSummary(prefs.getString(key, ""));
                     }
                 }
             };
