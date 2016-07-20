@@ -1,6 +1,8 @@
 package tz.co.wadau.calenderapp;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
+import android.preference.PreferenceManager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.graphics.Color;
@@ -66,8 +68,10 @@ public class CalenderApp extends AppCompatActivity {
 
         });
 
-        mensDays = 3;
-        cycleDays = 30;
+        SharedPreferences sharedPrefs = PreferenceManager.getDefaultSharedPreferences(this);
+
+        mensDays = Integer.valueOf(sharedPrefs.getString(SettingsFragment.KEY_PREF_MENS_DAYS, ""));
+        cycleDays = Integer.valueOf(sharedPrefs.getString(SettingsFragment.KEY_PREF_CYCLE_DAYS, ""));
 
         addMensCycleDays(mensDays, cycleDays);
         gotoToday();
@@ -84,7 +88,6 @@ public class CalenderApp extends AppCompatActivity {
 
         switch (item.getItemId()) {
             case R.id.action_settings:
-//                Log.d("MENU CLICK", "Menu clicked");
                 showSettings();
                 return true;
             case R.id.action_today:
@@ -162,7 +165,6 @@ public class CalenderApp extends AppCompatActivity {
     private void  showSettings(){
         Intent intent = new Intent(this, SettingsActivity.class);
         startActivity(intent);
-        Log.d("STARTED", "Activity started");
     }
 
 

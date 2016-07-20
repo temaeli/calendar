@@ -10,6 +10,7 @@ import android.util.Log;
 public class SettingsFragment extends PreferenceFragment {
     public static final String KEY_PREF_MENS_DAYS = "prefs_mens_days";
     public static final String KEY_PREF_CYCLE_DAYS = "prefs_cycle_days";
+    public static final String KEY_PREF_LAST_MONTH_MENS_DATE = "prefs_last_month_mens_date";
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -19,6 +20,7 @@ public class SettingsFragment extends PreferenceFragment {
         addPreferencesFromResource(R.xml.preferences);
         bindPreferenceSummaryToValue(findPreference(KEY_PREF_MENS_DAYS));
         bindPreferenceSummaryToValue(findPreference(KEY_PREF_CYCLE_DAYS));
+        bindPreferenceSummaryToValue(findPreference(KEY_PREF_LAST_MONTH_MENS_DATE));
     }
 
     SharedPreferences.OnSharedPreferenceChangeListener listener =
@@ -33,6 +35,10 @@ public class SettingsFragment extends PreferenceFragment {
 
                         case KEY_PREF_CYCLE_DAYS:
                             bindPreferenceSummaryToValue(findPreference(KEY_PREF_CYCLE_DAYS));
+                            break;
+
+                        case KEY_PREF_LAST_MONTH_MENS_DATE:
+                            bindPreferenceSummaryToValue(findPreference(KEY_PREF_LAST_MONTH_MENS_DATE));
                             break;
                     }
                 }
