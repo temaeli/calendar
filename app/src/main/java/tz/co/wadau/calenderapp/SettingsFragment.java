@@ -5,19 +5,11 @@ import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.preference.Preference;
 import android.preference.PreferenceFragment;
-import android.preference.PreferenceManager;
-import android.support.v4.app.Fragment;
 import android.util.Log;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
-import android.widget.TextView;
 
-/**
- * A simple {@link Fragment} subclass.
- */
-public class SettingsFragment extends PreferenceFragment implements SharedPreferences.OnSharedPreferenceChangeListener {
-    public static final String KEY_PREF_EXERCISES = "prefs_mens_days";
+public class SettingsFragment extends PreferenceFragment {
+    public static final String KEY_PREF_MENS_DAYS = "prefs_mens_days";
+    public static final String KEY_PREF_CYCLE_DAYS = "prefs_cycle_days";
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -25,32 +17,42 @@ public class SettingsFragment extends PreferenceFragment implements SharedPrefer
 
         // Load the preferences from an XML resource
         addPreferencesFromResource(R.xml.preferences);
+        bindPreferenceSummaryToValue(findPreference(KEY_PREF_MENS_DAYS));
+        bindPreferenceSummaryToValue(findPreference(KEY_PREF_CYCLE_DAYS));
     }
 
-    @Override
-    public void onSharedPreferenceChanged(SharedPreferences sharedPreferences, String key)
-    {
-        //IT NEVER GETS IN HERE!
-        if (key.equals(KEY_PREF_EXERCISES)) {
-            // Set summary to be the user-description for the selected value
-            Preference exercisesPref = findPreference(key);
-            exercisesPref.setSummary(sharedPreferences.getString(key, ""));
+    SharedPreferences.OnSharedPreferenceChangeListener listener =
+            new SharedPreferences.OnSharedPreferenceChangeListener() {
+                @Override
+                public void onSharedPreferenceChanged(SharedPreferences sharedPreferences, String key) {
+                    // Set summary to be the user-description for the selected value
+                    switch (key) {
+                        case KEY_PREF_MENS_DAYS:
+                            bindPreferenceSummaryToValue(findPreference(KEY_PREF_MENS_DAYS));
+                            break;
 
-        }
-        Log.d("SOME", key);
-    }
+                        case KEY_PREF_CYCLE_DAYS:
+                            bindPreferenceSummaryToValue(findPreference(KEY_PREF_CYCLE_DAYS));
+                            break;
+                    }
+                }
+            };
 
     @Override
     public void onResume() {
         super.onResume();
-        getPreferenceManager().getSharedPreferences().registerOnSharedPreferenceChangeListener(this);
-        Log.d("SOME", "some");
+        getPreferenceManager().getSharedPreferences().registerOnSharedPreferenceChangeListener(listener);
     }
 
     @Override
     public void onPause() {
-        getPreferenceManager().getSharedPreferences().unregisterOnSharedPreferenceChangeListener(this);
+        getPreferenceManager().getSharedPreferences().unregisterOnSharedPreferenceChangeListener(listener);
         super.onPause();
+    }
+
+    private void bindPreferenceSummaryToValue(Preference preference) {
+        SharedPreferences sp = getPreferenceScreen().getSharedPreferences();
+        preference.setSummary(sp.getString(preference.getKey(), ""));
     }
 
 }
