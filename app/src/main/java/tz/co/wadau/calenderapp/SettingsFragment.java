@@ -51,8 +51,8 @@ public class SettingsFragment extends PreferenceFragment {
     }
 
     private void bindPreferenceSummaryToValue(Preference preference) {
-        SharedPreferences sp = getPreferenceScreen().getSharedPreferences();
-        preference.setSummary(sp.getString(preference.getKey(), ""));
+        SharedPreferences sharedPreferences = getPreferenceScreen().getSharedPreferences();
+        preference.setSummary(sharedPreferences.getString(preference.getKey(), ""));
     }
 
 }
