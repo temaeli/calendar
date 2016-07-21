@@ -19,7 +19,7 @@ public class SettingsFragment extends PreferenceFragment {
         // Load the preferences from an XML resource
         addPreferencesFromResource(R.xml.preferences);
         bindPreferenceSummaryToValue(findPreference(KEY_PREF_MENS_DAYS));
-        bindPreferenceSummaryToValue(findPreference(KEY_PREF_CYCLE_DAYS));
+//        bindPreferenceSummaryToValue(findPreference(KEY_PREF_CYCLE_DAYS));
         bindPreferenceSummaryToValue(findPreference(KEY_PREF_LAST_MONTH_MENS_DATE));
     }
 
@@ -34,7 +34,7 @@ public class SettingsFragment extends PreferenceFragment {
                             break;
 
                         case KEY_PREF_CYCLE_DAYS:
-                            bindPreferenceSummaryToValue(findPreference(KEY_PREF_CYCLE_DAYS));
+//                            bindPreferenceSummaryToValue(findPreference(KEY_PREF_CYCLE_DAYS));
                             break;
 
                         case KEY_PREF_LAST_MONTH_MENS_DATE:
@@ -58,7 +58,13 @@ public class SettingsFragment extends PreferenceFragment {
 
     private void bindPreferenceSummaryToValue(Preference preference) {
         SharedPreferences sharedPreferences = getPreferenceScreen().getSharedPreferences();
-        preference.setSummary(sharedPreferences.getString(preference.getKey(), ""));
+
+        if(preference instanceof NumberPickerPreference){
+            preference.setSummary(String.valueOf(sharedPreferences.getInt(preference.getKey(), 0)));
+        }else {
+            preference.setSummary(sharedPreferences.getString(preference.getKey(), ""));
+        }
     }
+
 
 }

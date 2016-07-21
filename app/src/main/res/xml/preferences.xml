@@ -1,31 +1,27 @@
 <?xml version="1.0" encoding="utf-8"?>
 <PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_marginTop="?attr/actionBarSize">
-    <tz.co.wadau.calenderapp.NumberPickerPreference
-        android:id="@+id/pref_num_picker"
-        android:title="some title"
-        android:layout_width="fill_parent"
-        android:summary="3"
-        android:layout_height="wrap_content" />
 
     <tz.co.wadau.calenderapp.DatePreference
-        android:key="prefs_last_month_mens_date"
-        android:title="Last months mens date"
         android:defaultValue="2014-08-01"
-        android:summary="2014-08-01"/>
-<EditTextPreference
-    android:key="prefs_mens_days"
-    android:title="@string/mens_days"
-    android:summary="@string/mens_days_description"
-    android:defaultValue="3"
-    android:numeric="integer"
-    android:maxLength="1"/>
+        android:key="prefs_last_month_mens_date"
+        android:summary="2014-08-01"
+        android:title="Last months mens date" />
 
-    <EditTextPreference
+    <tz.co.wadau.calenderapp.NumberPickerPreference
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:key="prefs_mens_days"
+        android:defaultValue="3"
+        android:summary="@string/mens_days_description"
+        android:title="@string/mens_days" />
+
+    <tz.co.wadau.calenderapp.NumberPickerPreference
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         android:key="prefs_cycle_days"
-        android:title="@string/mens_cycle_days"
-        android:summary="@string/mens_cycle_days_description"
         android:defaultValue="28"
-        android:numeric="integer"
-        android:maxLength="2"/>
+        android:summary="@string/mens_cycle_days_description"
+        android:title="@string/mens_cycle_days" />
+
 </PreferenceScreen>

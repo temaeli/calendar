@@ -70,8 +70,11 @@ public class CalenderApp extends AppCompatActivity {
 
         SharedPreferences sharedPrefs = PreferenceManager.getDefaultSharedPreferences(this);
 
-        mensDays = Integer.valueOf(sharedPrefs.getString(SettingsFragment.KEY_PREF_MENS_DAYS, ""));
-        cycleDays = Integer.valueOf(sharedPrefs.getString(SettingsFragment.KEY_PREF_CYCLE_DAYS, ""));
+//        mensDays = Integer.valueOf(sharedPrefs.getString(SettingsFragment.KEY_PREF_MENS_DAYS, ""));
+//        cycleDays = Integer.valueOf(sharedPrefs.getString(SettingsFragment.KEY_PREF_CYCLE_DAYS, ""));
+
+        mensDays = 3;
+        cycleDays = 28;
 
         addMensCycleDays(mensDays, cycleDays);
         gotoToday();
