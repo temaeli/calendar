@@ -1,22 +1,23 @@
 <?xml version="1.0" encoding="utf-8"?>
 <PreferenceScreen
     xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:calenderapp="http://schemas.android.com/apk/lib/tz.co.wadau.calenderapp"
+    xmlns:calapp="http://schemas.android.com/apk/lib/tz.co.wadau.calenderapp"
 
     android:layout_marginTop="?attr/actionBarSize">
 
     <tz.co.wadau.calenderapp.DatePreference
-        android:defaultValue="2014-08-01"
         android:key="prefs_last_month_mens_date"
+        android:title="Last months mens date"
+        android:defaultValue="2014-08-01"
         android:summary="2014-08-01"
-        android:title="Last months mens date" />
+         />
 
     <tz.co.wadau.calenderapp.NumberPickerPreference
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:key="prefs_mens_days"
-        calenderapp:minValue="1"
-        calenderapp:maxValue="7"
+        calapp:minValue="1"
+        calapp:maxValue="7"
         android:defaultValue="3"
         android:summary="@string/mens_days_description"
         android:title="@string/mens_days" />
@@ -25,8 +26,8 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:key="prefs_cycle_days"
-        calenderapp:minValue="20"
-        calenderapp:maxValue="28"
+        calapp:minValue="20"
+        calapp:maxValue="35"
         android:defaultValue="28"
         android:summary="@string/mens_cycle_days_description"
         android:title="@string/mens_cycle_days" />
