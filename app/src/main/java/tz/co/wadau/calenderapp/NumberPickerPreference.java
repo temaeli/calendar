@@ -1,11 +1,9 @@
 package tz.co.wadau.calenderapp;
 
 import android.content.Context;
-import android.content.res.Resources;
 import android.content.res.TypedArray;
 import android.preference.DialogPreference;
 import android.util.AttributeSet;
-import android.util.Log;
 import android.view.Gravity;
 import android.view.View;
 import android.view.ViewGroup;
@@ -13,28 +11,31 @@ import android.widget.FrameLayout;
 import android.widget.NumberPicker;
 
 
+
 public class NumberPickerPreference extends DialogPreference {
-
-    public static final int DEFAULT_MAX_VALUE = 35;
-    public static final int DEFAULT_MIN_VALUE = 1;
-    public static final boolean DEFAULT_WRAP_SELECTOR_WHEEL = true;
-
-    private final int minValue;
-    private final int maxValue;
-    private final boolean wrapSelectorWheel;
 
     private NumberPicker picker;
     private int value;
+    private int minValue;
+    private int maxValue;
+    private boolean wrapSelectorWheel;
 
     public NumberPickerPreference(Context context, AttributeSet attrs) {
         super(context, attrs);
 
-        final TypedArray a = context.obtainStyledAttributes(attrs, R.styleable.NumberPickerPreference);
-        this.minValue = a.getInteger(R.styleable.NumberPickerPreference_minValue, DEFAULT_MIN_VALUE);
-        this.maxValue = a.getInteger(R.styleable.NumberPickerPreference_maxValue, DEFAULT_MAX_VALUE);
-        this.wrapSelectorWheel = a.getBoolean(R.styleable.NumberPickerPreference_wrapSelectorWheel, DEFAULT_WRAP_SELECTOR_WHEEL);
+        for (int i=0; i < attrs.getAttributeCount(); i++){
+            String attr = attrs.getAttributeName(i);
 
-        Log.d("KILAZA", String.valueOf(maxValue));
+            if(attr.equals("minValue")){
+               minValue = Integer.valueOf(attrs.getAttributeValue(i));
+            }
+            if(attr.equals("maxValue")){
+               maxValue = Integer.valueOf(attrs.getAttributeValue(i));
+            }
+            if(attr.equals("wrapSelectorWheel")){
+                wrapSelectorWheel = Boolean.valueOf(attrs.getAttributeValue(i));
+            }
+        }
     }
 
     @Override
