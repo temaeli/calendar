@@ -8,7 +8,6 @@ import android.os.Bundle;
 import android.graphics.Color;
 import android.support.v7.app.ActionBar;
 import android.support.v7.widget.Toolbar;
-import android.text.style.LocaleSpan;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -26,6 +25,7 @@ import java.util.Locale;
 public class CalenderApp extends AppCompatActivity {
 
     private Toolbar toolbar;
+    private ActionBar actionBar;
     CompactCalendarView compactCalendarView;
     Date lastMonthMensDate, ovulationStartDate;
     Integer mensDays, ovulationDays, cycleDays;
@@ -43,7 +43,7 @@ public class CalenderApp extends AppCompatActivity {
         toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-        final ActionBar actionBar = getSupportActionBar();
+         actionBar = getSupportActionBar();
 //        actionBar.setHomeAsUpIndicator(R.drawable.ic_menu_white_24dp);
 //        actionBar.setDisplayHomeAsUpEnabled(true);
         // Setting default toolbar title to empty
@@ -101,6 +101,7 @@ public class CalenderApp extends AppCompatActivity {
                 return true;
             case R.id.action_today:
                 gotoToday();
+                actionBar.setTitle(dateFormatForMonth.format(compactCalendarView.getFirstDayOfCurrentMonth()));
                 return true;
             default:
                 return super.onOptionsItemSelected(item);

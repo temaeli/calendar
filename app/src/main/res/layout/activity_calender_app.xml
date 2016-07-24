@@ -25,7 +25,7 @@
         app:compactCalendarCurrentDayBackgroundColor="#1a8cd7"
         app:compactCalendarCurrentSelectedDayBackgroundColor="#E57373"
         app:compactCalendarTextColor="#FFF"
-        app:compactCalendarTextSize="12sp" />
+        app:compactCalendarTextSize="13sp" />
 
     <ListView
         android:id="@+id/color_key_list"

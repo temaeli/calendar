@@ -16,7 +16,7 @@
         android:layout_width="wrap_content"
         android:layout_height="match_parent"
         android:text="Color key description"
-        android:textSize="18dp"
+        android:textSize="16dp"
         android:gravity="center_vertical"/>
 
 </LinearLayout>
