@@ -12,6 +12,7 @@ import android.text.style.LocaleSpan;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.ListView;
 import android.widget.Toast;
 
 import com.github.sundeepk.compactcalendarview.CompactCalendarView;
@@ -28,6 +29,9 @@ public class CalenderApp extends AppCompatActivity {
     CompactCalendarView compactCalendarView;
     Date lastMonthMensDate, ovulationStartDate;
     Integer mensDays, ovulationDays, cycleDays;
+
+    int[] colorKeyImage = {R.drawable.ic_color_key_red_24dp, R.drawable.ic_color_key_green_24dp};
+    String[] colorKeyDescription = {"Menstral days", "Ovulation days"};
 
     private SimpleDateFormat dateFormatForMonth = new SimpleDateFormat("MMM yyyy", Locale.getDefault());
 
@@ -75,6 +79,11 @@ public class CalenderApp extends AppCompatActivity {
 
         addMensCycleDays(mensDays, cycleDays);
         gotoToday();
+
+        //Adding key for mentral cycle colors
+        CustomListAdapter adapter = new CustomListAdapter(this, colorKeyImage, colorKeyDescription);
+        ListView colorKeyList = (ListView) findViewById(R.id.color_key_list);
+        colorKeyList.setAdapter(adapter);
     }
 
     @Override
@@ -144,7 +153,7 @@ public class CalenderApp extends AppCompatActivity {
 
             for (Integer i = 0; i < mensDays; i++) {
 
-                compactCalendarView.addEvent(new CalendarDayEvent(cal.getTimeInMillis(), Color.argb(255, 255, 0, 0)), false);
+                compactCalendarView.addEvent(new CalendarDayEvent(cal.getTimeInMillis(), Color.argb(255, 113, 229, 113)), false);
                 cal.add(Calendar.DATE, 1);
             }
 
@@ -155,7 +164,7 @@ public class CalenderApp extends AppCompatActivity {
             cal.add(Calendar.DATE, daysBeforeOvulation);
             for (Integer j = 0; j < ovulationDays; j++) {
                 cal.add(Calendar.DATE, 1);
-                compactCalendarView.addEvent(new CalendarDayEvent(cal.getTimeInMillis(), Color.argb(255, 0, 255, 0)), false);
+                compactCalendarView.addEvent(new CalendarDayEvent(cal.getTimeInMillis(), Color.argb(255, 229, 115, 115)), false);
             }
             cal.add(Calendar.DATE, -(daysBeforeOvulation + ovulationDays)); //Reset calender day to the previous month first mens day
         }

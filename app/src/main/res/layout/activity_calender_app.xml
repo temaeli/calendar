@@ -27,4 +27,14 @@
         app:compactCalendarTextColor="#FFF"
         app:compactCalendarTextSize="12sp" />
 
+    <ListView
+        android:id="@+id/color_key_list"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:paddingTop="30dp"
+        android:paddingLeft="5dp"
+        android:divider="#FFFFFF"
+        android:listSelector="@android:color/transparent">
+    </ListView>
+
 </LinearLayout>
