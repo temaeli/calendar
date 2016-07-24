@@ -27,7 +27,7 @@ public class CalenderApp extends AppCompatActivity {
     private Toolbar toolbar;
     private ActionBar actionBar;
     CompactCalendarView compactCalendarView;
-    Date lastMonthMensDate, ovulationStartDate;
+    String lastMonthMensDate;
     Integer mensDays, ovulationDays, cycleDays;
 
     int[] colorKeyImage = {R.drawable.ic_color_key_red_24dp, R.drawable.ic_color_key_green_24dp};
@@ -76,8 +76,9 @@ public class CalenderApp extends AppCompatActivity {
         SharedPreferences sharedPrefs = PreferenceManager.getDefaultSharedPreferences(this);
         mensDays = sharedPrefs.getInt(SettingsFragment.KEY_PREF_MENS_DAYS, 3);
         cycleDays = sharedPrefs.getInt(SettingsFragment.KEY_PREF_CYCLE_DAYS, 28);
+        lastMonthMensDate = sharedPrefs.getString(SettingsFragment.KEY_PREF_LAST_MONTH_MENS_DATE, "2016-05-21");
 
-        addMensCycleDays(mensDays, cycleDays);
+        addMensCycleDays(lastMonthMensDate, mensDays, cycleDays);
         gotoToday();
 
         //Adding key for mentral cycle colors
@@ -138,14 +139,17 @@ public class CalenderApp extends AppCompatActivity {
 //    }
 
     //Adding ovulation and mens days
-    private void addMensCycleDays(int mensDays, int cycleDays) {
+    private void addMensCycleDays(String lastMonthMensDate, int mensDays, int cycleDays) {
 
         ovulationDays = 7; // Avoiding days if you don't want to conceive and viceversa
         Double temp;
         Integer daysBeforeOvulation;
+        int calendarYear = DatePreference.getYear(lastMonthMensDate);
+        int calendarMonth = DatePreference.getMonth(lastMonthMensDate) - 1;
+        int calendarDay = DatePreference.getDate(lastMonthMensDate);
 
         Calendar cal = Calendar.getInstance(Locale.getDefault());
-        cal.set(2016, 4, 21, 0, 0, 1);
+        cal.set(calendarYear, calendarMonth, calendarDay, 0, 0, 1);
 
         for (Integer k = 0; k <= 11; k++) {
 
