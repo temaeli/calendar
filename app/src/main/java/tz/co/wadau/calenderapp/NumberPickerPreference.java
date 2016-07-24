@@ -23,6 +23,7 @@ public class NumberPickerPreference extends DialogPreference {
     public NumberPickerPreference(Context context, AttributeSet attrs) {
         super(context, attrs);
 
+        //Reading custom custom attributes
         for (int i=0; i < attrs.getAttributeCount(); i++){
             String attr = attrs.getAttributeName(i);
 

@@ -72,10 +72,10 @@ public class CalenderApp extends AppCompatActivity {
 
         });
 
+        //Reading user settings then adding mentral and ovulation days to calendar
         SharedPreferences sharedPrefs = PreferenceManager.getDefaultSharedPreferences(this);
-
-        mensDays = sharedPrefs.getInt(SettingsFragment.KEY_PREF_MENS_DAYS, 0);
-        cycleDays = sharedPrefs.getInt(SettingsFragment.KEY_PREF_CYCLE_DAYS, 0);
+        mensDays = sharedPrefs.getInt(SettingsFragment.KEY_PREF_MENS_DAYS, 3);
+        cycleDays = sharedPrefs.getInt(SettingsFragment.KEY_PREF_CYCLE_DAYS, 28);
 
         addMensCycleDays(mensDays, cycleDays);
         gotoToday();
@@ -153,7 +153,7 @@ public class CalenderApp extends AppCompatActivity {
 
             for (Integer i = 0; i < mensDays; i++) {
 
-                compactCalendarView.addEvent(new CalendarDayEvent(cal.getTimeInMillis(), Color.argb(255, 113, 229, 113)), false);
+                compactCalendarView.addEvent(new CalendarDayEvent(cal.getTimeInMillis(), Color.argb(255, 229, 115, 115)), false);
                 cal.add(Calendar.DATE, 1);
             }
 
@@ -164,7 +164,7 @@ public class CalenderApp extends AppCompatActivity {
             cal.add(Calendar.DATE, daysBeforeOvulation);
             for (Integer j = 0; j < ovulationDays; j++) {
                 cal.add(Calendar.DATE, 1);
-                compactCalendarView.addEvent(new CalendarDayEvent(cal.getTimeInMillis(), Color.argb(255, 229, 115, 115)), false);
+                compactCalendarView.addEvent(new CalendarDayEvent(cal.getTimeInMillis(), Color.argb(255, 113, 229, 113)), false);
             }
             cal.add(Calendar.DATE, -(daysBeforeOvulation + ovulationDays)); //Reset calender day to the previous month first mens day
         }
