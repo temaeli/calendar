@@ -151,9 +151,9 @@ public class CalenderApp extends AppCompatActivity {
         Calendar cal = Calendar.getInstance(Locale.getDefault());
         cal.set(calendarYear, calendarMonth, calendarDay, 0, 0, 1);
 
-        for (Integer k = 0; k <= 11; k++) {
+        for (Integer k = 0; k <= 480; k++) {
 
-//        Add mens days to the calendar
+//        Add mens days to the calendar for 40 years
             cal.add(Calendar.DATE, cycleDays);
 
             for (Integer i = 0; i < mensDays; i++) {
@@ -162,7 +162,7 @@ public class CalenderApp extends AppCompatActivity {
                 cal.add(Calendar.DATE, 1);
             }
 
-            //Add ovulating days to the calendar
+            //Add ovulating days to the calendar for 40 years
             temp = Math.floor(cycleDays / 2) - 4;
             daysBeforeOvulation = temp.intValue();
             cal.add(Calendar.DATE, -mensDays);
