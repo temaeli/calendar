@@ -22,8 +22,8 @@
         android:paddingLeft="16dp"
         android:paddingRight="16dp"
         app:compactCalendarBackgroundColor="#00bcd4"
-        app:compactCalendarCurrentDayBackgroundColor="#1a8cd7"
-        app:compactCalendarCurrentSelectedDayBackgroundColor="#E57373"
+        app:compactCalendarCurrentDayBackgroundColor="#1ae4ff"
+        app:compactCalendarCurrentSelectedDayBackgroundColor="@android:color/transparent"
         app:compactCalendarTextColor="#FFF"
         app:compactCalendarTextSize="13sp" />
 
@@ -31,7 +31,7 @@
         android:id="@+id/color_key_list"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:paddingTop="30dp"
+        android:paddingTop="10dp"
         android:paddingLeft="5dp"
         android:divider="#FFFFFF"
         android:listSelector="@android:color/transparent">

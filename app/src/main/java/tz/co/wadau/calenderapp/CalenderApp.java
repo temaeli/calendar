@@ -8,7 +8,6 @@ import android.os.Bundle;
 import android.graphics.Color;
 import android.support.v7.app.ActionBar;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.ListView;
@@ -30,7 +29,7 @@ public class CalenderApp extends AppCompatActivity {
     String lastMonthMensDate;
     Integer mensDays, ovulationDays, cycleDays;
 
-    int[] colorKeyImage = {R.drawable.ic_color_key_red_24dp, R.drawable.ic_color_key_green_24dp};
+    int[] colorKeyImage = {R.drawable.ic_color_key_red_24dp, R.drawable.ic_color_key_blue_24dp};
     String[] colorKeyDescription = {"Menstral days", "Ovulation days"};
 
     private SimpleDateFormat dateFormatForMonth = new SimpleDateFormat("MMM yyyy", Locale.getDefault());
@@ -50,7 +49,7 @@ public class CalenderApp extends AppCompatActivity {
         actionBar.setTitle(null);
 
         compactCalendarView = (CompactCalendarView) findViewById(R.id.compactcalendar_view);
-        compactCalendarView.drawSmallIndicatorForEvents(true);
+        compactCalendarView.drawSmallIndicatorForEvents(false);
         compactCalendarView.setUseThreeLetterAbbreviation(true);
 
         //set initial title
@@ -169,7 +168,7 @@ public class CalenderApp extends AppCompatActivity {
             cal.add(Calendar.DATE, daysBeforeOvulation);
             for (Integer j = 0; j < ovulationDays; j++) {
                 cal.add(Calendar.DATE, 1);
-                compactCalendarView.addEvent(new CalendarDayEvent(cal.getTimeInMillis(), Color.argb(255, 113, 229, 113)), false);
+                compactCalendarView.addEvent(new CalendarDayEvent(cal.getTimeInMillis(), Color.argb(255, 0, 138, 230)), false);
             }
             cal.add(Calendar.DATE, -(daysBeforeOvulation + ovulationDays)); //Reset calender day to the previous month first mens day
         }
