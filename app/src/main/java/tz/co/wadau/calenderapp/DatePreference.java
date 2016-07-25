@@ -6,6 +6,7 @@ import android.content.Context;
 import android.content.res.TypedArray;
 import android.preference.DialogPreference;
 import android.util.AttributeSet;
+import android.util.Log;
 import android.view.View;
 import android.widget.DatePicker;
 
@@ -85,7 +86,6 @@ public class DatePreference extends DialogPreference {
 
     @Override
     protected void onSetInitialValue(boolean restoreValue, Object defaultValue) {
-        dateval = null;
 
         if (restoreValue) {
             if (defaultValue == null) {
@@ -99,6 +99,8 @@ public class DatePreference extends DialogPreference {
         } else {
             dateval = defaultValue.toString();
         }
+
+        setText(dateval);
         lastYear = getYear(dateval);
         lastMonth = getMonth(dateval)-1;
         lastDate = getDate(dateval);

@@ -8,8 +8,8 @@
     <tz.co.wadau.calenderapp.DatePreference
         android:key="prefs_last_month_mens_date"
         android:title="Last month's mens date"
-        android:defaultValue="2016-05-21"
-        android:summary="2016-05-21"
+        android:defaultValue="2016-06-21"
+        android:summary="2016-06-21"
          />
 
     <tz.co.wadau.calenderapp.NumberPickerPreference
