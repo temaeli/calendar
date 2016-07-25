@@ -42,6 +42,7 @@ public class DatePreference extends DialogPreference {
     @Override
     protected View onCreateDialogView() {
         picker = new DatePicker(getContext());
+        picker.setMaxDate(Calendar.getInstance().getTimeInMillis());
 
         // setCalendarViewShown(false) attribute is only available from API level 11
 //        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB) {
