@@ -157,7 +157,7 @@ public class CalenderApp extends AppCompatActivity {
 
             for (Integer i = 0; i < mensDays; i++) {
 
-                compactCalendarView.addEvent(new CalendarDayEvent(cal.getTimeInMillis(), Color.argb(255, 229, 115, 115)), false);
+                compactCalendarView.addEvent(new CalendarDayEvent(cal.getTimeInMillis(), Color.argb(255, 235, 147, 147)), false);
                 cal.add(Calendar.DATE, 1);
             }
 
@@ -168,7 +168,7 @@ public class CalenderApp extends AppCompatActivity {
             cal.add(Calendar.DATE, daysBeforeOvulation);
             for (Integer j = 0; j < ovulationDays; j++) {
                 cal.add(Calendar.DATE, 1);
-                compactCalendarView.addEvent(new CalendarDayEvent(cal.getTimeInMillis(), Color.argb(255, 0, 138, 230)), false);
+                compactCalendarView.addEvent(new CalendarDayEvent(cal.getTimeInMillis(), Color.argb(140, 0, 138, 230)), false);
             }
             cal.add(Calendar.DATE, -(daysBeforeOvulation + ovulationDays)); //Reset calender day to the previous month first mens day
         }

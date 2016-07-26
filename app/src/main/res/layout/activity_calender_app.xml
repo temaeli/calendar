@@ -31,8 +31,10 @@
         android:id="@+id/color_key_list"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:paddingTop="10dp"
-        android:paddingLeft="5dp"
+        android:paddingTop="8dp"
+        android:paddingBottom="8dp"
+        android:paddingRight="16dp"
+        android:paddingLeft="10dp"
         android:divider="#FFFFFF"
         android:listSelector="@android:color/transparent">
     </ListView>
