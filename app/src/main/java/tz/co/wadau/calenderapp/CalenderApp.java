@@ -11,6 +11,7 @@ import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.ListView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.github.sundeepk.compactcalendarview.CompactCalendarView;
@@ -150,9 +151,9 @@ public class CalenderApp extends AppCompatActivity {
         Calendar cal = Calendar.getInstance(Locale.getDefault());
         cal.set(calendarYear, calendarMonth, calendarDay, 0, 0, 1);
 
-        for (Integer k = 0; k <= 480; k++) {
+        for (Integer k = 0; k <= 120; k++) {
 
-//        Add mens days to the calendar for 40 years
+//        Add mens days to the calendar for 10 years
             cal.add(Calendar.DATE, cycleDays);
 
             for (Integer i = 0; i < mensDays; i++) {
@@ -161,7 +162,7 @@ public class CalenderApp extends AppCompatActivity {
                 cal.add(Calendar.DATE, 1);
             }
 
-            //Add ovulating days to the calendar for 40 years
+            //Add ovulating days to the calendar for 10 years
             temp = Math.floor(cycleDays / 2) - 4;
             daysBeforeOvulation = temp.intValue();
             cal.add(Calendar.DATE, -mensDays);
