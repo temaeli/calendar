@@ -8,6 +8,7 @@ import android.os.Bundle;
 import android.graphics.Color;
 import android.support.v7.app.ActionBar;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.ListView;
@@ -31,12 +32,13 @@ public class CalenderApp extends AppCompatActivity {
     Integer mensDays, ovulationDays, cycleDays;
 
     int[] colorKeyImage = {R.drawable.ic_color_key_red_24dp, R.drawable.ic_color_key_blue_24dp};
-    String[] colorKeyDescription = {"Menstral days", "Ovulation days"};
+    String[] colorKeyDescription = {"Period days", "Ovulation days"};
 
     private SimpleDateFormat dateFormatForMonth = new SimpleDateFormat("MMM yyyy", Locale.getDefault());
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_calender_app);
 
