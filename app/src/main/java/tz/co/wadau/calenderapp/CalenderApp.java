@@ -32,7 +32,7 @@ public class CalenderApp extends AppCompatActivity {
     Integer mensDays, ovulationDays, cycleDays;
 
     int[] colorKeyImage = {R.drawable.ic_color_key_red_24dp, R.drawable.ic_color_key_blue_24dp};
-    String[] colorKeyDescription = {"Period days", "Ovulation days"};
+    String[] colorKeyDescription = {"Period days", "Ovulation days (Fertility window)"};
 
     private SimpleDateFormat dateFormatForMonth = new SimpleDateFormat("MMM yyyy", Locale.getDefault());
 
@@ -143,8 +143,8 @@ public class CalenderApp extends AppCompatActivity {
     //Adding ovulation and mens days
     private void addMensCycleDays(String lastMonthMensDate, int mensDays, int cycleDays) {
 
-        ovulationDays = 7; // Avoiding days if you don't want to conceive and viceversa
-        Double temp;
+        ovulationDays = 5; // Avoiding days if you don't want to conceive and viceversa
+//        Double temp;
         Integer daysBeforeOvulation;
         int calendarYear = DatePreference.getYear(lastMonthMensDate);
         int calendarMonth = DatePreference.getMonth(lastMonthMensDate) - 1;
@@ -165,8 +165,10 @@ public class CalenderApp extends AppCompatActivity {
             }
 
             //Add ovulating days to the calendar for 10 years
-            temp = Math.floor(cycleDays / 2) - 4;
-            daysBeforeOvulation = temp.intValue();
+//            temp = Math.floor(cycleDays / 2) - 4;
+//            daysBeforeOvulation = temp.intValue();
+//            daysBeforeOvulation = 10;
+            daysBeforeOvulation = cycleDays - 17;
             cal.add(Calendar.DATE, -mensDays);
             cal.add(Calendar.DATE, daysBeforeOvulation);
             for (Integer j = 0; j < ovulationDays; j++) {
