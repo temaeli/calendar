@@ -1,5 +1,6 @@
 package tz.co.wadau.calenderapp;
 
+import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
@@ -12,11 +13,11 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.ListView;
-import android.widget.Toast;
 
 import com.github.sundeepk.compactcalendarview.CompactCalendarView;
 import com.github.sundeepk.compactcalendarview.domain.CalendarDayEvent;
 
+import java.text.Format;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
@@ -62,7 +63,7 @@ public class CalenderApp extends AppCompatActivity {
             @Override
             public void onDayClick(Date dateClicked) {
 
-                Toast.makeText(CalenderApp.this, "Date : " + dateClicked.toString(), Toast.LENGTH_SHORT).show();
+//                Toast.makeText(CalenderApp.this, "Date : " + dateClicked.toString(), Toast.LENGTH_SHORT).show();
             }
 
             @Override

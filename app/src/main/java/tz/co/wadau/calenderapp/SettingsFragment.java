@@ -7,6 +7,11 @@ import android.preference.Preference;
 import android.preference.PreferenceFragment;
 import android.util.Log;
 
+import java.text.Format;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.Locale;
+
 public class SettingsFragment extends PreferenceFragment {
     public static final String KEY_PREF_MENS_DAYS = "prefs_mens_days";
     public static final String KEY_PREF_CYCLE_DAYS = "prefs_cycle_days";
@@ -59,12 +64,23 @@ public class SettingsFragment extends PreferenceFragment {
     private void bindPreferenceSummaryToValue(Preference preference) {
         SharedPreferences sharedPreferences = getPreferenceScreen().getSharedPreferences();
 
-        if(preference instanceof NumberPickerPreference){
+        if (preference instanceof NumberPickerPreference) {
             preference.setSummary(String.valueOf(sharedPreferences.getInt(preference.getKey(), 0)));
-        }else {
+        } else if (preference instanceof DatePreference) {
+            preference.setSummary(formatToSystemDateFormat(sharedPreferences.getString(preference.getKey(), "")));
+        } else {
             preference.setSummary(sharedPreferences.getString(preference.getKey(), ""));
         }
     }
 
+    public String formatToSystemDateFormat(String str) {
+        //Reading system date format
+        Format dateFormat = android.text.format.DateFormat.getDateFormat(getActivity().getApplicationContext());
+        String pattern = ((SimpleDateFormat) dateFormat).toLocalizedPattern();
 
+        SimpleDateFormat systemDateFormat = new SimpleDateFormat(pattern);
+        Calendar calendar = Calendar.getInstance(Locale.getDefault());
+        calendar.set(DatePreference.getYear(str), DatePreference.getMonth(str) - 1, DatePreference.getDate(str));
+        return systemDateFormat.format(calendar.getTime());
+    }
 }
