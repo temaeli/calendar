@@ -12,7 +12,6 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.ListView;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import com.github.sundeepk.compactcalendarview.CompactCalendarView;
@@ -111,41 +110,12 @@ public class CalenderApp extends AppCompatActivity {
         }
     }
 
-    // Adding dummy events in calendar view for April, may, june 2016
-//    private void addDummyEvents() {
-//
-//        addEvents(compactCalendarView, Calendar.APRIL);
-//        addEvents(compactCalendarView, Calendar.MAY);
-//        addEvents(compactCalendarView, Calendar.JUNE);
-//
-//        // Refresh calendar to update events
-//        compactCalendarView.invalidate();
-//    }
-
-
-    // Adding events from 1 to 6 days
-
-//    private void addEvents(CompactCalendarView compactCalendarView, int month) {
-//        currentCalender.setTime(new Date());
-//        currentCalender.set(Calendar.DAY_OF_MONTH, 1);
-//        Date firstDayOfMonth = currentCalender.getTime();
-//        for (int i = 0; i < 6; i++) {
-//            currentCalender.setTime(firstDayOfMonth);
-//            if (month > -1) {
-//                currentCalender.set(Calendar.MONTH, month);
-//            }
-//            currentCalender.add(Calendar.DATE, i);
-//            setToMidnight(currentCalender);
-//            compactCalendarView.addEvent(new CalendarDayEvent(currentCalender.getTimeInMillis(), Color.argb(255, 255, 255, 255)), false);
-//        }
-//    }
-
     //Adding ovulation and mens days
     private void addMensCycleDays(String lastMonthMensDate, int mensDays, int cycleDays) {
 
         ovulationDays = 5; // Avoiding days if you don't want to conceive and viceversa
 //        Double temp;
-        Integer daysBeforeOvulation;
+        int daysBeforeOvulation;
         int calendarYear = DatePreference.getYear(lastMonthMensDate);
         int calendarMonth = DatePreference.getMonth(lastMonthMensDate) - 1;
         int calendarDay = DatePreference.getDate(lastMonthMensDate);
@@ -184,14 +154,6 @@ public class CalenderApp extends AppCompatActivity {
         Intent intent = new Intent(this, SettingsActivity.class);
         startActivity(intent);
     }
-
-
-//    private void setToMidnight(Calendar calendar) {
-//        calendar.set(Calendar.HOUR_OF_DAY, 0);
-//        calendar.set(Calendar.MINUTE, 0);
-//        calendar.set(Calendar.SECOND, 0);
-//        calendar.set(Calendar.MILLISECOND, 0);
-//    }
 
 
     public void gotoToday() {
