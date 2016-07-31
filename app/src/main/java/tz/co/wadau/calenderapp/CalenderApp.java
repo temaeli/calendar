@@ -12,6 +12,7 @@ import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.ListView;
 
 import com.github.sundeepk.compactcalendarview.CompactCalendarView;
@@ -44,6 +45,8 @@ public class CalenderApp extends AppCompatActivity {
 
         toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+
+        startActivity(new Intent(this, InitialSettingsActivity.class));
 
          actionBar = getSupportActionBar();
 //        actionBar.setHomeAsUpIndicator(R.drawable.ic_menu_white_24dp);

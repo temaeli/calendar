@@ -5,4 +5,6 @@
     <color name="colorAccent">#E57373</color>
     <color name="separator_background">#23000000</color>
     <color name="cardview_container">#EEEEEE</color>
+    <color name="BackgroundtWhiteColor">#FFFFFF</color>
+    <color name="editTextHintColor">#FFFFFF</color>
 </resources>
