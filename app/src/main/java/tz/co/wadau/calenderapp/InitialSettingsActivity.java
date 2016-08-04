@@ -1,5 +1,6 @@
 package tz.co.wadau.calenderapp;
 
+import android.support.v4.app.DialogFragment;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.text.InputType;
@@ -20,5 +21,10 @@ public class InitialSettingsActivity extends AppCompatActivity {
     public void showDatePickerDialog(View v) {
         DatePickerEditText newFragment = new DatePickerEditText();
         newFragment.show(getSupportFragmentManager(), "datePicker");
+    }
+
+    public void showNumberPickerDialog(View v){
+        NumberPickerEditText newNumberFragment = new NumberPickerEditText();
+        newNumberFragment.show(getSupportFragmentManager(), "numberPicker");
     }
 }
