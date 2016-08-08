@@ -1,6 +1,5 @@
 package tz.co.wadau.calenderapp;
 
-import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
@@ -12,13 +11,11 @@ import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.View;
 import android.widget.ListView;
 
 import com.github.sundeepk.compactcalendarview.CompactCalendarView;
 import com.github.sundeepk.compactcalendarview.domain.CalendarDayEvent;
 
-import java.text.Format;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
@@ -28,9 +25,9 @@ public class CalenderApp extends AppCompatActivity {
 
     private Toolbar toolbar;
     private ActionBar actionBar;
-    CompactCalendarView compactCalendarView;
+    public  static CompactCalendarView compactCalendarView;
     String lastMonthMensDate;
-    Integer mensDays, ovulationDays, cycleDays;
+    public  static Integer mensDays, ovulationDays, cycleDays;
 
     int[] colorKeyImage = {R.drawable.ic_color_key_red_24dp, R.drawable.ic_color_key_blue_24dp};
     String[] colorKeyDescription = {"Period days", "Ovulation days (Fertility window)"};
@@ -82,8 +79,9 @@ public class CalenderApp extends AppCompatActivity {
         mensDays = sharedPrefs.getInt(SettingsFragment.KEY_PREF_MENS_DAYS, 3);
         cycleDays = sharedPrefs.getInt(SettingsFragment.KEY_PREF_CYCLE_DAYS, 28);
         lastMonthMensDate = sharedPrefs.getString(SettingsFragment.KEY_PREF_LAST_MONTH_MENS_DATE, "2016-05-21");
+        ovulationDays = 5;
 
-        addMensCycleDays(lastMonthMensDate, mensDays, cycleDays);
+        addMensCycleDays(lastMonthMensDate, mensDays, cycleDays, ovulationDays);
         gotoToday();
 
         //Adding key for mentral cycle colors
@@ -115,9 +113,8 @@ public class CalenderApp extends AppCompatActivity {
     }
 
     //Adding ovulation and mens days
-    private void addMensCycleDays(String lastMonthMensDate, int mensDays, int cycleDays) {
+    public static void addMensCycleDays(String lastMonthMensDate, int mensDays, int cycleDays, int ovulationDays) {
 
-        ovulationDays = 5; // Avoiding days if you don't want to conceive and viceversa
 //        Double temp;
         int daysBeforeOvulation;
         int calendarYear = DatePreference.getYear(lastMonthMensDate);

@@ -1,9 +1,11 @@
 package tz.co.wadau.calenderapp;
 
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 
 public class SettingsActivity extends AppCompatActivity {
 

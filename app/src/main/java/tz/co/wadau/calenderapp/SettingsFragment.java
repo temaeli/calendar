@@ -5,7 +5,10 @@ import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.preference.Preference;
 import android.preference.PreferenceFragment;
+import android.preference.PreferenceManager;
 import android.util.Log;
+
+import com.github.sundeepk.compactcalendarview.CompactCalendarView;
 
 import java.text.Format;
 import java.text.SimpleDateFormat;
@@ -16,6 +19,9 @@ public class SettingsFragment extends PreferenceFragment {
     public static final String KEY_PREF_MENS_DAYS = "prefs_mens_days";
     public static final String KEY_PREF_CYCLE_DAYS = "prefs_cycle_days";
     public static final String KEY_PREF_LAST_MONTH_MENS_DATE = "prefs_last_month_mens_date";
+
+    String lastMonthMensDate;
+    public  static Integer mensDays, ovulationDays, cycleDays;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -46,6 +52,16 @@ public class SettingsFragment extends PreferenceFragment {
                             bindPreferenceSummaryToValue(findPreference(KEY_PREF_LAST_MONTH_MENS_DATE));
                             break;
                     }
+
+                    //Reading user settings then adding mentral and ovulation days to calendar
+                    SharedPreferences sharedPrefs = PreferenceManager.getDefaultSharedPreferences(getActivity());
+                    mensDays = sharedPrefs.getInt(SettingsFragment.KEY_PREF_MENS_DAYS, 3);
+                    cycleDays = sharedPrefs.getInt(SettingsFragment.KEY_PREF_CYCLE_DAYS, 28);
+                    lastMonthMensDate = sharedPrefs.getString(SettingsFragment.KEY_PREF_LAST_MONTH_MENS_DATE, "2016-05-21");
+                    ovulationDays = 5;
+
+                    CalenderApp.compactCalendarView.removeAllEvents();
+                    CalenderApp.addMensCycleDays(lastMonthMensDate, mensDays, cycleDays, ovulationDays);
                 }
             };
 
