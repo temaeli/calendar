@@ -8,7 +8,6 @@ import android.os.Bundle;
 import android.graphics.Color;
 import android.support.v7.app.ActionBar;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.ListView;
@@ -21,7 +20,7 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.Locale;
 
-public class CalenderApp extends AppCompatActivity {
+public class CalendarApp extends AppCompatActivity {
 
     private Toolbar toolbar;
     private ActionBar actionBar;
@@ -63,7 +62,7 @@ public class CalenderApp extends AppCompatActivity {
             @Override
             public void onDayClick(Date dateClicked) {
 
-//                Toast.makeText(CalenderApp.this, "Date : " + dateClicked.toString(), Toast.LENGTH_SHORT).show();
+//                Toast.makeText(CalendarApp.this, "Date : " + dateClicked.toString(), Toast.LENGTH_SHORT).show();
             }
 
             @Override
@@ -82,7 +81,6 @@ public class CalenderApp extends AppCompatActivity {
         ovulationDays = 5;
 
         addMensCycleDays(lastMonthMensDate, mensDays, cycleDays, ovulationDays);
-        gotoToday();
 
         //Adding key for mentral cycle colors
         CustomListAdapter adapter = new CustomListAdapter(this, colorKeyImage, colorKeyDescription);
@@ -136,9 +134,6 @@ public class CalenderApp extends AppCompatActivity {
             }
 
             //Add ovulating days to the calendar for 10 years
-//            temp = Math.floor(cycleDays / 2) - 4;
-//            daysBeforeOvulation = temp.intValue();
-//            daysBeforeOvulation = 10;
             daysBeforeOvulation = cycleDays - 17;
             cal.add(Calendar.DATE, -mensDays);
             cal.add(Calendar.DATE, daysBeforeOvulation);
@@ -148,6 +143,8 @@ public class CalenderApp extends AppCompatActivity {
             }
             cal.add(Calendar.DATE, -(daysBeforeOvulation + ovulationDays)); //Reset calender day to the previous month first mens day
         }
+
+        CalendarApp.gotoToday();
     }
 
     //Show settings
@@ -156,8 +153,7 @@ public class CalenderApp extends AppCompatActivity {
         startActivity(intent);
     }
 
-
-    public void gotoToday() {
+    public static void gotoToday() {
 
         // Set any date to navigate to particular date
         compactCalendarView.setCurrentDate(Calendar.getInstance(Locale.getDefault()).getTime());

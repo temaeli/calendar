@@ -1,14 +1,10 @@
 package tz.co.wadau.calenderapp;
 
-
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.preference.Preference;
 import android.preference.PreferenceFragment;
 import android.preference.PreferenceManager;
-import android.util.Log;
-
-import com.github.sundeepk.compactcalendarview.CompactCalendarView;
 
 import java.text.Format;
 import java.text.SimpleDateFormat;
@@ -60,8 +56,8 @@ public class SettingsFragment extends PreferenceFragment {
                     lastMonthMensDate = sharedPrefs.getString(SettingsFragment.KEY_PREF_LAST_MONTH_MENS_DATE, "2016-05-21");
                     ovulationDays = 5;
 
-                    CalenderApp.compactCalendarView.removeAllEvents();
-                    CalenderApp.addMensCycleDays(lastMonthMensDate, mensDays, cycleDays, ovulationDays);
+                    CalendarApp.compactCalendarView.removeAllEvents();
+                    CalendarApp.addMensCycleDays(lastMonthMensDate, mensDays, cycleDays, ovulationDays);
                 }
             };
 
