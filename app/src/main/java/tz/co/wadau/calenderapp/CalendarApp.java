@@ -122,10 +122,8 @@ public class CalendarApp extends AppCompatActivity {
         Calendar cal = Calendar.getInstance(Locale.getDefault());
         cal.set(calendarYear, calendarMonth, calendarDay, 0, 0, 1);
 
-        for (Integer k = 0; k <= 120; k++) {
-
-//        Add mens days to the calendar for 10 years
-            cal.add(Calendar.DATE, cycleDays);
+        //        Add mens days to the calendar for 2 years
+        for (Integer k = 0; k <= 24; k++) {
 
             for (Integer i = 0; i < mensDays; i++) {
 
@@ -142,6 +140,7 @@ public class CalendarApp extends AppCompatActivity {
                 compactCalendarView.addEvent(new CalendarDayEvent(cal.getTimeInMillis(), Color.argb(140, 0, 138, 230)), false);
             }
             cal.add(Calendar.DATE, -(daysBeforeOvulation + ovulationDays)); //Reset calender day to the previous month first mens day
+            cal.add(Calendar.DATE, cycleDays);
         }
 
         CalendarApp.gotoToday();
