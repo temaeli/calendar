@@ -9,7 +9,7 @@ import android.widget.TextView;
 
 import java.util.Calendar;
 
-public class DatePickerEditText extends DialogFragment implements DatePickerDialog.OnDateSetListener {
+public class DatePickerEditText extends DialogFragment implements DatePickerDialog.OnDateSetListener{
 
     @Override
     public Dialog onCreateDialog(Bundle savedInstanceState) {
@@ -26,6 +26,7 @@ public class DatePickerEditText extends DialogFragment implements DatePickerDial
     public void onDateSet(DatePicker view, int year, int month, int day) {
         TextView textView= (TextView) getActivity().findViewById(R.id.edit_last_month_period_start);
         textView.setText(view.getYear() + "-" + (view.getMonth() + 1) + "-"+view.getDayOfMonth());
+        textView.setError(null);
     }
 
 }

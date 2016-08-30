@@ -1,45 +1,39 @@
 package tz.co.wadau.calenderapp;
 
-import android.app.AlertDialog;
 import android.app.Dialog;
-import android.content.DialogInterface;
 import android.os.Bundle;
 import android.support.v4.app.DialogFragment;
-import android.view.Gravity;
-import android.view.ViewGroup;
-import android.widget.LinearLayout;
+import android.widget.EditText;
 import android.widget.NumberPicker;
 
-public class NumberPickerEditText extends DialogFragment {
+public class NumberPickerEditText extends DialogFragment implements NumberPickerDialog.OnNumberSetListener {
 
-    NumberPicker picker;
+    int minVal;
+    int maxVal;
+    int defautValue;
+    EditText editText;
+
+    public NumberPickerEditText(int minValue, int maxValue, int defautValue, EditText editText){
+        minVal = minValue;
+        maxVal = maxValue;
+        this.editText = editText;
+        this.defautValue = defautValue;
+    }
 
 
     @Override
     public Dialog onCreateDialog(Bundle savedInstanceState) {
-        super.onCreateDialog(savedInstanceState);
-        picker = new NumberPicker(getContext());
-        ViewGroup.LayoutParams layoutParams = new ViewGroup.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
-        layoutParams.width = 20;
 
+        NumberPickerDialog nPicker = new NumberPickerDialog(getActivity(), this);
+        NumberPicker numberPicker = nPicker.getNumberPicker();
+        numberPicker.setMinValue(minVal);
+        numberPicker.setMaxValue(maxVal);
+        numberPicker.setValue(defautValue);
+        return nPicker;
+    }
 
-        picker.setLayoutParams(layoutParams);
-        picker.setMaxValue(10);
-        picker.setMinValue(1);
-
-        AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
-        builder.setTitle("This is dialog title")
-                .setView(picker)
-                .setPositiveButton("OK", new DialogInterface
-                        .OnClickListener() {
-                    public void onClick(DialogInterface dialog, int id) {
-
-                    }
-                }).setNegativeButton("CANCEL", new DialogInterface.OnClickListener() {
-            public void onClick(DialogInterface dialog, int id) {
-
-            }
-        });
-        return builder.create();
+    @Override
+    public void onNumberSet(NumberPicker view, int value) {
+        editText.setText(String.valueOf(value));
     }
 }

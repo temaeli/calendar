@@ -42,8 +42,6 @@ public class CalendarApp extends AppCompatActivity {
         toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-        startActivity(new Intent(this, InitialSettingsActivity.class));
-
          actionBar = getSupportActionBar();
 //        actionBar.setHomeAsUpIndicator(R.drawable.ic_menu_white_24dp);
 //        actionBar.setDisplayHomeAsUpEnabled(true);
