@@ -1,9 +1,7 @@
 package tz.co.wadau.calenderapp;
 
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.preference.PreferenceManager;
 import android.support.v7.app.AppCompatActivity;
 
 public class MainActivity extends AppCompatActivity {
@@ -13,10 +11,7 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
-        String isFirstRun = sharedPreferences.getString(InitialSettingsActivity.IS_FIRST_RUN, "");
-
-        if(isFirstRun.toString().equals("no")) {
+        if(!InitialSettingsActivity.isFirstRun(getApplicationContext())) {
             startActivity(new Intent(this, CalendarApp.class));
         }else {
             startActivity(new Intent(this, InitialSettingsActivity.class));

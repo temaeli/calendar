@@ -1,5 +1,6 @@
 package tz.co.wadau.calenderapp;
 
+import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
@@ -15,6 +16,7 @@ import android.widget.EditText;
 public class InitialSettingsActivity extends AppCompatActivity {
 
     static String IS_FIRST_RUN = "first_run";
+    static String IS_CYCLE_CREATED = "cycle_created";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -79,7 +81,8 @@ public class InitialSettingsActivity extends AppCompatActivity {
                     editor.putString(SettingsFragment.KEY_PREF_LAST_MONTH_MENS_DATE, lastMensDate);
                     editor.putInt(SettingsFragment.KEY_PREF_MENS_DAYS, Integer.valueOf(periodDays));
                     editor.putInt(SettingsFragment.KEY_PREF_CYCLE_DAYS, Integer.valueOf(cycleDays));
-                    editor.putString(IS_FIRST_RUN, "no");
+                    editor.putBoolean(IS_FIRST_RUN, false);
+                    editor.putBoolean(IS_CYCLE_CREATED, false);
                     editor.apply();
 
                     startActivity(new Intent(getApplicationContext(), CalendarApp.class));
@@ -95,12 +98,17 @@ public class InitialSettingsActivity extends AppCompatActivity {
         newFragment.show(getSupportFragmentManager(), "datePicker");
     }
 
-    public void checkEmpty(TextInputLayout textInputLayout){
-        if(TextUtils.isEmpty(textInputLayout.getEditText().getText().toString())){
+    public void checkEmpty(TextInputLayout textInputLayout) {
+        if (TextUtils.isEmpty(textInputLayout.getEditText().getText().toString())) {
             textInputLayout.setErrorEnabled(true);
             textInputLayout.setError(getString(R.string.this_cannot_be_empty));
             return;
         }
+    }
+
+    public static boolean isFirstRun(Context context) {
+        SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(context);
+        return sharedPreferences.getBoolean(InitialSettingsActivity.IS_FIRST_RUN, true);
     }
 
 }
