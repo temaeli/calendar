@@ -29,10 +29,8 @@ public class CalendarApp extends AppCompatActivity {
     private ActionBar actionBar;
     public static CompactCalendarView compactCalendarView;
     static Calendar cal;
-
     int[] colorKeyImage = {R.drawable.ic_color_key_red_24dp, R.drawable.ic_color_key_blue_24dp};
     String[] colorKeyDescription = {"Period days", "Ovulation days (Fertility window)"};
-
     private SimpleDateFormat dateFormatForMonth = new SimpleDateFormat("MMM yyyy", Locale.getDefault());
 
     @Override
@@ -113,7 +111,8 @@ public class CalendarApp extends AppCompatActivity {
         String lastMonthMensDate = sharedPrefs.getString(SettingsFragment.KEY_PREF_LAST_MONTH_MENS_DATE, "2016-05-21");
         Calendar todayCalendar = Calendar.getInstance(Locale.getDefault());
         int ovulationDays = 5;
-        long notifyBeforePeriod = 1; //Days to notifiy before period
+        long notifyBeforePeriod = sharedPrefs.getInt(SettingsFragment.KEY_PREF_PERIOD_NOTIFY_BEFORE_DAYS, 1); //Days to notifiy before period
+        boolean isPeriodNotificationEnabled = sharedPrefs.getBoolean(SettingsFragment.KEY_PREF_PERIOD_NOTIFICATIONS, true);
 
         int daysBeforeOvulation;
         int calendarYear = DatePreference.getYear(lastMonthMensDate);
@@ -134,10 +133,19 @@ public class CalendarApp extends AppCompatActivity {
         long dateDiff = (todayCalendar.getTimeInMillis() - cal.getTimeInMillis()) / (24 * 60 * 60 * 1000);
         long alarmIn = (cycleDays - (dateDiff % cycleDays)) - notifyBeforePeriod;
 
-        if (!cycleCreated) {
+        if (!cycleCreated && isPeriodNotificationEnabled) {
             //Creating notification for the period day
             Calendar nextAlarm = Calendar.getInstance();
-            nextAlarm.add(Calendar.DAY_OF_MONTH, (int) alarmIn);
+
+            if(alarmIn >= 0){
+                //Notification day has not passed yet
+                nextAlarm.add(Calendar.DAY_OF_MONTH, (int) alarmIn);
+            }else {
+                // If notification day has already passed. Set to notifiy next period
+                nextAlarm = cal;
+                nextAlarm.add(Calendar.DAY_OF_MONTH, (int) (cycleDays - notifyBeforePeriod));
+            }
+
             alarmManager.cancel(broadcast); //Cancelling any existing alarms
             alarmManager.setRepeating(AlarmManager.RTC_WAKEUP, nextAlarm.getTimeInMillis(), intervalMillis, broadcast);
             setCycleStatus(context, true);

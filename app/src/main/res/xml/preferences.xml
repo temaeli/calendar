@@ -2,8 +2,10 @@
 <PreferenceScreen
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:custom="http://schemas.android.com/apk/lib/tz.co.wadau.calenderapp"
-
     android:layout_marginTop="?attr/actionBarSize">
+
+    <PreferenceCategory
+        android:title="@string/prefs_personal_info_title">
 
     <tz.co.wadau.calenderapp.DatePreference
         android:key="prefs_last_month_mens_date"
@@ -13,8 +15,6 @@
          />
 
     <tz.co.wadau.calenderapp.NumberPickerPreference
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
         android:key="prefs_mens_days"
         custom:minValue="2"
         custom:maxValue="7"
@@ -33,5 +33,41 @@
         android:defaultValue="28"
         android:summary="@string/mens_cycle_days_description"
         android:title="@string/mens_cycle_days" />
+    </PreferenceCategory>
+
+    <PreferenceCategory
+        android:title="@string/prefs_notifications_title">
+
+        <SwitchPreference
+            android:key="prefs_period_notifications"
+            android:title="@string/prefs_period_notifications"
+            android:defaultValue="true"/>
+
+        <tz.co.wadau.calenderapp.NumberPickerPreference
+            android:key="prefs_period_notify_before_days"
+            android:title="@string/prefs_notify_before"
+            android:dependency="prefs_period_notifications"
+            android:defaultValue="1"
+            custom:minValue="1"
+            custom:maxValue="5"
+            custom:wrapSelectorWheel="true"
+            android:summary="@string/prefs_notification_detault_days"/>
+
+        <SwitchPreference
+            android:key="prefs_ovulation_notifications"
+            android:title="@string/prefs_ovulation_notifications"
+            android:defaultValue="true"/>
+
+        <tz.co.wadau.calenderapp.NumberPickerPreference
+            android:key="prefs_ovulation_notify_before_days"
+            android:title="@string/prefs_notify_before"
+            android:dependency="prefs_ovulation_notifications"
+            android:defaultValue="2"
+            custom:minValue="1"
+            custom:maxValue="5"
+            custom:wrapSelectorWheel="true"
+            android:summary="@string/prefs_ovulation_notification_detault_days"/>
+
+    </PreferenceCategory>
 
 </PreferenceScreen>

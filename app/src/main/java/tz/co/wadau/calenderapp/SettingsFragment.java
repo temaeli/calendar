@@ -14,6 +14,10 @@ public class SettingsFragment extends PreferenceFragment {
     public static final String KEY_PREF_MENS_DAYS = "prefs_mens_days";
     public static final String KEY_PREF_CYCLE_DAYS = "prefs_cycle_days";
     public static final String KEY_PREF_LAST_MONTH_MENS_DATE = "prefs_last_month_mens_date";
+    public static final String KEY_PREF_PERIOD_NOTIFICATIONS = "prefs_period_notifications";
+    public static final String KEY_PREF_PERIOD_NOTIFY_BEFORE_DAYS = "prefs_period_notify_before_days";
+    public static final String KEY_PREF_OVULATION_NOTIFICATIONS = "prefs_ovulation_notifications";
+    public static final String KEY_PREF_OVULATION_NOTIFY_BEFORE_DAYS = "prefs_ovulation_notify_before_days";
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -24,6 +28,8 @@ public class SettingsFragment extends PreferenceFragment {
         bindPreferenceSummaryToValue(findPreference(KEY_PREF_MENS_DAYS));
         bindPreferenceSummaryToValue(findPreference(KEY_PREF_CYCLE_DAYS));
         bindPreferenceSummaryToValue(findPreference(KEY_PREF_LAST_MONTH_MENS_DATE));
+        bindPreferenceSummaryToValue(findPreference(KEY_PREF_PERIOD_NOTIFY_BEFORE_DAYS));
+        bindPreferenceSummaryToValue(findPreference(KEY_PREF_OVULATION_NOTIFY_BEFORE_DAYS));
     }
 
     SharedPreferences.OnSharedPreferenceChangeListener listener =
@@ -44,6 +50,24 @@ public class SettingsFragment extends PreferenceFragment {
 
                         case KEY_PREF_LAST_MONTH_MENS_DATE:
                             bindPreferenceSummaryToValue(findPreference(KEY_PREF_LAST_MONTH_MENS_DATE));
+                            updateMentralCycleDays();
+                            break;
+
+                        case KEY_PREF_PERIOD_NOTIFICATIONS:
+                            updateMentralCycleDays();
+                            break;
+
+                        case KEY_PREF_PERIOD_NOTIFY_BEFORE_DAYS:
+                            bindPreferenceSummaryToValue(findPreference(KEY_PREF_PERIOD_NOTIFY_BEFORE_DAYS));
+                            updateMentralCycleDays();
+                            break;
+
+                        case KEY_PREF_OVULATION_NOTIFICATIONS:
+                            updateMentralCycleDays();
+                            break;
+
+                        case KEY_PREF_OVULATION_NOTIFY_BEFORE_DAYS:
+                            bindPreferenceSummaryToValue(findPreference(KEY_PREF_OVULATION_NOTIFY_BEFORE_DAYS));
                             updateMentralCycleDays();
                             break;
                     }
