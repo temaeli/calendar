@@ -4,7 +4,7 @@
     <string name="jump_to_today">Jump to Today</string>
     <string name="mens_days">Average days your period lasts</string>
     <string name="mens_days_description">Number of days your bleed lasts starting from the first day you see blood</string>
-    <string name="mens_cycle_days">Days between your menstral cycle</string>
+    <string name="mens_cycle_days">Days between your menstrual cycle</string>
     <string name="mens_cycle_days_description">Number of days for one mens cycle staring from the first day yor see blood</string>
     <string name="last_month_mens_date">First day of your last period</string>
     <string name="ok">ok</string>
@@ -15,7 +15,7 @@
     <string name="this_cannot_be_empty">This cannot be empty</string>
     <string name="welcome">Welcome!</string>
     <string name="can_be_modified">These details can later be modified in the app</string>
-    <string name="provide_initial_details">Please provide details about you so the app can predict your mentral cycle.</string>
+    <string name="provide_initial_details">Please provide details about you so the app can predict your menstual cycle.</string>
     <string name="period_notification">Your period is predicted to start in</string>
     <string name="day">day(s)</string>
     <string name="period_alert">Your period alert!</string>
