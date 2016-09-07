@@ -11,6 +11,7 @@ import android.preference.PreferenceManager;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.ListView;
@@ -22,6 +23,7 @@ import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.Locale;
+import java.util.concurrent.TimeUnit;
 
 public class CalendarApp extends AppCompatActivity {
 
@@ -120,14 +122,15 @@ public class CalendarApp extends AppCompatActivity {
 
         int luteralPhaseDays = 14;
         int daysBeforeFertilityWindow = cycleDays - (luteralPhaseDays + 2);
-        int daysBeforeOvulation = daysBeforeFertilityWindow + 2;
+        int daysBeforeOvulation = daysBeforeFertilityWindow + 1;
 
         int calendarYear = DatePreference.getYear(lastMonthMensDate);
         int calendarMonth = DatePreference.getMonth(lastMonthMensDate) - 1;
         int calendarDay = DatePreference.getDate(lastMonthMensDate);
 
-        long intervalMillisPeriod = 24 * 60 * 60 * 1000 * (cycleDays - notifyBeforePeriod);
-        long intervalMillisOvulation = 24 * 60 * 60 * 1000 * (daysBeforeOvulation - notifyBeforeOvulation);
+        long intervalMillisPeriod = TimeUnit.DAYS.toMillis((cycleDays - notifyBeforePeriod));
+        long intervalMillisOvulation = TimeUnit.DAYS.toMillis((daysBeforeOvulation - notifyBeforeOvulation));
+
 
         boolean cycleCreated = sharedPrefs.getBoolean(InitialSettingsActivity.IS_CYCLE_CREATED, true);
 
@@ -136,15 +139,15 @@ public class CalendarApp extends AppCompatActivity {
         cal = Calendar.getInstance(Locale.getDefault());
         cal.set(calendarYear, calendarMonth, calendarDay, 0, 0, 1);
 
-        long dateDiff = (todayCalendar.getTimeInMillis() - cal.getTimeInMillis()) / (24 * 60 * 60 * 1000);
-        long alarmIn = (cycleDays - (dateDiff % cycleDays)) - notifyBeforePeriod;
-        long ovulationNotificationIn = (cycleDays - (dateDiff % cycleDays)) - notifyBeforeOvulation;
+        long dateDiff = TimeUnit.MILLISECONDS.toDays(todayCalendar.getTimeInMillis() - cal.getTimeInMillis()); //days
+        long alarmIn = (cycleDays - (dateDiff % cycleDays)) - notifyBeforePeriod; //days
+        long ovulationNotificationIn = (cycleDays - (dateDiff % cycleDays) + daysBeforeOvulation) - notifyBeforeOvulation; //days
 
         if (!cycleCreated) {
             Intent notificationIntent = new Intent("android.media.action.DISPLAY_NOTIFICATION");
             notificationIntent.addCategory("android.intent.category.DEFAULT");
             Calendar nextAlarm = Calendar.getInstance();
-            Calendar nextPeriod = nextAlarm;
+            Calendar nextOvulation = nextAlarm;
 
             if (isPeriodNotificationEnabled) {
                 //Creating notification for the period day
@@ -153,6 +156,8 @@ public class CalendarApp extends AppCompatActivity {
                         context.getString(R.string.period_notification) + " "
                                 + notifyBeforePeriod + " "
                                 + context.getString(R.string.day));
+
+
                 if (alarmIn >= 0) {
                     //Notification day has not passed yet
                     nextAlarm.add(Calendar.DAY_OF_MONTH, (int) alarmIn);
@@ -161,8 +166,13 @@ public class CalendarApp extends AppCompatActivity {
                     nextAlarm = cal;
                     nextAlarm.add(Calendar.DAY_OF_MONTH, (int) (cycleDays + alarmIn));
                 }
+
                 PendingIntent broadcastPeriod = PendingIntent.getBroadcast(context, 101, notificationIntent, PendingIntent.FLAG_UPDATE_CURRENT);
                 alarmManager.setInexactRepeating(AlarmManager.RTC_WAKEUP, nextAlarm.getTimeInMillis(), intervalMillisPeriod, broadcastPeriod);
+
+                Log.d("ALARM", "Creating period notification in next " +  alarmIn
+                        + " days " + "repeating in "
+                        + TimeUnit.MILLISECONDS.toDays(intervalMillisPeriod) + " days");
             }
 
             if (isOvulationNotificationEnabled) {
@@ -173,15 +183,20 @@ public class CalendarApp extends AppCompatActivity {
                                 + notifyBeforeOvulation + " "
                                 + context.getString(R.string.day));
 
-                if (ovulationNotificationIn > 0) {
-                    nextPeriod.add(Calendar.SECOND, (int) ovulationNotificationIn);
+                if (ovulationNotificationIn >= 0) {
+                    nextOvulation.add(Calendar.SECOND, (int) ovulationNotificationIn);
                 } else {
-                    nextPeriod = cal;
-                    nextPeriod.add(Calendar.DAY_OF_MONTH, (int) (daysBeforeOvulation + ovulationNotificationIn));
+                    nextOvulation = cal;
+                    nextOvulation.add(Calendar.DAY_OF_MONTH, daysBeforeOvulation);
+                    nextOvulation.add(Calendar.DAY_OF_MONTH, (int) (daysBeforeOvulation + ovulationNotificationIn));
                 }
 
                 PendingIntent broadcastOvulation = PendingIntent.getBroadcast(context, 102, notificationIntent, PendingIntent.FLAG_UPDATE_CURRENT);
-                alarmManager.setInexactRepeating(AlarmManager.RTC_WAKEUP, nextPeriod.getTimeInMillis(), intervalMillisOvulation, broadcastOvulation);
+                alarmManager.setInexactRepeating(AlarmManager.RTC_WAKEUP, nextOvulation.getTimeInMillis(), intervalMillisOvulation, broadcastOvulation);
+
+                Log.d("ALARM", "Creating ovulation notification in next " +  ovulationNotificationIn
+                        + " days " + "repeating in "
+                        + TimeUnit.MILLISECONDS.toDays(intervalMillisOvulation) + " days");
             }
 
             setCycleStatus(context, true);
