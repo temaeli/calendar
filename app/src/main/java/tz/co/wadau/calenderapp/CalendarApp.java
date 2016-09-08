@@ -27,6 +27,7 @@ import java.util.concurrent.TimeUnit;
 
 public class CalendarApp extends AppCompatActivity {
 
+    private static final String TAG = CalendarApp.class.getSimpleName();
     private Toolbar toolbar;
     private ActionBar actionBar;
     public static CompactCalendarView compactCalendarView;
@@ -129,7 +130,7 @@ public class CalendarApp extends AppCompatActivity {
         int calendarDay = DatePreference.getDate(lastMonthMensDate);
 
         long intervalMillisPeriod = TimeUnit.DAYS.toMillis((cycleDays - notifyBeforePeriod));
-        long intervalMillisOvulation = TimeUnit.DAYS.toMillis((daysBeforeOvulation - notifyBeforeOvulation));
+        long intervalMillisOvulation = TimeUnit.DAYS.toMillis((cycleDays - notifyBeforeOvulation));
 
 
         boolean cycleCreated = sharedPrefs.getBoolean(InitialSettingsActivity.IS_CYCLE_CREATED, true);
@@ -145,6 +146,7 @@ public class CalendarApp extends AppCompatActivity {
 
         if (!cycleCreated) {
             Intent notificationIntent = new Intent("android.media.action.DISPLAY_NOTIFICATION");
+            Intent notificationIntent2 = new Intent(context, AlarmManager.class);
             notificationIntent.addCategory("android.intent.category.DEFAULT");
             Calendar nextAlarm = Calendar.getInstance();
             Calendar nextOvulation = nextAlarm;
@@ -167,18 +169,18 @@ public class CalendarApp extends AppCompatActivity {
                     nextAlarm.add(Calendar.DAY_OF_MONTH, (int) (cycleDays + alarmIn));
                 }
 
-                PendingIntent broadcastPeriod = PendingIntent.getBroadcast(context, 101, notificationIntent, PendingIntent.FLAG_UPDATE_CURRENT);
+                PendingIntent broadcastPeriod = PendingIntent.getBroadcast(context, (int) System.currentTimeMillis(), notificationIntent, PendingIntent.FLAG_ONE_SHOT);
                 alarmManager.setInexactRepeating(AlarmManager.RTC_WAKEUP, nextAlarm.getTimeInMillis(), intervalMillisPeriod, broadcastPeriod);
 
-                Log.d("ALARM", "Creating period notification in next " +  alarmIn
+                Log.d(TAG, "Creating period notification in next " +  alarmIn
                         + " days " + "repeating in "
                         + TimeUnit.MILLISECONDS.toDays(intervalMillisPeriod) + " days");
             }
 
             if (isOvulationNotificationEnabled) {
                 //Create notification for ovulation day
-                notificationIntent.putExtra(NOTIFICATION_TITLE, "Ovulation notification");
-                notificationIntent.putExtra(NOTIFICATION_CONTENT,
+                notificationIntent2.putExtra(NOTIFICATION_TITLE, "Ovulation notification");
+                notificationIntent2.putExtra(NOTIFICATION_CONTENT,
                         context.getString(R.string.ovulation_notification) + " "
                                 + notifyBeforeOvulation + " "
                                 + context.getString(R.string.day));
@@ -187,14 +189,14 @@ public class CalendarApp extends AppCompatActivity {
                     nextOvulation.add(Calendar.SECOND, (int) ovulationNotificationIn);
                 } else {
                     nextOvulation = cal;
-                    nextOvulation.add(Calendar.DAY_OF_MONTH, daysBeforeOvulation);
+//                    nextOvulation.add(Calendar.DAY_OF_MONTH, daysBeforeOvulation);
                     nextOvulation.add(Calendar.DAY_OF_MONTH, (int) (daysBeforeOvulation + ovulationNotificationIn));
                 }
 
-                PendingIntent broadcastOvulation = PendingIntent.getBroadcast(context, 102, notificationIntent, PendingIntent.FLAG_UPDATE_CURRENT);
+                PendingIntent broadcastOvulation = PendingIntent.getBroadcast(context, (int) System.currentTimeMillis(), notificationIntent2, PendingIntent.FLAG_ONE_SHOT);
                 alarmManager.setInexactRepeating(AlarmManager.RTC_WAKEUP, nextOvulation.getTimeInMillis(), intervalMillisOvulation, broadcastOvulation);
 
-                Log.d("ALARM", "Creating ovulation notification in next " +  ovulationNotificationIn
+                Log.d(TAG, "Creating ovulation notification in next " +  ovulationNotificationIn
                         + " days " + "repeating in "
                         + TimeUnit.MILLISECONDS.toDays(intervalMillisOvulation) + " days");
             }
