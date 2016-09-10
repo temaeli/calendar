@@ -13,28 +13,31 @@ import android.util.Log;
 public class AlarmReceiver extends BroadcastReceiver {
     @Override
     public void onReceive(Context context, Intent intent) {
-        final String TAG = AlarmReceiver.class.getSimpleName();
-        Log.d(TAG, "Broadicast received with action " + intent.getAction());
 
-        String notificationTitle = intent.getStringExtra(CalendarApp.NOTIFICATION_TITLE);
-        String notificationContent = intent.getStringExtra(CalendarApp.NOTIFICATION_CONTENT);
+        if (intent.getAction().equals("android.media.action.DISPLAY_NOTIFICATION")) {
+            final String TAG = AlarmReceiver.class.getSimpleName();
+            Log.d(TAG, "Broadicast received with action " + intent.getAction());
 
-        Intent notificationIntent = new Intent(context, CalendarApp.class);
+            String notificationTitle = intent.getStringExtra(AlarmNotification.NOTIFICATION_TITLE);
+            String notificationContent = intent.getStringExtra(AlarmNotification.NOTIFICATION_CONTENT);
 
-        TaskStackBuilder stackBuilder = TaskStackBuilder.create(context);
-        stackBuilder.addParentStack(CalendarApp.class);
-        stackBuilder.addNextIntent(notificationIntent);
+            Intent notificationIntent = new Intent(context, CalendarApp.class);
 
-        PendingIntent pendingIntent = stackBuilder.getPendingIntent(0, PendingIntent.FLAG_UPDATE_CURRENT);
-        NotificationCompat.Builder builder = new NotificationCompat.Builder(context);
+            TaskStackBuilder stackBuilder = TaskStackBuilder.create(context);
+            stackBuilder.addParentStack(CalendarApp.class);
+            stackBuilder.addNextIntent(notificationIntent);
 
-        Notification notification = builder.setContentTitle(notificationTitle)
-                .setContentText(notificationContent)
-                .setSmallIcon(R.mipmap.ic_launcher)
-                .setTicker("Period notification")
-                .setContentIntent(pendingIntent).build();
+            PendingIntent pendingIntent = stackBuilder.getPendingIntent(0, PendingIntent.FLAG_UPDATE_CURRENT);
+            NotificationCompat.Builder builder = new NotificationCompat.Builder(context);
 
-        NotificationManager notificationManager = (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
-        notificationManager.notify(0, notification);
+            Notification notification = builder.setContentTitle(notificationTitle)
+                    .setContentText(notificationContent)
+                    .setSmallIcon(R.mipmap.ic_launcher)
+                    .setTicker("Period notification")
+                    .setContentIntent(pendingIntent).build();
+
+            NotificationManager notificationManager = (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
+            notificationManager.notify(0, notification);
+        }
     }
 }

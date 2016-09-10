@@ -1,5 +1,6 @@
 package tz.co.wadau.calenderapp;
 
+import android.content.Context;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.preference.Preference;
@@ -36,6 +37,9 @@ public class SettingsFragment extends PreferenceFragment {
             new SharedPreferences.OnSharedPreferenceChangeListener() {
                 @Override
                 public void onSharedPreferenceChanged(SharedPreferences sharedPreferences, String key) {
+                    AlarmNotification alarmNotfn = new AlarmNotification();
+                    Context context = getActivity().getApplicationContext();
+
                     // Set summary to be the user-description for the selected value
                     switch (key) {
                         case KEY_PREF_MENS_DAYS:
@@ -54,7 +58,7 @@ public class SettingsFragment extends PreferenceFragment {
                             break;
 
                         case KEY_PREF_PERIOD_NOTIFICATIONS:
-                            updateMentralCycleDays();
+                            alarmNotfn.setAlarm(context);
                             break;
 
                         case KEY_PREF_PERIOD_NOTIFY_BEFORE_DAYS:
@@ -63,7 +67,7 @@ public class SettingsFragment extends PreferenceFragment {
                             break;
 
                         case KEY_PREF_OVULATION_NOTIFICATIONS:
-                            updateMentralCycleDays();
+                            alarmNotfn.setAlarm(context);
                             break;
 
                         case KEY_PREF_OVULATION_NOTIFY_BEFORE_DAYS:
