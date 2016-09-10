@@ -8,10 +8,13 @@ import android.content.Context;
 import android.content.Intent;
 import android.support.v4.app.NotificationCompat;
 import android.support.v4.app.TaskStackBuilder;
+import android.util.Log;
 
 public class AlarmReceiver extends BroadcastReceiver {
     @Override
     public void onReceive(Context context, Intent intent) {
+        final String TAG = AlarmReceiver.class.getSimpleName();
+        Log.d(TAG, "Broadicast received with action " + intent.getAction());
 
         String notificationTitle = intent.getStringExtra(CalendarApp.NOTIFICATION_TITLE);
         String notificationContent = intent.getStringExtra(CalendarApp.NOTIFICATION_CONTENT);

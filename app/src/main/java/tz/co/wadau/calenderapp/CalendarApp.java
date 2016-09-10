@@ -124,15 +124,14 @@ public class CalendarApp extends AppCompatActivity {
 
         int luteralPhaseDays = 14;
         int daysBeforeFertilityWindow = cycleDays - (luteralPhaseDays + 3);
-        int daysBeforeOvulation = daysBeforeFertilityWindow + 3;
+        int daysBeforeOvulation = daysBeforeFertilityWindow + 2;
 
         int calendarYear = DatePreference.getYear(lastMonthMensDate);
         int calendarMonth = DatePreference.getMonth(lastMonthMensDate) - 1;
         int calendarDay = DatePreference.getDate(lastMonthMensDate);
 
-        long intervalMillisPeriod = TimeUnit.DAYS.toMillis((cycleDays - notifyBeforePeriod + 1));
-        long intervalMillisOvulation = TimeUnit.DAYS.toMillis((cycleDays - notifyBeforeOvulation + 1));
-
+        long intervalMillisPeriod = TimeUnit.DAYS.toMillis((cycleDays));
+        long intervalMillisOvulation = TimeUnit.DAYS.toMillis((cycleDays));
 
         boolean cycleCreated = sharedPrefs.getBoolean(InitialSettingsActivity.IS_CYCLE_CREATED, true);
 
@@ -140,23 +139,19 @@ public class CalendarApp extends AppCompatActivity {
 
         cal = Calendar.getInstance(Locale.getDefault());
         cal.set(calendarYear, calendarMonth, calendarDay, 0, 0, 1);
+        ovulationDate = Calendar.getInstance(Locale.getDefault());
         ovulationDate.set(calendarYear, calendarMonth, calendarDay, 0, 0, 1);
-        Log.d(TAG, String.valueOf(ovulationDate.get(Calendar.DAY_OF_MONTH)));
-        ovulationDate.add(Calendar.DAY_OF_MONTH, daysBeforeOvulation);
 
         long dateDiff = TimeUnit.MILLISECONDS.toDays(todayCalendar.getTimeInMillis() - cal.getTimeInMillis()); //days
-        long dateDiffOvuln = TimeUnit.MILLISECONDS.toDays(todayCalendar.getTimeInMillis() - ovulationDate.getTimeInMillis()); //days
-        Log.d(TAG, String.valueOf(dateDiff));
-        Log.d(TAG, String.valueOf(dateDiffOvuln));
         long alarmIn = (cycleDays - (dateDiff % cycleDays)) - notifyBeforePeriod; //days
-        long ovulationNotificationIn = (cycleDays - (dateDiffOvuln % cycleDays)) - notifyBeforeOvulation - 1; //days
+        long ovulationNotificationIn = (daysBeforeOvulation - (dateDiff % cycleDays)) - notifyBeforeOvulation; //days
 
         if (!cycleCreated) {
             Intent notificationIntent = new Intent("android.media.action.DISPLAY_NOTIFICATION");
-            Intent notificationIntent2 = new Intent(context, AlarmManager.class);
+            Intent notificationIntent2 = new Intent("android.media.action.DISPLAY_NOTIFICATION");
             notificationIntent.addCategory("android.intent.category.DEFAULT");
             Calendar nextAlarm = Calendar.getInstance();
-            Calendar nextOvulation = nextAlarm;
+            Calendar nextOvulation = Calendar.getInstance();
 
             if (isPeriodNotificationEnabled) {
                 //Creating notification for the period day
@@ -171,8 +166,8 @@ public class CalendarApp extends AppCompatActivity {
                 }
 
                 nextAlarm.add(Calendar.DAY_OF_MONTH, (int) alarmIn);
-                PendingIntent broadcastPeriod = PendingIntent.getBroadcast(context, (int) System.currentTimeMillis(), notificationIntent, PendingIntent.FLAG_ONE_SHOT);
-                alarmManager.setInexactRepeating(AlarmManager.RTC_WAKEUP, nextAlarm.getTimeInMillis(), intervalMillisPeriod, broadcastPeriod);
+                PendingIntent broadcastPeriod = PendingIntent.getBroadcast(context, 100, notificationIntent, PendingIntent.FLAG_UPDATE_CURRENT);
+                alarmManager.setRepeating(AlarmManager.RTC_WAKEUP, nextAlarm.getTimeInMillis(), intervalMillisPeriod, broadcastPeriod);
 
                 Log.d(TAG, "Creating period notification in next " +  alarmIn
                         + " days " + "repeating in "
@@ -191,9 +186,9 @@ public class CalendarApp extends AppCompatActivity {
                     ovulationNotificationIn = (notifyBeforeOvulation + ovulationNotificationIn + cycleDays - notifyBeforeOvulation);
                 }
 
-                nextOvulation.add(Calendar.SECOND, (int) ovulationNotificationIn);
-                PendingIntent broadcastOvulation = PendingIntent.getBroadcast(context, (int) System.currentTimeMillis(), notificationIntent2, PendingIntent.FLAG_ONE_SHOT);
-                alarmManager.setInexactRepeating(AlarmManager.RTC_WAKEUP, nextOvulation.getTimeInMillis(), intervalMillisOvulation, broadcastOvulation);
+                nextOvulation.add(Calendar.DAY_OF_MONTH, (int) ovulationNotificationIn);
+                PendingIntent broadcastOvulation = PendingIntent.getBroadcast(context, 102, notificationIntent2, PendingIntent.FLAG_UPDATE_CURRENT);
+                alarmManager.setRepeating(AlarmManager.RTC_WAKEUP, nextOvulation.getTimeInMillis(), intervalMillisOvulation, broadcastOvulation);
 
                 Log.d(TAG, "Creating ovulation notification in next " +  ovulationNotificationIn
                         + " days " + "repeating in "
