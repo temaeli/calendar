@@ -12,9 +12,13 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
         if(!InitialSettingsActivity.isFirstRun(getApplicationContext())) {
+
             startActivity(new Intent(this, CalendarApp.class));
         }else {
             startActivity(new Intent(this, InitialSettingsActivity.class));
         }
+        finish();
     }
+
+
 }
