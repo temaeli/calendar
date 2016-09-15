@@ -9,6 +9,7 @@
     <item>
         <bitmap
             android:gravity="center"
+            android:antialias="true"
             android:src="@drawable/ic_launcher"/>
     </item>
 

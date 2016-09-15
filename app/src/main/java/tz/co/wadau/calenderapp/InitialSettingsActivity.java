@@ -108,6 +108,7 @@ public class InitialSettingsActivity extends AppCompatActivity {
 
     public static boolean isFirstRun(Context context) {
         SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(context);
+//        SharedPreferences sharedPreferences = context.getSharedPreferences("general_settings", Context.MODE_PRIVATE); older versions // TODO: To handle for older devices coz it crashes
         return sharedPreferences.getBoolean(InitialSettingsActivity.IS_FIRST_RUN, true);
     }
 
