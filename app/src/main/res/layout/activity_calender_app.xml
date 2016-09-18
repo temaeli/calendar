@@ -1,76 +1,99 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<android.support.design.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
-    android:background="@color/background_light">
+    android:background="@color/background_light"
+    android:orientation="vertical">
 
-    <android.support.v7.widget.Toolbar
-        android:id="@+id/toolbar"
+    <LinearLayout
+        android:orientation="vertical"
         android:layout_width="match_parent"
-        android:layout_height="?attr/actionBarSize"
-        android:background="?attr/colorPrimary"
-        android:elevation="4dp"
-        android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
-        app:popupTheme="@style/ThemeOverlay.AppCompat.Light" />
-
-
-    <com.github.sundeepk.compactcalendarview.CompactCalendarView
-        android:id="@+id/compactcalendar_view"
-        android:layout_width="match_parent"
-        android:layout_height="250dp"
-        android:paddingLeft="16dp"
-        android:paddingRight="16dp"
-        app:compactCalendarBackgroundColor="@color/colorPrimary"
-        app:compactCalendarCurrentDayBackgroundColor="#1ae4ff"
-        app:compactCalendarCurrentSelectedDayBackgroundColor="@android:color/transparent"
-        app:compactCalendarTextColor="#FFF"
-        app:compactCalendarTextSize="13sp" />
-
-    <android.support.v7.widget.CardView
-        xmlns:card_view="http://schemas.android.com/apk/res-auto"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_margin="8dp"
-        card_view:cardCornerRadius="4dp">
-
-        <RelativeLayout
+        android:layout_height="wrap_content">
+        <LinearLayout
+            android:id="@+id/calendar_layout"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
 
-            <ListView
-                android:id="@+id/color_key_list"
-                android:layout_width="fill_parent"
-                android:layout_height="wrap_content"
-                android:paddingTop="8dp"
-                android:paddingBottom="8dp"
+            <android.support.v7.widget.Toolbar
+                android:id="@+id/toolbar"
+                android:layout_width="match_parent"
+                android:layout_height="?attr/actionBarSize"
+                android:background="?attr/colorPrimary"
+                android:elevation="4dp"
+                android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
+                app:popupTheme="@style/ThemeOverlay.AppCompat.Light" />
+
+            <com.github.sundeepk.compactcalendarview.CompactCalendarView
+                android:id="@+id/compactcalendar_view"
+                android:layout_width="match_parent"
+                android:layout_height="250dp"
+                android:paddingLeft="16dp"
                 android:paddingRight="16dp"
-                android:paddingLeft="10dp"
-                android:divider="#FFFFFF"
-                android:listSelector="@android:color/transparent">
-            </ListView>
+                app:compactCalendarBackgroundColor="@color/colorPrimary"
+                app:compactCalendarCurrentDayBackgroundColor="#50FFFFFF"
+                app:compactCalendarCurrentSelectedDayBackgroundColor="@android:color/transparent"
+                app:compactCalendarTextColor="#FFF"
+                app:compactCalendarTextSize="13sp" />
+        </LinearLayout>
 
-            <View
-                android:id="@+id/separator"
-                android:layout_below="@+id/color_key_list"
-                android:layout_width="match_parent"
-                android:layout_height="1dp"
-                android:background="@color/separator_background"/>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
 
-            <TextView
-                android:layout_below="@+id/separator"
-                android:layout_width="match_parent"
+            <android.support.v7.widget.CardView xmlns:app="http://schemas.android.com/apk/res-auto"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-               android:padding="16dp"
-                android:textStyle="italic"
+                android:layout_marginTop="8dp"
+                android:layout_marginBottom="8dp"
+                app:cardCornerRadius="0dp">
 
-                android:text="@string/menstral_cycle_note"/>
-        </RelativeLayout>
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
 
+                    <ListView
+                        android:id="@+id/color_key_list"
+                        android:layout_width="fill_parent"
+                        android:layout_height="wrap_content"
+                        android:divider="#FFFFFF"
+                        android:listSelector="@android:color/transparent"
+                        android:paddingBottom="8dp"
+                        android:paddingLeft="10dp"
+                        android:paddingRight="16dp"
+                        android:paddingTop="8dp"></ListView>
 
-    </android.support.v7.widget.CardView>
+                    <View
+                        android:id="@+id/separator"
+                        android:layout_width="match_parent"
+                        android:layout_height="1dp"
+                        android:layout_below="@+id/color_key_list"
+                        android:background="@color/separator_background" />
 
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@+id/separator"
+                        android:padding="16dp"
+                        android:text="@string/menstral_cycle_note"
 
+                        android:textStyle="italic" />
+                </RelativeLayout>
+            </android.support.v7.widget.CardView>
 
-</LinearLayout>
+        </LinearLayout>
+    </LinearLayout>
+
+    <!--<android.support.design.widget.FloatingActionButton-->
+        <!--android:id="@+id/fab"-->
+        <!--android:layout_width="wrap_content"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:layout_margin="16dp"-->
+        <!--android:clickable="true"-->
+        <!--android:src="@drawable/ic_add_white_24dp"-->
+        <!--app:layout_anchor="@id/calendar_layout"-->
+        <!--app:layout_anchorGravity="bottom|right|end" />-->
+
+</android.support.design.widget.CoordinatorLayout>
