@@ -14,6 +14,8 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 
+import java.util.Calendar;
+
 public class InitialSettingsActivity extends AppCompatActivity {
 
     static String IS_FIRST_RUN = "first_run";
