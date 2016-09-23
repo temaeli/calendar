@@ -92,6 +92,7 @@
             android:layout_marginBottom="5dp"
             android:padding="12dp"
             android:text="Start"
+            android:elevation="4dp"
             android:textColor="@android:color/white"
             android:background="#3C000000"
             />
