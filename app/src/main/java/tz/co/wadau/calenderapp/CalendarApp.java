@@ -37,7 +37,7 @@ public class CalendarApp extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
 
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_calender_app);
+        setContentView(R.layout.activity_calendar_app);
 
         toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
@@ -73,7 +73,7 @@ public class CalendarApp extends AppCompatActivity {
         //Reading user settings then adding mentral and ovulation days to calendar
         addMensCycleDays(getApplicationContext());
 
-        //Adding key for mentral cycle colors
+        //Adding key for menstrual cycle colors
         CustomListAdapter adapter = new CustomListAdapter(this, colorKeyImage, colorKeyDescription);
         ListView colorKeyList = (ListView) findViewById(R.id.color_key_list);
         colorKeyList.setAdapter(adapter);
@@ -104,7 +104,7 @@ public class CalendarApp extends AppCompatActivity {
     //Adding ovulation and mens days
     public static void addMensCycleDays(Context context) {
 
-        //Reading user settings then adding mentral and ovulation days to calendar
+        //Reading user settings then adding menstrual and ovulation days to calendar
         SharedPreferences sharedPrefs = PreferenceManager.getDefaultSharedPreferences(context);
         int mensDays = sharedPrefs.getInt(SettingsFragment.KEY_PREF_MENS_DAYS, 3);
         int cycleDays = sharedPrefs.getInt(SettingsFragment.KEY_PREF_CYCLE_DAYS, 28);
@@ -127,7 +127,7 @@ public class CalendarApp extends AppCompatActivity {
             setCycleStatus(context, true);
         }
 
-        //Add mens days to the calendar for 2 years
+        //Add mens days to the calendar for 1 years
         for (Integer k = 0; k <= 24; k++) {
 
             for (Integer i = 0; i < mensDays; i++) {

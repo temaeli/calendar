@@ -110,7 +110,7 @@ public class InitialSettingsActivity extends AppCompatActivity {
     }
 
     public static boolean isFirstRun(Context context) {
-        SharedPreferences sharedPreferences = Build.VERSION.SDK_INT > 19 ?
+        SharedPreferences sharedPreferences = Build.VERSION.SDK_INT >= 19 ?
                 PreferenceManager.getDefaultSharedPreferences(context) :
                 context.getSharedPreferences("general_settings", Context.MODE_PRIVATE);
         return sharedPreferences.getBoolean(InitialSettingsActivity.IS_FIRST_RUN, true);

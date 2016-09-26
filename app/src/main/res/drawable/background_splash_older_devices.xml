@@ -8,13 +8,4 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:drawable="@color/background_light" />
-
-    <item
-        android:width="144dp"
-        android:height="144dp"
-        android:drawable="@drawable/ic_launcher"
-        android:gravity="center">
-    </item>
-
-
 </layer-list>
