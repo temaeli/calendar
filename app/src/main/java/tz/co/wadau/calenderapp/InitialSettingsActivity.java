@@ -44,7 +44,8 @@ public class InitialSettingsActivity extends AppCompatActivity {
             public void onClick(View v) {
                 int periodDaysDefault = !TextUtils.isEmpty(editPeriodDays.getText().toString()) ?
                         Integer.valueOf(editPeriodDays.getText().toString()) : 3;
-                NumberPickerEditText newNumberFragment = NumberPickerEditText.newInstance(2, 7, periodDaysDefault);
+                NumberPickerEditText newNumberFragment =
+                        NumberPickerEditText.newInstance(2, 7, periodDaysDefault, editPeriodDays.getId());
                 newNumberFragment.show(getSupportFragmentManager(), "inputPeriodDays");
             }
         });
@@ -54,7 +55,8 @@ public class InitialSettingsActivity extends AppCompatActivity {
             public void onClick(View v) {
                 int cycleDaysDefault = !TextUtils.isEmpty(editCycleDays.getText().toString()) ?
                         Integer.valueOf(editCycleDays.getText().toString()) : 28;
-                NumberPickerEditText newNumberFragment = NumberPickerEditText.newInstance(20, 45, cycleDaysDefault);
+                NumberPickerEditText newNumberFragment =
+                        NumberPickerEditText.newInstance(20, 45, cycleDaysDefault, editCycleDays.getId());
                 newNumberFragment.show(getSupportFragmentManager(), "inputCycleDays");
             }
         });
