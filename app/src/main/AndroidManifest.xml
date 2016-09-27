@@ -31,7 +31,9 @@
         </activity>
 
         <activity android:name=".InitialSettingsActivity" android:noHistory="true" />
-        <activity android:name=".CalendarApp"></activity>
+
+        <activity android:name=".CalendarApp"
+            android:screenOrientation="portrait"></activity>
 
         <receiver android:name=".AlarmReceiver">
             <intent-filter>

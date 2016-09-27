@@ -8,21 +8,28 @@ import android.widget.NumberPicker;
 
 public class NumberPickerEditText extends DialogFragment implements NumberPickerDialog.OnNumberSetListener {
 
-    int minVal;
-    int maxVal;
-    int defautValue;
     EditText editText;
 
-    public NumberPickerEditText(int minValue, int maxValue, int defautValue, EditText editText){
-        minVal = minValue;
-        maxVal = maxValue;
-        this.editText = editText;
-        this.defautValue = defautValue;
+    public NumberPickerEditText() {
     }
 
 
+    public static NumberPickerEditText newInstance(int minValue, int maxValue, int defautValue) {
+        NumberPickerEditText f = new NumberPickerEditText();
+        Bundle args = new Bundle();
+        args.putInt("minVal", minValue);
+        args.putInt("maxValue", maxValue);
+        args.putInt("defautValue", defautValue);
+        f.setArguments(args);
+        return f;
+    }
+
     @Override
     public Dialog onCreateDialog(Bundle savedInstanceState) {
+
+        int minVal = getArguments().getInt("minVal");
+        int maxVal = getArguments().getInt("maxValue");
+        int defautValue = getArguments().getInt("defautValue");
 
         NumberPickerDialog nPicker = new NumberPickerDialog(getActivity(), this);
         NumberPicker numberPicker = nPicker.getNumberPicker();
@@ -34,6 +41,7 @@ public class NumberPickerEditText extends DialogFragment implements NumberPicker
 
     @Override
     public void onNumberSet(NumberPicker view, int value) {
+        editText = view;
         editText.setText(String.valueOf(value));
     }
 }
