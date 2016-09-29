@@ -14,7 +14,7 @@ import android.view.MenuItem;
 import android.widget.ListView;
 
 import com.github.sundeepk.compactcalendarview.CompactCalendarView;
-import com.github.sundeepk.compactcalendarview.domain.CalendarDayEvent;
+import com.github.sundeepk.compactcalendarview.domain.Event;
 
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
@@ -49,7 +49,6 @@ public class CalendarApp extends AppCompatActivity {
         actionBar.setTitle(null);
 
         compactCalendarView = (CompactCalendarView) findViewById(R.id.compactcalendar_view);
-        compactCalendarView.drawSmallIndicatorForEvents(false);
         compactCalendarView.setUseThreeLetterAbbreviation(true);
 
         //set initial title
@@ -131,7 +130,7 @@ public class CalendarApp extends AppCompatActivity {
         for (Integer k = 0; k <= 24; k++) {
 
             for (Integer i = 0; i < mensDays; i++) {
-                compactCalendarView.addEvent(new CalendarDayEvent(cal.getTimeInMillis(), Color.argb(255, 235, 147, 147)), false);
+                compactCalendarView.addEvent(new Event(Color.argb(255, 235, 147, 147), cal.getTimeInMillis()), false);
                 cal.add(Calendar.DATE, 1);
             }
 
@@ -140,7 +139,7 @@ public class CalendarApp extends AppCompatActivity {
             cal.add(Calendar.DATE, daysBeforeFertilityWindow);
 
             for (Integer j = 0; j < ovulationDays; j++) {
-                compactCalendarView.addEvent(new CalendarDayEvent(cal.getTimeInMillis(), Color.argb(140, 0, 138, 230)), false);
+                compactCalendarView.addEvent(new Event(Color.argb(140, 0, 138, 230), cal.getTimeInMillis()), false);
                 cal.add(Calendar.DATE, 1);
             }
 
