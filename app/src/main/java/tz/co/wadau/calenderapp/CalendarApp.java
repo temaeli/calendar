@@ -43,8 +43,8 @@ public class CalendarApp extends AppCompatActivity {
         setSupportActionBar(toolbar);
 
         actionBar = getSupportActionBar();
-        actionBar.setHomeAsUpIndicator(R.drawable.ic_menu_white_24dp);
-        actionBar.setDisplayHomeAsUpEnabled(true);
+//        actionBar.setHomeAsUpIndicator(R.drawable.ic_menu_white_24dp);
+//        actionBar.setDisplayHomeAsUpEnabled(true);
         // Setting default toolbar title to empty
         actionBar.setTitle(null);
 
