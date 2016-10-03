@@ -1,7 +1,16 @@
+
+@font-face {
+  font-family: 'Material Icons';
+  font-style: normal;
+  font-weight: 400;
+  src: url(file:///android_asset/webhelp/fonts/MaterialIcons-Regular.woff);;
+}
+
 body {
   margin: 0;
   font-family: 'Roboto';
   font-size: 14px;
+  background: #EEEEEE;
 }
 
 h3 {
@@ -16,7 +25,14 @@ h3 {
 }
 
 .container {
-  max-width: 970px;
+  width; 100% !important;
+  max-width: 100% !important;
+  padding-top: 15px;
+}
+
+.panel-body {
+    border-top: 1px solid #E0E0E0 !important;
+    color: #757575 !important;
 }
 
 div[class*='col-'] {
@@ -38,7 +54,7 @@ a:active {
 .panel {
   border-width: 0 0 1px 0;
   border-style: solid;
-  border-color: #fff;
+  border-color: #E0E0E0;
   background: none;
   box-shadow: none;
 }
@@ -60,7 +76,7 @@ a:active {
 }
 
 .panel-heading {
-  background-color: #009688;
+  background-color: #FFFFFF;
   border-radius: 0;
   border: none;
   color: #fff;
@@ -69,7 +85,7 @@ a:active {
 
 .panel-title a {
   display: block;
-  color: #fff;
+  color: #212121 !important;
   padding: 15px;
   position: relative;
   font-size: 16px;
@@ -99,6 +115,7 @@ a:active {
 
 .panel-heading a:before {
   content: '\e146';
+  color: #9E9E9E !important;
   position: absolute;
   font-family: 'Material Icons';
   right: 5px;

@@ -7,4 +7,6 @@ $(document).ready(function() {
     .on('hide.bs.collapse', function(a) {
       $(a.target).prev('.panel-heading').removeClass('active');
     });
+
+    $('#collapse').collapse("hide");
 });
