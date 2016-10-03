@@ -2,8 +2,8 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="tz.co.wadau.calenderapp">
 
-    <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED"></uses-permission>
-    <uses-permission android:name="android.permission.WAKE_LOCK"></uses-permission>
+    <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
+    <uses-permission android:name="android.permission.WAKE_LOCK" />
 
     <application
         android:allowBackup="true"
@@ -11,8 +11,8 @@
         android:label="@string/app_name"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-
-        <activity android:name=".MainActivity"
+        <activity
+            android:name=".MainActivity"
             android:noHistory="true"
             android:theme="@style/SplashTheme">
             <intent-filter>
@@ -21,7 +21,6 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-
         <activity
             android:name=".SettingsActivity"
             android:parentActivityName=".CalendarApp">
@@ -29,25 +28,28 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".CalendarApp" />
         </activity>
-
-        <activity android:name=".InitialSettingsActivity" android:noHistory="true" />
-
-        <activity android:name=".CalendarApp"
-            android:screenOrientation="portrait"></activity>
+        <activity
+            android:name=".InitialSettingsActivity"
+            android:noHistory="true" />
+        <activity
+            android:name=".CalendarApp"
+            android:screenOrientation="portrait" />
 
         <receiver android:name=".AlarmReceiver">
             <intent-filter>
                 <action android:name="android.media.action.DISPLAY_NOTIFICATION" />
+
                 <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
-
         </receiver>
-
         <receiver android:name=".BootReceiver">
             <intent-filter>
                 <action android:name="android.intent.action.BOOT_COMPLETED" />
             </intent-filter>
         </receiver>
+
+        <activity android:name=".HelpActivity"
+            android:parentActivityName=".CalendarApp"></activity>
     </application>
 
 </manifest>

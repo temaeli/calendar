@@ -97,6 +97,8 @@ public class CalendarApp extends AppCompatActivity {
                 gotoToday();
                 actionBar.setTitle(dateFormatForMonth.format(compactCalendarView.getFirstDayOfCurrentMonth()));
                 return true;
+            case R.id.action_help:
+                showHelp();
             default:
                 return super.onOptionsItemSelected(item);
         }
@@ -155,6 +157,12 @@ public class CalendarApp extends AppCompatActivity {
     //Show settings
     private void showSettings() {
         Intent intent = new Intent(this, SettingsActivity.class);
+        startActivity(intent);
+    }
+
+    //Show help
+    private void  showHelp(){
+        Intent intent = new Intent(this, HelpActivity.class);
         startActivity(intent);
     }
 

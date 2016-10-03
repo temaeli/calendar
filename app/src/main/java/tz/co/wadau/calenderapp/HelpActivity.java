@@ -4,24 +4,26 @@ import android.os.Bundle;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.webkit.WebView;
 
-public class SettingsActivity extends AppCompatActivity {
+public class HelpActivity extends AppCompatActivity {
+
+    public WebView webView;
+    final String helpUrl = "file:///android_asset/webhelp/index.html";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_settings);
+        setContentView(R.layout.activity_help);
 
-        Toolbar toolbar = (Toolbar) findViewById(R.id.settings_toolbar);
+        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
         final ActionBar actionBar = getSupportActionBar();
         actionBar.setDisplayHomeAsUpEnabled(true);
 
-        // Display the fragment as the main content.
-        getFragmentManager().beginTransaction()
-                .replace(R.id.fragment_container, new SettingsFragment())
-                .commit();
+        webView = (WebView) findViewById(R.id.web_view);
+        webView.getSettings().setJavaScriptEnabled(true);
+        webView.loadUrl(helpUrl);
     }
-
 }
