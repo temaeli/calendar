@@ -14,6 +14,9 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 
+import tz.co.wadau.calenderapp.customviews.DatePickerEditText;
+import tz.co.wadau.calenderapp.customviews.NumberPickerEditText;
+
 public class InitialSettingsActivity extends AppCompatActivity {
 
     static String IS_FIRST_RUN = "first_run";

@@ -11,6 +11,9 @@ import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Locale;
 
+import tz.co.wadau.calenderapp.customviews.DatePreference;
+import tz.co.wadau.calenderapp.customviews.NumberPickerPreference;
+
 public class SettingsFragment extends PreferenceFragment {
     public static final String KEY_PREF_MENS_DAYS = "prefs_mens_days";
     public static final String KEY_PREF_CYCLE_DAYS = "prefs_cycle_days";

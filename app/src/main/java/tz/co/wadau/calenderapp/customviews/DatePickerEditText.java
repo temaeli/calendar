@@ -1,4 +1,4 @@
-package tz.co.wadau.calenderapp;
+package tz.co.wadau.calenderapp.customviews;
 
 import android.app.DatePickerDialog;
 import android.app.Dialog;
@@ -8,6 +8,8 @@ import android.widget.DatePicker;
 import android.widget.TextView;
 
 import java.util.Calendar;
+
+import tz.co.wadau.calenderapp.R;
 
 public class DatePickerEditText extends DialogFragment implements DatePickerDialog.OnDateSetListener{
 

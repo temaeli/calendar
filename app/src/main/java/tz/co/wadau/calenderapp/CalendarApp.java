@@ -21,6 +21,8 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.Locale;
 
+import tz.co.wadau.calenderapp.customviews.DatePreference;
+
 public class CalendarApp extends AppCompatActivity {
 
     private static final String TAG = CalendarApp.class.getSimpleName();

@@ -7,14 +7,14 @@
     <PreferenceCategory
         android:title="@string/prefs_personal_info_title">
 
-    <tz.co.wadau.calenderapp.DatePreference
+    <tz.co.wadau.calenderapp.customviews.DatePreference
         android:key="prefs_last_month_mens_date"
         android:title="@string/last_month_mens_date"
         android:defaultValue="2016-06-21"
         android:summary="2016-06-21"
          />
 
-    <tz.co.wadau.calenderapp.NumberPickerPreference
+    <tz.co.wadau.calenderapp.customviews.NumberPickerPreference
         android:key="prefs_mens_days"
         custom:minValue="2"
         custom:maxValue="7"
@@ -23,7 +23,7 @@
         android:summary="@string/mens_days_description"
         android:title="@string/mens_days" />
 
-    <tz.co.wadau.calenderapp.NumberPickerPreference
+    <tz.co.wadau.calenderapp.customviews.NumberPickerPreference
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:key="prefs_cycle_days"
@@ -43,7 +43,7 @@
             android:title="@string/prefs_period_notifications"
             android:defaultValue="true"/>
 
-        <tz.co.wadau.calenderapp.NumberPickerPreference
+        <tz.co.wadau.calenderapp.customviews.NumberPickerPreference
             android:key="prefs_period_notify_before_days"
             android:title="@string/prefs_notify_before"
             android:dependency="prefs_period_notifications"
@@ -58,7 +58,7 @@
             android:title="@string/prefs_ovulation_notifications"
             android:defaultValue="true"/>
 
-        <tz.co.wadau.calenderapp.NumberPickerPreference
+        <tz.co.wadau.calenderapp.customviews.NumberPickerPreference
             android:key="prefs_ovulation_notify_before_days"
             android:title="@string/prefs_notify_before"
             android:dependency="prefs_ovulation_notifications"

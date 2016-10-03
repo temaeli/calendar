@@ -1,4 +1,4 @@
-package tz.co.wadau.calenderapp;
+package tz.co.wadau.calenderapp.customviews;
 
 import android.app.AlertDialog;
 import android.content.Context;
@@ -6,6 +6,8 @@ import android.content.DialogInterface;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.NumberPicker;
+
+import tz.co.wadau.calenderapp.R;
 
 /**
  * Created by admin on 21-Aug-16.

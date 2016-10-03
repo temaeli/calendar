@@ -12,6 +12,8 @@ import java.util.Calendar;
 import java.util.Locale;
 import java.util.concurrent.TimeUnit;
 
+import tz.co.wadau.calenderapp.customviews.DatePreference;
+
 public class AlarmNotification {
 
     String TAG = AlarmNotification.class.getSimpleName();

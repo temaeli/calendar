@@ -1,4 +1,4 @@
-package tz.co.wadau.calenderapp;
+package tz.co.wadau.calenderapp.customviews;
 
 import android.app.Dialog;
 import android.os.Bundle;

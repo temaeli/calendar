@@ -1,4 +1,4 @@
-package tz.co.wadau.calenderapp;
+package tz.co.wadau.calenderapp.customviews;
 
 import android.content.Context;
 import android.content.res.TypedArray;

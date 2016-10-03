@@ -1,15 +1,14 @@
-package tz.co.wadau.calenderapp;
+package tz.co.wadau.calenderapp.customviews;
 
-import java.text.Format;
-import java.text.SimpleDateFormat;
-import java.util.Calendar;
 import android.content.Context;
 import android.content.res.TypedArray;
 import android.preference.DialogPreference;
 import android.util.AttributeSet;
-import android.util.Log;
 import android.view.View;
 import android.widget.DatePicker;
+
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
 
 public class DatePreference extends DialogPreference {
     private int lastDate = 0;
