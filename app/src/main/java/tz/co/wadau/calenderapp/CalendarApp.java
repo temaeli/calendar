@@ -4,12 +4,14 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Color;
+import android.graphics.drawable.LayerDrawable;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
+import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.widget.ListView;
 
@@ -22,6 +24,8 @@ import java.util.Date;
 import java.util.Locale;
 
 import tz.co.wadau.calenderapp.customviews.DatePreference;
+
+import static tz.co.wadau.calenderapp.BadgeDrawable.setBadgeCount;
 
 public class CalendarApp extends AppCompatActivity {
 
@@ -82,8 +86,19 @@ public class CalendarApp extends AppCompatActivity {
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.calendar_app, menu);
-        return true;
+//        getMenuInflater().inflate(R.menu.calendar_app, menu);
+//        MenuItem itemCart = menu.findItem(R.id.action_today);
+//        LayerDrawable icon = (LayerDrawable) itemCart.getIcon();
+//        setBadgeCount(this, icon, "9");
+//        return super.onCreateOptionsMenu(menu);
+
+        MenuInflater inflater = getMenuInflater();
+        inflater.inflate(R.menu.calendar_app, menu);
+        MenuItem itemCart = menu.findItem(R.id.action_today);
+        LayerDrawable icon = (LayerDrawable) itemCart.getIcon();
+        int today = getToday();
+        setBadgeCount(this, icon, String.valueOf(today));
+        return super.onCreateOptionsMenu(menu);
     }
 
     @Override
@@ -177,6 +192,11 @@ public class CalendarApp extends AppCompatActivity {
         SharedPreferences.Editor editor = preferences.edit();
         editor.putBoolean(InitialSettingsActivity.IS_CYCLE_CREATED, status);
         editor.apply();
+    }
+
+    public int getToday(){
+        Calendar mCalendar = Calendar.getInstance(Locale.getDefault());
+        return mCalendar.get(Calendar.DATE);
     }
 
 }
