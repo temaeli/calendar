@@ -17,13 +17,12 @@
         android:minHeight="?attr/actionBarSize"
         app:navigationContentDescription="@string/abc_action_bar_up_description"
         app:popupTheme="@style/ThemeOverlay.AppCompat.Light"
-        app:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
+        app:theme="@style/ThemeOverlay.AppCompat.Light"
         app:title="@string/action_help" />
 
     <WebView
         android:id="@+id/web_view"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_below="@id/help_toolbar"
-        android:background="@color/colorAccent"></WebView>
+        android:layout_below="@id/help_toolbar"></WebView>
 </RelativeLayout>

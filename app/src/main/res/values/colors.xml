@@ -13,4 +13,7 @@
     <color name="colorControlNormal">#4C000000</color>
     <color name="editTextHintColor">#FFFFFF</color>
     <color name="textColorError">#f1f323</color>
+
+    <color name="colorPeriod">#eb9393</color>
+    <color name="colorOvulationWindow">#00a1de</color>
 </resources>

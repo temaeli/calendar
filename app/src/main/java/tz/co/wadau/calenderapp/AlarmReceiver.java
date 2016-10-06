@@ -33,7 +33,9 @@ public class AlarmReceiver extends BroadcastReceiver {
             Notification notification = builder.setContentTitle(notificationTitle)
                     .setContentText(notificationContent)
                     .setSmallIcon(R.mipmap.ic_launcher)
-                    .setTicker("Period notification")
+                    .setTicker(notificationTitle)
+                    .setColor(context.getResources().getColor(R.color.colorPrimary))
+                    .setAutoCancel(true)
                     .setContentIntent(pendingIntent).build();
 
             NotificationManager notificationManager = (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);

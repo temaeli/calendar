@@ -26,6 +26,6 @@
     <string name="prefs_ovulation_notifications">Ovulation notifications</string>
     <string name="prefs_notification_detault_days">1 day</string>
     <string name="prefs_ovulation_notification_detault_days">2 days</string>
-    <string name="ovulation_notification">Your period is expected to start in</string>
+    <string name="ovulation_notification">Your ovulation will happen in the next</string>
     <string name="action_help">Help</string>
 </resources>
