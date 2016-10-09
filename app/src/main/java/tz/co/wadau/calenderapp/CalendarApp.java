@@ -45,9 +45,7 @@ public class CalendarApp extends AppCompatActivity {
         setSupportActionBar(toolbar);
 
         actionBar = getSupportActionBar();
-//        actionBar.setHomeAsUpIndicator(R.drawable.ic_menu_24dp);
-//        actionBar.setDisplayHomeAsUpEnabled(true);
-        // Setting default toolbar title to empty
+         // Setting default toolbar title to empty
         actionBar.setTitle(null);
 
         compactCalendarView = (CompactCalendarView) findViewById(R.id.compactcalendar_view);
@@ -162,7 +160,7 @@ public class CalendarApp extends AppCompatActivity {
 
     //Show help
     private void  showHelp(){
-        Intent intent = new Intent(this, HelpActivity.class);
+        Intent intent = new Intent(this, CycleHistoryActivity.class);
         startActivity(intent);
     }
 

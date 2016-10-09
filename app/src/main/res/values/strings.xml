@@ -28,4 +28,10 @@
     <string name="prefs_ovulation_notification_detault_days">2 days</string>
     <string name="ovulation_notification">Your ovulation will happen in the next</string>
     <string name="action_help">Help</string>
+    <string name="cycle_history">Cycle history</string>
+    <string name="title_activity_drawer">Drawer</string>
+
+    <string name="navigation_drawer_open">Open navigation drawer</string>
+    <string name="navigation_drawer_close">Close navigation drawer</string>
+    <string name="title_activity_cycle_history">CycleHistoryActivity</string>
 </resources>

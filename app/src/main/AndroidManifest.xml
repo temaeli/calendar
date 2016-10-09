@@ -48,9 +48,14 @@
             </intent-filter>
         </receiver>
 
-        <activity android:name=".HelpActivity"
-            android:parentActivityName=".CalendarApp"
-            android:configChanges="orientation|screenSize"></activity>
+        <activity
+            android:name=".HelpActivity"
+            android:configChanges="orientation|screenSize"
+            android:parentActivityName=".CalendarApp" />
+        <activity
+            android:name=".CycleHistoryActivity"
+            android:label="@string/title_activity_cycle_history"
+            android:theme="@style/AppTheme"></activity>
     </application>
 
 </manifest>

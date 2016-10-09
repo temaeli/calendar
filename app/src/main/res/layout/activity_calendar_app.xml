@@ -19,7 +19,8 @@
             android:elevation="4dp"
             app:titleTextColor="@android:color/white"
             android:theme="@style/ThemeOverlay.AppCompat.Light"
-            app:popupTheme="@style/ThemeOverlay.AppCompat.Light" />
+            app:popupTheme="@style/ThemeOverlay.AppCompat.Light"
+            app:navigationIcon="@drawable/ic_menu_24dp"/>
 
         <LinearLayout
             android:id="@+id/calendar_layout"
