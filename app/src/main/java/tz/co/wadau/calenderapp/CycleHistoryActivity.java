@@ -2,6 +2,8 @@ package tz.co.wadau.calenderapp;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Looper;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
@@ -116,31 +118,34 @@ public class CycleHistoryActivity extends AppCompatActivity
 
     @SuppressWarnings("StatementWithEmptyBody")
     @Override
-    public boolean onNavigationItemSelected(MenuItem item) {
-        // Handle navigation view item clicks here.
-        int id = item.getItemId();
-        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
+    public boolean onNavigationItemSelected(final MenuItem item) {
+        final DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
 
-        switch (id){
-            case R.id.nav_calendar :
+        //Pause for 300ms till navigation drawer is closed
+        new Handler(Looper.getMainLooper()).postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                // Handle navigation view item clicks here.
+                int id = item.getItemId();
 
-                startActivity(new Intent(this, CalendarActivity.class));
-                finish();
-                break;
-            case R.id.nav_cycle_history:
-                startActivity(new Intent(this, CycleHistoryActivity.class));
-                finish();
-                break;
-            case R.id.nav_settings:
-                startActivity(new Intent(this, SettingsActivity.class));
-                finish();
-                break;
-            case R.id.nav_help:
-                startActivity(new Intent(this, HelpActivity.class));
-                finish();
-                break;
-        }
+                switch (id){
+                    case R.id.nav_calendar :
+                        startActivity(new Intent(getApplicationContext(), CalendarActivity.class));
+                        finish();
+                        break;
+                    case R.id.nav_cycle_history:
+                        startActivity(new Intent(getApplicationContext(), CycleHistoryActivity.class));
+                        break;
+                    case R.id.nav_settings:
+                        startActivity(new Intent(getApplicationContext(), SettingsActivity.class));
+                        break;
+                    case R.id.nav_help:
+                        startActivity(new Intent(getApplicationContext(), HelpActivity.class));
+                        break;
+                }
+            }
+        }, 300);
 
         return true;
     }
