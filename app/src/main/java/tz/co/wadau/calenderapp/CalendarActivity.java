@@ -6,7 +6,11 @@ import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
+import android.support.design.widget.NavigationView;
+import android.support.v4.view.GravityCompat;
+import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBar;
+import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
@@ -23,9 +27,9 @@ import java.util.Locale;
 
 import tz.co.wadau.calenderapp.customviews.DatePreference;
 
-public class CalendarApp extends AppCompatActivity {
+public class CalendarActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
 
-    private static final String TAG = CalendarApp.class.getSimpleName();
+    private static final String TAG = CalendarActivity.class.getSimpleName();
     private Toolbar toolbar;
     private ActionBar actionBar;
     public static CompactCalendarView compactCalendarView;
@@ -76,6 +80,50 @@ public class CalendarApp extends AppCompatActivity {
         CustomListAdapter adapter = new CustomListAdapter(this, colorKeyImage, colorKeyDescription);
         ListView colorKeyList = (ListView) findViewById(R.id.color_key_list);
         colorKeyList.setAdapter(adapter);
+
+
+
+
+        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
+        ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
+                this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
+        drawer.setDrawerListener(toggle);
+        toggle.syncState();
+
+        NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
+        navigationView.setNavigationItemSelectedListener(this);
+    }
+
+
+    @SuppressWarnings("StatementWithEmptyBody")
+    @Override
+    public boolean onNavigationItemSelected(MenuItem item) {
+        // Handle navigation view item clicks here.
+        int id = item.getItemId();
+        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
+        drawer.closeDrawer(GravityCompat.START);
+
+        switch (id){
+            case R.id.nav_calendar :
+                startActivity(new Intent(this, CalendarActivity.class));
+                finish();
+                break;
+            case R.id.nav_cycle_history:
+                startActivity(new Intent(this, CycleHistoryActivity.class));
+                finish();
+                break;
+            case R.id.nav_settings:
+                startActivity(new Intent(this, SettingsActivity.class));
+                finish();
+                break;
+            case R.id.nav_help:
+                startActivity(new Intent(this, HelpActivity.class));
+                finish();
+                break;
+        }
+
+
+        return true;
     }
 
     @Override

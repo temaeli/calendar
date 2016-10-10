@@ -91,7 +91,7 @@ public class InitialSettingsActivity extends AppCompatActivity {
                     editor.putBoolean(IS_CYCLE_CREATED, false);
                     editor.apply();
 
-                    startActivity(new Intent(getApplicationContext(), CalendarApp.class));
+                    startActivity(new Intent(getApplicationContext(), CalendarActivity.class));
                 }
 
             }

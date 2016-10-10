@@ -45,18 +45,22 @@
                     android:orientation="vertical">
 
                     <TextView
+                        android:id="@+id/avg_period_days"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:text="4"
                         android:textAlignment="center"
-                        android:textSize="30sp"
+                        android:textSize="32sp"
                         android:textColor="@color/colorAccent" />
 
                     <TextView
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:text="Average period days"
-                        android:textAlignment="center" />
+                        android:textAlignment="center"
+                        android:textColor="@color/textColorCaption"
+                        android:textAllCaps="true"
+                        android:textSize="10sp"/>
                 </LinearLayout>
 
                 <LinearLayout
@@ -67,18 +71,22 @@
                     android:orientation="vertical">
 
                     <TextView
+                        android:id="@+id/av_cycle_days"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:text="30"
                         android:textAlignment="center"
-                        android:textSize="30sp"
+                        android:textSize="32sp"
                         android:textColor="@color/colorAccent" />
 
                     <TextView
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:text="Average cycle days"
-                        android:textAlignment="center" />
+                        android:textAlignment="center"
+                        android:textColor="@color/textColorCaption"
+                        android:textAllCaps="true"
+                        android:textSize="10sp"/>
                 </LinearLayout>
             </LinearLayout>
         </android.support.v7.widget.CardView>

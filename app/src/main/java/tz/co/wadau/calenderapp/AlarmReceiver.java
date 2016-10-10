@@ -21,10 +21,10 @@ public class AlarmReceiver extends BroadcastReceiver {
             String notificationTitle = intent.getStringExtra(AlarmNotification.NOTIFICATION_TITLE);
             String notificationContent = intent.getStringExtra(AlarmNotification.NOTIFICATION_CONTENT);
 
-            Intent notificationIntent = new Intent(context, CalendarApp.class);
+            Intent notificationIntent = new Intent(context, CalendarActivity.class);
 
             TaskStackBuilder stackBuilder = TaskStackBuilder.create(context);
-            stackBuilder.addParentStack(CalendarApp.class);
+            stackBuilder.addParentStack(CalendarActivity.class);
             stackBuilder.addNextIntent(notificationIntent);
 
             PendingIntent pendingIntent = stackBuilder.getPendingIntent(0, PendingIntent.FLAG_UPDATE_CURRENT);

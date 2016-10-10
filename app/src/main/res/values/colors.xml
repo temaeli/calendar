@@ -16,4 +16,5 @@
 
     <color name="colorPeriod">#eb9393</color>
     <color name="colorOvulationWindow">#00a1de</color>
+    <color name="textColorCaption">#61000000</color>
 </resources>

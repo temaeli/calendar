@@ -16,6 +16,7 @@
         android:elevation="4dp"
         android:minHeight="?attr/actionBarSize"
         app:navigationContentDescription="@string/abc_action_bar_up_description"
+        app:navigationIcon="@drawable/ic_close_24dp"
         app:popupTheme="@style/ThemeOverlay.AppCompat.Light"
         app:theme="@style/ThemeOverlay.AppCompat.Light"
         app:title="@string/action_help" />

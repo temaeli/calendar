@@ -1,7 +1,6 @@
 package tz.co.wadau.calenderapp;
 
 import android.content.Intent;
-import android.os.Build;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 
@@ -16,7 +15,7 @@ public class MainActivity extends AppCompatActivity {
 
         if(!InitialSettingsActivity.isFirstRun(getApplicationContext())) {
 
-            startActivity(new Intent(this, CalendarApp.class));
+            startActivity(new Intent(this, CalendarActivity.class));
         }else {
             startActivity(new Intent(this, InitialSettingsActivity.class));
         }

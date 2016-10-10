@@ -117,8 +117,8 @@ public class SettingsFragment extends PreferenceFragment {
     }
 
     public void updateMentralCycleDays() {
-        CalendarApp.compactCalendarView.removeAllEvents();
-        CalendarApp.setCycleStatus(getActivity().getApplicationContext(), false);
-        CalendarApp.addMensCycleDays(getActivity().getApplicationContext());
+        CalendarActivity.compactCalendarView.removeAllEvents();
+        CalendarActivity.setCycleStatus(getActivity().getApplicationContext(), false);
+        CalendarActivity.addMensCycleDays(getActivity().getApplicationContext());
     }
 }

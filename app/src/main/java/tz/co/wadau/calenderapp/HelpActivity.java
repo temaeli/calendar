@@ -1,7 +1,6 @@
 package tz.co.wadau.calenderapp;
 
 import android.os.Bundle;
-import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.webkit.WebView;
@@ -18,10 +17,6 @@ public class HelpActivity extends AppCompatActivity {
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.help_toolbar);
         setSupportActionBar(toolbar);
-
-        final ActionBar actionBar = getSupportActionBar();
-        actionBar.setDisplayHomeAsUpEnabled(true);
-        actionBar.setHomeAsUpIndicator(R.drawable.ic_close_24dp);
 
         webView = (WebView) findViewById(R.id.web_view);
         webView.getSettings().setJavaScriptEnabled(true);
