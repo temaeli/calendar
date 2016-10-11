@@ -14,11 +14,13 @@ import android.view.MenuItem;
 import android.widget.TextView;
 
 import com.github.mikephil.charting.charts.BarChart;
+import com.github.mikephil.charting.components.AxisBase;
 import com.github.mikephil.charting.components.XAxis;
 import com.github.mikephil.charting.components.YAxis;
 import com.github.mikephil.charting.data.BarData;
 import com.github.mikephil.charting.data.BarDataSet;
 import com.github.mikephil.charting.data.BarEntry;
+import com.github.mikephil.charting.formatter.AxisValueFormatter;
 
 import java.util.ArrayList;
 
@@ -52,7 +54,7 @@ public class CycleHistoryActivity extends AppCompatActivity
 
         BarDataSet barDataSet = new BarDataSet(entries, "Cycle days");
 
-        ArrayList<String> labels = new ArrayList<>();
+        final ArrayList<String> labels = new ArrayList<>();
         labels.add("January");
         labels.add("February");
         labels.add("March");
@@ -62,14 +64,26 @@ public class CycleHistoryActivity extends AppCompatActivity
 
         BarData barData = new BarData(barDataSet);
         barData.setBarWidth(0.75f);
-        barChart.setData(barData);
         barChart.setDescription("");
         barChart.animateY(1000);
         barChart.setFitBars(true);
+        barChart.setData(barData);
+        barChart.invalidate();
 
         XAxis xAxis = barChart.getXAxis();
         xAxis.setPosition(XAxis.XAxisPosition.BOTTOM);
         xAxis.setDrawGridLines(false);
+        xAxis.setValueFormatter(new AxisValueFormatter() {
+            @Override
+            public String getFormattedValue(float value, AxisBase axis) {
+                return labels.get((int)value);
+            }
+
+            @Override
+            public int getDecimalDigits() {
+                return 0;
+            }
+        });
 
         YAxis rightAxis = barChart.getAxisRight();
         rightAxis.setEnabled(false);
@@ -93,28 +107,6 @@ public class CycleHistoryActivity extends AppCompatActivity
             super.onBackPressed();
         }
     }
-
-//    @Override
-//    public boolean onCreateOptionsMenu(Menu menu) {
-//        // Inflate the menu; this adds items to the action bar if it is present.
-//        getMenuInflater().inflate(R.menu.cycle_history, menu);
-//        return true;
-//    }
-//
-//    @Override
-//    public boolean onOptionsItemSelected(MenuItem item) {
-//        // Handle action bar item clicks here. The action bar will
-//        // automatically handle clicks on the Home/Up button, so long
-//        // as you specify a parent activity in AndroidManifest.xml.
-//        int id = item.getItemId();
-//
-//        //noinspection SimplifiableIfStatement
-//        if (id == R.id.action_settings) {
-//            return true;
-//        }
-//
-//        return super.onOptionsItemSelected(item);
-//    }
 
     @SuppressWarnings("StatementWithEmptyBody")
     @Override

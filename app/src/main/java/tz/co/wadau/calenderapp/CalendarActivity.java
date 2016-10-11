@@ -83,9 +83,6 @@ public class CalendarActivity extends AppCompatActivity implements NavigationVie
         ListView colorKeyList = (ListView) findViewById(R.id.color_key_list);
         colorKeyList.setAdapter(adapter);
 
-
-
-
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
                 this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
@@ -142,15 +139,10 @@ public class CalendarActivity extends AppCompatActivity implements NavigationVie
     public boolean onOptionsItemSelected(MenuItem item) {
 
         switch (item.getItemId()) {
-            case R.id.action_settings:
-                showSettings();
-                return true;
             case R.id.action_today:
                 gotoToday();
                 actionBar.setTitle(dateFormatForMonth.format(compactCalendarView.getFirstDayOfCurrentMonth()));
                 return true;
-            case R.id.action_help:
-                showHelp();
             default:
                 return super.onOptionsItemSelected(item);
         }
@@ -204,18 +196,6 @@ public class CalendarActivity extends AppCompatActivity implements NavigationVie
         }
 
         gotoToday();
-    }
-
-    //Show settings
-    private void showSettings() {
-        Intent intent = new Intent(this, SettingsActivity.class);
-        startActivity(intent);
-    }
-
-    //Show help
-    private void  showHelp(){
-        Intent intent = new Intent(this, HelpActivity.class);
-        startActivity(intent);
     }
 
     public static void gotoToday() {

@@ -20,6 +20,5 @@ public class MCUtils {
             }
         });
         valueAnimator.start();
-
     }
 }
