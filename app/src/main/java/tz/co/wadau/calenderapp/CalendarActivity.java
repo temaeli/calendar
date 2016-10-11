@@ -174,7 +174,7 @@ public class CalendarActivity extends AppCompatActivity implements NavigationVie
             setCycleStatus(context, true);
         }
 
-        //Add mens days to the calendar for 1 years
+        //Add mens days to the calendar for 2 years
         for (Integer k = 0; k <= 24; k++) {
 
             for (Integer i = 0; i < mensDays; i++) {
@@ -182,7 +182,7 @@ public class CalendarActivity extends AppCompatActivity implements NavigationVie
                 cal.add(Calendar.DATE, 1);
             }
 
-            //Add ovulating days to the calendar for 10 years
+            //Add ovulating days to the calendar for 2 years
             cal.add(Calendar.DATE, -mensDays);
             cal.add(Calendar.DATE, daysBeforeFertilityWindow);
 
