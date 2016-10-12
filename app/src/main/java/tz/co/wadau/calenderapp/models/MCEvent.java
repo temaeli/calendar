@@ -1,20 +1,20 @@
 package tz.co.wadau.calenderapp.models;
 
-public class Event {
+public class MCEvent {
     int id;
     String date;
     String color;
 
-    public Event(){
+    public MCEvent(){
 
     }
 
-    public Event(String date, String color){
+    public MCEvent(String date, String color){
         this.date = date;
         this.color = color;
     }
 
-    public Event(int id, String date, String color){
+    public MCEvent(int id, String date, String color){
         this.id = id;
         this.date = date;
         this.color = color;

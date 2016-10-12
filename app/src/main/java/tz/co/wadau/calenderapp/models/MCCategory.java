@@ -1,19 +1,19 @@
 package tz.co.wadau.calenderapp.models;
 
 
-public class Category {
+public class MCCategory {
     int id;
     String name;
 
-    public Category(){
+    public MCCategory(){
 
     }
 
-    public Category(String name){
+    public MCCategory(String name){
         this.name = name;
     }
 
-    public Category(int id, String name){
+    public MCCategory(int id, String name){
         this.id = id;
         this.name = name;
     }

@@ -28,6 +28,9 @@ import java.util.Date;
 import java.util.Locale;
 
 import tz.co.wadau.calenderapp.customviews.DatePreference;
+import tz.co.wadau.calenderapp.customviews.MCUtils;
+import tz.co.wadau.calenderapp.helper.MyCycleDbHelper;
+import tz.co.wadau.calenderapp.models.MCEvent;
 
 public class CalendarActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
 
@@ -151,6 +154,9 @@ public class CalendarActivity extends AppCompatActivity implements NavigationVie
     //Adding ovulation and mens days
     public static void addMensCycleDays(Context context) {
 
+        MyCycleDbHelper db = new MyCycleDbHelper(context);
+
+
         //Reading user settings then adding menstrual and ovulation days to calendar
         SharedPreferences sharedPrefs = PreferenceManager.getDefaultSharedPreferences(context);
         int mensDays = sharedPrefs.getInt(SettingsFragment.KEY_PREF_MENS_DAYS, 3);
@@ -174,11 +180,14 @@ public class CalendarActivity extends AppCompatActivity implements NavigationVie
             setCycleStatus(context, true);
         }
 
+        db.deleteAllEvents();
         //Add mens days to the calendar for 2 years
         for (Integer k = 0; k <= 24; k++) {
 
             for (Integer i = 0; i < mensDays; i++) {
                 compactCalendarView.addEvent(new Event(Color.argb(255, 235, 147, 147), cal.getTimeInMillis()), false);
+
+                db.createEvent(new MCEvent(MCUtils.formatDate(cal.getTime()), String.valueOf(Color.argb(255, 235, 147, 147))));
                 cal.add(Calendar.DATE, 1);
             }
 
