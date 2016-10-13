@@ -82,6 +82,7 @@ public class MyCycleDbHelper extends SQLiteOpenHelper {
         values.put(EventEntry.COLUMN_EVENT_COLOR, event.getColor());
 
         long eventId = db.insert(EventEntry.TABLE_NAME, null, values);
+        db.close();
         return eventId;
     }
 
@@ -105,6 +106,7 @@ public class MyCycleDbHelper extends SQLiteOpenHelper {
         } finally {
             db.endTransaction();
         }
+        db.close();
 
         return eventIds;
     }
@@ -124,6 +126,7 @@ public class MyCycleDbHelper extends SQLiteOpenHelper {
         event.setId(c.getInt(c.getColumnIndex(EventEntry._ID)));
         event.setDate(c.getString(c.getColumnIndex(EventEntry.COLUMN_EVENT_DATE)));
         event.setColor(c.getString(c.getColumnIndex(EventEntry.COLUMN_EVENT_COLOR)));
+        db.close();
         return event;
     }
 
@@ -148,6 +151,7 @@ public class MyCycleDbHelper extends SQLiteOpenHelper {
                 events.add(event);
             } while (c.moveToNext());
         }
+        db.close();
 
         return events;
     }
@@ -160,19 +164,23 @@ public class MyCycleDbHelper extends SQLiteOpenHelper {
         values.put(EventEntry.COLUMN_EVENT_COLOR, event.getColor());
 
         //Update row
-        return db.update(EventEntry.TABLE_NAME, values, EventEntry._ID + " =?",
+        int numRows = db.update(EventEntry.TABLE_NAME, values, EventEntry._ID + " =?",
                 new String[]{String.valueOf(event.getId())});
+        db.close();
+        return numRows;
     }
 
     public void deleteEvent(long id) {
         SQLiteDatabase db = this.getReadableDatabase();
         db.delete(EventEntry.TABLE_NAME, EventEntry._ID + " =?",
                 new String[]{String.valueOf(id)});
+        db.close();
     }
 
     public void deleteAllEvents() {
         SQLiteDatabase db = this.getReadableDatabase();
         db.delete(EventEntry.TABLE_NAME, null, null);
+        db.close();
     }
 
     //Closing connection

@@ -34,11 +34,11 @@ public class CalendarActivity extends AppCompatActivity implements NavigationVie
     private final String TAG = CalendarActivity.class.getSimpleName();
 
     private Toolbar toolbar;
-    private ActionBar actionBar;
+    private static ActionBar actionBar;
     public static CompactCalendarView compactCalendarView;
     int[] colorKeyImage = {R.drawable.ic_color_key_red_24dp, R.drawable.ic_color_key_blue_24dp};
     String[] colorKeyDescription = {"Period days", "Ovulation days (Fertility window)"};
-    private SimpleDateFormat dateFormatForMonth = new SimpleDateFormat("MMM yyyy", Locale.getDefault());
+    private static SimpleDateFormat dateFormatForMonth = new SimpleDateFormat("MMM yyyy", Locale.getDefault());
 
     public CalendarActivity() throws ParseException {
     }
@@ -49,18 +49,8 @@ public class CalendarActivity extends AppCompatActivity implements NavigationVie
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_calendar_app);
 
-        Context context = getApplicationContext();
-        MyCycleDbHelper db = new MyCycleDbHelper(context);
-        List<Event> eventList = null;
-        try {
-            eventList = db.getMensCycleDays(context);
-        } catch (ParseException e) {
-            e.printStackTrace();
-        }
-
         toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-
         actionBar = getSupportActionBar();
          // Setting default toolbar title to empty
         actionBar.setTitle(null);
@@ -83,11 +73,10 @@ public class CalendarActivity extends AppCompatActivity implements NavigationVie
                 // Changes toolbar title on monthChange
                 actionBar.setTitle(dateFormatForMonth.format(firstDayOfNewMonth));
             }
-
         });
 
         //Reading user settings then adding mentral and ovulation days to calendar
-        compactCalendarView.addEvents(eventList);
+        compactCalendarView.addEvents(getEventsFromDb(getApplicationContext()));
         gotoToday();
 
         //Adding key for menstrual cycle colors
@@ -104,7 +93,6 @@ public class CalendarActivity extends AppCompatActivity implements NavigationVie
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
     }
-
 
     @SuppressWarnings("StatementWithEmptyBody")
     @Override
@@ -153,7 +141,6 @@ public class CalendarActivity extends AppCompatActivity implements NavigationVie
         switch (item.getItemId()) {
             case R.id.action_today:
                 gotoToday();
-                actionBar.setTitle(dateFormatForMonth.format(compactCalendarView.getFirstDayOfCurrentMonth()));
                 return true;
             default:
                 return super.onOptionsItemSelected(item);
@@ -163,6 +150,7 @@ public class CalendarActivity extends AppCompatActivity implements NavigationVie
     // Set any date to navigate to particular date
     public static void gotoToday() {
         compactCalendarView.setCurrentDate(Calendar.getInstance(Locale.getDefault()).getTime());
+        actionBar.setTitle(dateFormatForMonth.format(compactCalendarView.getFirstDayOfCurrentMonth()));
     }
 
     public static void setCycleStatus(Context context, boolean status) {
@@ -170,6 +158,19 @@ public class CalendarActivity extends AppCompatActivity implements NavigationVie
         SharedPreferences.Editor editor = preferences.edit();
         editor.putBoolean(InitialSettingsActivity.IS_CYCLE_CREATED, status);
         editor.apply();
+    }
+
+    public static List<Event> getEventsFromDb(Context context){
+        MyCycleDbHelper db = new MyCycleDbHelper(context);
+        List<Event> eventList = null;
+        try {
+            eventList = db.getMensCycleDays(context);
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+        db.closeDb();
+
+        return eventList;
     }
 
 }

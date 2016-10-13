@@ -5,6 +5,9 @@ import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 
+import static tz.co.wadau.calenderapp.CalendarActivity.compactCalendarView;
+import static tz.co.wadau.calenderapp.CalendarActivity.gotoToday;
+
 public class SettingsActivity extends AppCompatActivity {
 
     @Override
@@ -24,4 +27,11 @@ public class SettingsActivity extends AppCompatActivity {
                 .commit();
     }
 
+    @Override
+    public void onBackPressed() {
+        compactCalendarView.addEvents(CalendarActivity.getEventsFromDb(getApplicationContext()));
+        gotoToday();
+
+        super.onBackPressed();
+    }
 }
