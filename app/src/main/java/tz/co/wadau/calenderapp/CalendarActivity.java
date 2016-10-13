@@ -3,7 +3,6 @@ package tz.co.wadau.calenderapp;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.graphics.Color;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
@@ -22,35 +21,42 @@ import android.widget.ListView;
 import com.github.sundeepk.compactcalendarview.CompactCalendarView;
 import com.github.sundeepk.compactcalendarview.domain.Event;
 
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 import java.util.Locale;
 
-import tz.co.wadau.calenderapp.customviews.DatePreference;
-import tz.co.wadau.calenderapp.customviews.MCUtils;
 import tz.co.wadau.calenderapp.helper.MyCycleDbHelper;
-import tz.co.wadau.calenderapp.models.MCEvent;
 
 public class CalendarActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
+    private final String TAG = CalendarActivity.class.getSimpleName();
 
-    private static final String TAG = CalendarActivity.class.getSimpleName();
     private Toolbar toolbar;
     private ActionBar actionBar;
     public static CompactCalendarView compactCalendarView;
-    static Calendar cal;
     int[] colorKeyImage = {R.drawable.ic_color_key_red_24dp, R.drawable.ic_color_key_blue_24dp};
     String[] colorKeyDescription = {"Period days", "Ovulation days (Fertility window)"};
     private SimpleDateFormat dateFormatForMonth = new SimpleDateFormat("MMM yyyy", Locale.getDefault());
-    static int luteralPhaseDays = 14;
+
+    public CalendarActivity() throws ParseException {
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
 
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_calendar_app);
+
+        Context context = getApplicationContext();
+        MyCycleDbHelper db = new MyCycleDbHelper(context);
+        List<Event> eventList = null;
+        try {
+            eventList = db.getMensCycleDays(context);
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
 
         toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
@@ -81,7 +87,8 @@ public class CalendarActivity extends AppCompatActivity implements NavigationVie
         });
 
         //Reading user settings then adding mentral and ovulation days to calendar
-        addMensCycleDays(getApplicationContext());
+        compactCalendarView.addEvents(eventList);
+        gotoToday();
 
         //Adding key for menstrual cycle colors
         CustomListAdapter adapter = new CustomListAdapter(this, colorKeyImage, colorKeyDescription);
@@ -153,67 +160,8 @@ public class CalendarActivity extends AppCompatActivity implements NavigationVie
         }
     }
 
-    //Adding ovulation and mens days
-    public static void addMensCycleDays(Context context) {
-
-        MyCycleDbHelper db = new MyCycleDbHelper(context);
-        List<MCEvent> events = new ArrayList<>();
-
-        //Reading user settings then adding menstrual and ovulation days to calendar
-        SharedPreferences sharedPrefs = PreferenceManager.getDefaultSharedPreferences(context);
-        int mensDays = sharedPrefs.getInt(SettingsFragment.KEY_PREF_MENS_DAYS, 3);
-        int cycleDays = sharedPrefs.getInt(SettingsFragment.KEY_PREF_CYCLE_DAYS, 28);
-        String lastMonthMensDate = sharedPrefs.getString(SettingsFragment.KEY_PREF_LAST_MONTH_MENS_DATE, "2016-05-21");
-        int ovulationDays = 5;
-        boolean cycleCreated = sharedPrefs.getBoolean(InitialSettingsActivity.IS_CYCLE_CREATED, true);
-
-        int daysBeforeFertilityWindow = cycleDays - (luteralPhaseDays + 3);
-
-        int calendarYear = DatePreference.getYear(lastMonthMensDate);
-        int calendarMonth = DatePreference.getMonth(lastMonthMensDate) - 1;
-        int calendarDay = DatePreference.getDate(lastMonthMensDate);
-
-        cal = Calendar.getInstance(Locale.getDefault());
-        cal.set(calendarYear, calendarMonth, calendarDay, 0, 0, 1);
-
-        if (!cycleCreated) {
-            AlarmNotification alarmNotification = new AlarmNotification();
-            alarmNotification.setAlarm(context);
-            setCycleStatus(context, true);
-        }
-
-        //Add mens days to the calendar for 2 years
-        for (Integer k = 0; k <= 24; k++) {
-
-            for (Integer i = 0; i < mensDays; i++) {
-                compactCalendarView.addEvent(new Event(Color.argb(255, 235, 147, 147), cal.getTimeInMillis()), false);
-
-                events.add(new MCEvent(MCUtils.formatDate(cal.getTime()), String.valueOf(Color.argb(255, 235, 147, 147))));
-//                db.createEvent(new MCEvent(MCUtils.formatDate(cal.getTime()), String.valueOf(Color.argb(255, 235, 147, 147))));
-                cal.add(Calendar.DATE, 1);
-            }
-
-            //Add ovulating days to the calendar for 2 years
-            cal.add(Calendar.DATE, -mensDays);
-            cal.add(Calendar.DATE, daysBeforeFertilityWindow);
-
-            for (Integer j = 0; j < ovulationDays; j++) {
-                compactCalendarView.addEvent(new Event(Color.argb(140, 0, 138, 230), cal.getTimeInMillis()), false);
-                cal.add(Calendar.DATE, 1);
-            }
-
-            cal.add(Calendar.DATE, -(daysBeforeFertilityWindow + ovulationDays)); //Reset calender day to the previous month first mens day
-            cal.add(Calendar.DATE, cycleDays);
-        }
-
-        db.deleteAllEvents();
-        db.createEvents(events);
-        gotoToday();
-    }
-
+    // Set any date to navigate to particular date
     public static void gotoToday() {
-
-        // Set any date to navigate to particular date
         compactCalendarView.setCurrentDate(Calendar.getInstance(Locale.getDefault()).getTime());
     }
 

@@ -13,6 +13,7 @@ import java.util.Locale;
 
 import tz.co.wadau.calenderapp.customviews.DatePreference;
 import tz.co.wadau.calenderapp.customviews.NumberPickerPreference;
+import tz.co.wadau.calenderapp.helper.MyCycleDbHelper;
 
 public class SettingsFragment extends PreferenceFragment {
     public static final String KEY_PREF_MENS_DAYS = "prefs_mens_days";
@@ -22,6 +23,7 @@ public class SettingsFragment extends PreferenceFragment {
     public static final String KEY_PREF_PERIOD_NOTIFY_BEFORE_DAYS = "prefs_period_notify_before_days";
     public static final String KEY_PREF_OVULATION_NOTIFICATIONS = "prefs_ovulation_notifications";
     public static final String KEY_PREF_OVULATION_NOTIFY_BEFORE_DAYS = "prefs_ovulation_notify_before_days";
+    MyCycleDbHelper db;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -34,6 +36,8 @@ public class SettingsFragment extends PreferenceFragment {
         bindPreferenceSummaryToValue(findPreference(KEY_PREF_LAST_MONTH_MENS_DATE));
         bindPreferenceSummaryToValue(findPreference(KEY_PREF_PERIOD_NOTIFY_BEFORE_DAYS));
         bindPreferenceSummaryToValue(findPreference(KEY_PREF_OVULATION_NOTIFY_BEFORE_DAYS));
+
+        db = new MyCycleDbHelper(getActivity().getApplicationContext());
     }
 
     SharedPreferences.OnSharedPreferenceChangeListener listener =
@@ -119,6 +123,6 @@ public class SettingsFragment extends PreferenceFragment {
     public void updateMentralCycleDays() {
         CalendarActivity.compactCalendarView.removeAllEvents();
         CalendarActivity.setCycleStatus(getActivity().getApplicationContext(), false);
-        CalendarActivity.addMensCycleDays(getActivity().getApplicationContext());
+        db.addMensCycleDays(getActivity().getApplicationContext());
     }
 }

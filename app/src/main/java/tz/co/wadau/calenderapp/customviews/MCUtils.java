@@ -1,15 +1,12 @@
 package tz.co.wadau.calenderapp.customviews;
 
 import android.animation.ValueAnimator;
-import android.icu.text.SimpleDateFormat;
-import android.os.Build;
-import android.support.annotation.RequiresApi;
 import android.widget.TextView;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Locale;
-
-import static android.R.attr.format;
 
 public class MCUtils {
 
@@ -33,5 +30,11 @@ public class MCUtils {
     public static String formatDate(Date date){
         SimpleDateFormat formatted = new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault());
         return formatted.format(date);
+    }
+
+    public static long getTimeInMills(String dateStr) throws ParseException {
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault());
+        Date date = sdf.parse(dateStr);
+        return date.getTime();
     }
 }

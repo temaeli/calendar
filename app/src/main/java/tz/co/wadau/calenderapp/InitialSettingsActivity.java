@@ -3,7 +3,6 @@ package tz.co.wadau.calenderapp;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.os.Build;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.support.design.widget.TextInputLayout;
@@ -16,17 +15,21 @@ import android.widget.EditText;
 
 import tz.co.wadau.calenderapp.customviews.DatePickerEditText;
 import tz.co.wadau.calenderapp.customviews.NumberPickerEditText;
+import tz.co.wadau.calenderapp.helper.MyCycleDbHelper;
 
 public class InitialSettingsActivity extends AppCompatActivity {
 
     static String IS_FIRST_RUN = "first_run";
-    static String IS_CYCLE_CREATED = "cycle_created";
+    public static String IS_CYCLE_CREATED = "cycle_created";
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_initial_settings);
 
+        final Context context = getApplicationContext();
+        final MyCycleDbHelper db = new MyCycleDbHelper(context);
         final TextInputLayout lastPeriodDateLayout = (TextInputLayout) findViewById(R.id.last_period_date_layout);
         final TextInputLayout periodDaysLayout = (TextInputLayout) findViewById(R.id.period_days_layout);
         final TextInputLayout cycleDaysLayout = (TextInputLayout) findViewById(R.id.cycle_days_layout);
@@ -68,7 +71,6 @@ public class InitialSettingsActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
 
-
                 checkEmpty(lastPeriodDateLayout);
                 checkEmpty(periodDaysLayout);
                 checkEmpty(cycleDaysLayout);
@@ -81,7 +83,7 @@ public class InitialSettingsActivity extends AppCompatActivity {
                         !TextUtils.isEmpty(periodDays) &&
                         !TextUtils.isEmpty(cycleDays)) {
 
-                    SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
+                    SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(context);
                     SharedPreferences.Editor editor = preferences.edit();
 
                     editor.putString(SettingsFragment.KEY_PREF_LAST_MONTH_MENS_DATE, lastMensDate);
@@ -91,7 +93,9 @@ public class InitialSettingsActivity extends AppCompatActivity {
                     editor.putBoolean(IS_CYCLE_CREATED, false);
                     editor.apply();
 
-                    startActivity(new Intent(getApplicationContext(), CalendarActivity.class));
+                    db.addMensCycleDays(context);
+                    startActivity(new Intent(context, CalendarActivity.class));
+                    finish();
                 }
 
             }
@@ -111,12 +115,4 @@ public class InitialSettingsActivity extends AppCompatActivity {
             return;
         }
     }
-
-    public static boolean isFirstRun(Context context) {
-        SharedPreferences sharedPreferences = Build.VERSION.SDK_INT >= 19 ?
-                PreferenceManager.getDefaultSharedPreferences(context) :
-                context.getSharedPreferences("general_settings", Context.MODE_PRIVATE);
-        return sharedPreferences.getBoolean(InitialSettingsActivity.IS_FIRST_RUN, true);
-    }
-
 }

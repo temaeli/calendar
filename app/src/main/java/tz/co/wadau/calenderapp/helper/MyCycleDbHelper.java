@@ -2,17 +2,33 @@ package tz.co.wadau.calenderapp.helper;
 
 import android.content.ContentValues;
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
+import android.graphics.Color;
+import android.preference.PreferenceManager;
 import android.util.Log;
 
-import java.util.ArrayList;
-import java.util.List;
+import com.github.sundeepk.compactcalendarview.domain.Event;
 
+import java.text.ParseException;
+import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.List;
+import java.util.Locale;
+
+import tz.co.wadau.calenderapp.AlarmNotification;
+import tz.co.wadau.calenderapp.InitialSettingsActivity;
+import tz.co.wadau.calenderapp.SettingsFragment;
+import tz.co.wadau.calenderapp.customviews.DatePreference;
+import tz.co.wadau.calenderapp.customviews.MCUtils;
 import tz.co.wadau.calenderapp.helper.MyCycleContract.CategoryEntry;
 import tz.co.wadau.calenderapp.helper.MyCycleContract.EventEntry;
 import tz.co.wadau.calenderapp.models.MCEvent;
+
+import static tz.co.wadau.calenderapp.CalendarActivity.setCycleStatus;
+import static tz.co.wadau.calenderapp.customviews.MCUtils.getTimeInMills;
 
 public class MyCycleDbHelper extends SQLiteOpenHelper {
 
@@ -165,5 +181,78 @@ public class MyCycleDbHelper extends SQLiteOpenHelper {
         if (db != null && db.isOpen()) {
             db.close();
         }
+    }
+
+    //Adding ovulation and mens days
+    public static void addMensCycleDays(Context context) {
+
+        MyCycleDbHelper dbHelper = new MyCycleDbHelper(context);
+        List<MCEvent> events = new ArrayList<>();
+
+        //Reading user settings then adding menstrual and ovulation days to calendar
+        SharedPreferences sharedPrefs = PreferenceManager.getDefaultSharedPreferences(context);
+        int mensDays = sharedPrefs.getInt(SettingsFragment.KEY_PREF_MENS_DAYS, 3);
+        int cycleDays = sharedPrefs.getInt(SettingsFragment.KEY_PREF_CYCLE_DAYS, 28);
+        String lastMonthMensDate = sharedPrefs.getString(SettingsFragment.KEY_PREF_LAST_MONTH_MENS_DATE, "2016-05-21");
+        int ovulationDays = 5;
+        int luteralPhaseDays = 14;
+        boolean cycleCreated = sharedPrefs.getBoolean(InitialSettingsActivity.IS_CYCLE_CREATED, true);
+        int daysBeforeFertilityWindow = cycleDays - (luteralPhaseDays + 3);
+        int calendarYear = DatePreference.getYear(lastMonthMensDate);
+        int calendarMonth = DatePreference.getMonth(lastMonthMensDate) - 1;
+        int calendarDay = DatePreference.getDate(lastMonthMensDate);
+        Calendar cal = Calendar.getInstance(Locale.getDefault());
+        cal.set(calendarYear, calendarMonth, calendarDay, 0, 0, 1);
+
+        if (!cycleCreated) {
+            AlarmNotification alarmNotification = new AlarmNotification();
+            alarmNotification.setAlarm(context);
+            setCycleStatus(context, true);
+        }
+
+        //Add mens days to the database for 2 years
+        for (Integer k = 0; k <= 24; k++) {
+
+            for (Integer i = 0; i < mensDays; i++) {
+//                compactCalendarView.addEvent(new Event(Color.argb(255, 235, 147, 147), cal.getTimeInMillis()), false);
+
+                events.add(new MCEvent(MCUtils.formatDate(cal.getTime()), "#EB9393"));
+                cal.add(Calendar.DATE, 1);
+            }
+
+            //Add ovulating days to the database for 2 years
+            cal.add(Calendar.DATE, -mensDays);
+            cal.add(Calendar.DATE, daysBeforeFertilityWindow);
+
+            for (Integer j = 0; j < ovulationDays; j++) {
+//                compactCalendarView.addEvent(new Event(Color.argb(140, 0, 138, 230), cal.getTimeInMillis()), false);
+                events.add(new MCEvent(MCUtils.formatDate(cal.getTime()), "#8C008AE6"));
+                cal.add(Calendar.DATE, 1);
+            }
+
+            cal.add(Calendar.DATE, -(daysBeforeFertilityWindow + ovulationDays)); //Reset calender day to the previous month first mens day
+            cal.add(Calendar.DATE, cycleDays);
+        }
+
+        dbHelper.deleteAllEvents();
+        dbHelper.createEvents(events);
+        dbHelper.closeDb();
+    }
+
+    public List<Event> getMensCycleDays(Context context) throws ParseException {
+        MyCycleDbHelper db = new MyCycleDbHelper(context);
+        List mcEvents = db.getAllEvents();
+        List events = new ArrayList<>();
+        MCEvent e;
+        int color;
+        long date;
+
+        for (int i=0; i<mcEvents.size(); i++){
+            e = (MCEvent) mcEvents.get(i);
+            color = Color.parseColor(e.getColor());
+            date = getTimeInMills(e.getDate());
+            events.add(new Event(color, date));
+        }
+        return  events;
     }
 }
