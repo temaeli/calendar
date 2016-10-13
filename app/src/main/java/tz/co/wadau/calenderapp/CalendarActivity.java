@@ -23,8 +23,10 @@ import com.github.sundeepk.compactcalendarview.CompactCalendarView;
 import com.github.sundeepk.compactcalendarview.domain.Event;
 
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.List;
 import java.util.Locale;
 
 import tz.co.wadau.calenderapp.customviews.DatePreference;
@@ -155,7 +157,7 @@ public class CalendarActivity extends AppCompatActivity implements NavigationVie
     public static void addMensCycleDays(Context context) {
 
         MyCycleDbHelper db = new MyCycleDbHelper(context);
-
+        List<MCEvent> events = new ArrayList<>();
 
         //Reading user settings then adding menstrual and ovulation days to calendar
         SharedPreferences sharedPrefs = PreferenceManager.getDefaultSharedPreferences(context);
@@ -180,14 +182,14 @@ public class CalendarActivity extends AppCompatActivity implements NavigationVie
             setCycleStatus(context, true);
         }
 
-        db.deleteAllEvents();
         //Add mens days to the calendar for 2 years
         for (Integer k = 0; k <= 24; k++) {
 
             for (Integer i = 0; i < mensDays; i++) {
                 compactCalendarView.addEvent(new Event(Color.argb(255, 235, 147, 147), cal.getTimeInMillis()), false);
 
-                db.createEvent(new MCEvent(MCUtils.formatDate(cal.getTime()), String.valueOf(Color.argb(255, 235, 147, 147))));
+                events.add(new MCEvent(MCUtils.formatDate(cal.getTime()), String.valueOf(Color.argb(255, 235, 147, 147))));
+//                db.createEvent(new MCEvent(MCUtils.formatDate(cal.getTime()), String.valueOf(Color.argb(255, 235, 147, 147))));
                 cal.add(Calendar.DATE, 1);
             }
 
@@ -204,6 +206,8 @@ public class CalendarActivity extends AppCompatActivity implements NavigationVie
             cal.add(Calendar.DATE, cycleDays);
         }
 
+        db.deleteAllEvents();
+        db.createEvents(events);
         gotoToday();
     }
 

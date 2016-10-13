@@ -41,7 +41,7 @@ public class MyCycleDbHelper extends SQLiteOpenHelper {
 
     @Override
     public void onCreate(SQLiteDatabase db) {
-        Log.d("some", "Creating database");
+        Log.d(TAG, "Creating database");
         db.execSQL(SQL_CREATE_EVENTS_TABLE);
         db.execSQL(SQL_CREATE_CATEGORIES_TABLE);
     }
@@ -69,6 +69,30 @@ public class MyCycleDbHelper extends SQLiteOpenHelper {
         return eventId;
     }
 
+    public List<Long> createEvents(List<MCEvent> events) {
+        SQLiteDatabase db = this.getReadableDatabase();
+        ContentValues values = new ContentValues();
+        MCEvent event;
+        List<Long> eventIds = new ArrayList<>();
+
+        db.beginTransaction();
+        try {
+
+            for(int i=0; i < events.size(); i++){
+                event = events.get(i);
+                values.put(EventEntry.COLUMN_EVENT_DATE, event.getDate());
+                values.put(EventEntry.COLUMN_EVENT_COLOR, event.getColor());
+                eventIds.add(db.insert(EventEntry.TABLE_NAME, null, values));
+            }
+
+            db.setTransactionSuccessful();
+        } finally {
+            db.endTransaction();
+        }
+
+        return eventIds;
+    }
+
 
     public MCEvent getEvent(long id) {
         SQLiteDatabase db = this.getReadableDatabase();
@@ -87,7 +111,7 @@ public class MyCycleDbHelper extends SQLiteOpenHelper {
         return event;
     }
 
-    public List<MCEvent> getAllEvents(){
+    public List<MCEvent> getAllEvents() {
         SQLiteDatabase db = this.getReadableDatabase();
         List<MCEvent> events = new ArrayList<>();
 
@@ -97,8 +121,8 @@ public class MyCycleDbHelper extends SQLiteOpenHelper {
         Cursor c = db.rawQuery(SQL_SELECT_ALL_EVENTS, null);
 
         //Loop through all events and add to list
-        if(c.moveToFirst()){
-            do{
+        if (c.moveToFirst()) {
+            do {
                 MCEvent event = new MCEvent();
                 event.setId(c.getInt(c.getColumnIndex(EventEntry._ID)));
                 event.setDate(c.getString(c.getColumnIndex(EventEntry.COLUMN_EVENT_DATE)));
@@ -106,13 +130,13 @@ public class MyCycleDbHelper extends SQLiteOpenHelper {
 
                 //Add event to the list
                 events.add(event);
-            }while (c.moveToNext());
+            } while (c.moveToNext());
         }
 
         return events;
     }
 
-    public int updateEvent(MCEvent event){
+    public int updateEvent(MCEvent event) {
         SQLiteDatabase db = this.getReadableDatabase();
 
         ContentValues values = new ContentValues();
@@ -121,24 +145,24 @@ public class MyCycleDbHelper extends SQLiteOpenHelper {
 
         //Update row
         return db.update(EventEntry.TABLE_NAME, values, EventEntry._ID + " =?",
-                new String[] {String.valueOf(event.getId())});
+                new String[]{String.valueOf(event.getId())});
     }
 
-    public void deleteEvent(long id){
+    public void deleteEvent(long id) {
         SQLiteDatabase db = this.getReadableDatabase();
         db.delete(EventEntry.TABLE_NAME, EventEntry._ID + " =?",
-                new String[] {String.valueOf(id)});
+                new String[]{String.valueOf(id)});
     }
 
-    public void deleteAllEvents(){
+    public void deleteAllEvents() {
         SQLiteDatabase db = this.getReadableDatabase();
         db.delete(EventEntry.TABLE_NAME, null, null);
     }
 
     //Closing connection
-    public void closeDb(){
+    public void closeDb() {
         SQLiteDatabase db = this.getReadableDatabase();
-        if(db != null && db.isOpen()){
+        if (db != null && db.isOpen()) {
             db.close();
         }
     }
