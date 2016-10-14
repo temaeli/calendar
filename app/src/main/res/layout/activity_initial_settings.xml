@@ -84,17 +84,16 @@
                     android:hint="@string/mens_cycle_days"/>
             </android.support.design.widget.TextInputLayout>
 
-        <android.support.v7.widget.AppCompatButton
+        <Button
             android:id="@+id/btn_start"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="16dp"
             android:layout_marginBottom="5dp"
-            android:text="Start"
-            app:elevation="4dp"
-            android:textColor="@android:color/white"
-            android:background="#3C000000"
-            />
+            android:text="@string/get_started"
+            android:textColor="@color/colorPrimary"
+            android:background="@drawable/button_bg"
+            android:backgroundTint="@android:color/white"/>
 
         <TextView
             android:layout_width="match_parent"

@@ -35,4 +35,5 @@
     <string name="navigation_drawer_close">Close navigation drawer</string>
     <string name="title_activity_cycle_history">CycleHistoryActivity</string>
     <string name="calendar">Calendar</string>
+    <string name="get_started">Get started</string>
 </resources>
