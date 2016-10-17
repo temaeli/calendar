@@ -1,10 +1,15 @@
 package tz.co.wadau.calenderapp;
 
 import android.content.Context;
+import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.res.Configuration;
+import android.content.res.Resources;
 import android.os.Bundle;
 import android.preference.Preference;
 import android.preference.PreferenceFragment;
+import android.preference.PreferenceManager;
+import android.util.DisplayMetrics;
 
 import java.text.Format;
 import java.text.SimpleDateFormat;
@@ -19,11 +24,13 @@ public class SettingsFragment extends PreferenceFragment {
     public static final String KEY_PREF_MENS_DAYS = "prefs_mens_days";
     public static final String KEY_PREF_CYCLE_DAYS = "prefs_cycle_days";
     public static final String KEY_PREF_LAST_MONTH_MENS_DATE = "prefs_last_month_mens_date";
+    public static final String KEY_PREF_LUTEAL_PHASE_DAYS = "prefs_luteal_phase_days";
     public static final String KEY_PREF_PERIOD_NOTIFICATIONS = "prefs_period_notifications";
     public static final String KEY_PREF_PERIOD_NOTIFY_BEFORE_DAYS = "prefs_period_notify_before_days";
     public static final String KEY_PREF_OVULATION_NOTIFICATIONS = "prefs_ovulation_notifications";
     public static final String KEY_PREF_OVULATION_NOTIFY_BEFORE_DAYS = "prefs_ovulation_notify_before_days";
-    MyCycleDbHelper db;
+    public static final String KEY_PREF_LANGUAGE = "prefs_language";
+    public MyCycleDbHelper db;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -34,8 +41,10 @@ public class SettingsFragment extends PreferenceFragment {
         bindPreferenceSummaryToValue(findPreference(KEY_PREF_MENS_DAYS));
         bindPreferenceSummaryToValue(findPreference(KEY_PREF_CYCLE_DAYS));
         bindPreferenceSummaryToValue(findPreference(KEY_PREF_LAST_MONTH_MENS_DATE));
+        bindPreferenceSummaryToValue(findPreference(KEY_PREF_LUTEAL_PHASE_DAYS));
         bindPreferenceSummaryToValue(findPreference(KEY_PREF_PERIOD_NOTIFY_BEFORE_DAYS));
         bindPreferenceSummaryToValue(findPreference(KEY_PREF_OVULATION_NOTIFY_BEFORE_DAYS));
+        bindPreferenceSummaryToValue(findPreference(KEY_PREF_LANGUAGE));
 
         db = new MyCycleDbHelper(getActivity().getApplicationContext());
     }
@@ -64,6 +73,11 @@ public class SettingsFragment extends PreferenceFragment {
                             updateMentralCycleDays();
                             break;
 
+                        case KEY_PREF_LUTEAL_PHASE_DAYS:
+                            bindPreferenceSummaryToValue(findPreference(KEY_PREF_LUTEAL_PHASE_DAYS));
+                            updateMentralCycleDays();
+                            break;
+
                         case KEY_PREF_PERIOD_NOTIFICATIONS:
                             alarmNotfn.setAlarm(context);
                             break;
@@ -81,6 +95,13 @@ public class SettingsFragment extends PreferenceFragment {
                             bindPreferenceSummaryToValue(findPreference(KEY_PREF_OVULATION_NOTIFY_BEFORE_DAYS));
                             updateMentralCycleDays();
                             break;
+
+                        case KEY_PREF_LANGUAGE:
+                        bindPreferenceSummaryToValue(findPreference(KEY_PREF_LANGUAGE));
+                            setLocale(context);
+                            startActivity(new Intent(context, SettingsActivity.class));
+                            getActivity().finish();
+                        break;
                     }
                 }
             };
@@ -124,5 +145,16 @@ public class SettingsFragment extends PreferenceFragment {
         CalendarActivity.compactCalendarView.removeAllEvents();
         CalendarActivity.setCycleStatus(getActivity().getApplicationContext(), false);
         db.addMensCycleDays(getActivity().getApplicationContext());
+    }
+
+    public static void setLocale(Context context) {
+        SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(context);
+        String lang = sharedPreferences.getString(KEY_PREF_LANGUAGE, "en");
+        Locale myLocale = new Locale(lang);
+        Resources res = context.getResources();
+        DisplayMetrics dm = res.getDisplayMetrics();
+        Configuration conf = res.getConfiguration();
+        conf.locale = myLocale;
+        res.updateConfiguration(conf, dm);
     }
 }

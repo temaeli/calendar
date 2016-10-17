@@ -1,5 +1,6 @@
 package tz.co.wadau.calenderapp;
 
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
@@ -76,7 +77,7 @@ public class CycleHistoryActivity extends AppCompatActivity
         xAxis.setValueFormatter(new AxisValueFormatter() {
             @Override
             public String getFormattedValue(float value, AxisBase axis) {
-                return labels.get((int)value);
+                return labels.get((int) value);
             }
 
             @Override
@@ -119,21 +120,21 @@ public class CycleHistoryActivity extends AppCompatActivity
             @Override
             public void run() {
                 // Handle navigation view item clicks here.
+                Context context = getApplicationContext();
                 int id = item.getItemId();
-
-                switch (id){
-                    case R.id.nav_calendar :
-                        startActivity(new Intent(getApplicationContext(), CalendarActivity.class));
+                switch (id) {
+                    case R.id.nav_calendar:
+                        startActivity(new Intent(context, CalendarActivity.class));
                         finish();
                         break;
                     case R.id.nav_cycle_history:
-                        startActivity(new Intent(getApplicationContext(), CycleHistoryActivity.class));
+                        startActivity(new Intent(context, CycleHistoryActivity.class));
                         break;
                     case R.id.nav_settings:
-                        startActivity(new Intent(getApplicationContext(), SettingsActivity.class));
+                        startActivity(new Intent(context, SettingsActivity.class));
                         break;
                     case R.id.nav_help:
-                        startActivity(new Intent(getApplicationContext(), HelpActivity.class));
+                        startActivity(new Intent(context, HelpActivity.class));
                         break;
                 }
             }

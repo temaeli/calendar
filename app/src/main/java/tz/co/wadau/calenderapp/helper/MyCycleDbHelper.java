@@ -20,6 +20,7 @@ import java.util.Locale;
 
 import tz.co.wadau.calenderapp.AlarmNotification;
 import tz.co.wadau.calenderapp.InitialSettingsActivity;
+import tz.co.wadau.calenderapp.R;
 import tz.co.wadau.calenderapp.SettingsFragment;
 import tz.co.wadau.calenderapp.customviews.DatePreference;
 import tz.co.wadau.calenderapp.customviews.MCUtils;
@@ -202,10 +203,10 @@ public class MyCycleDbHelper extends SQLiteOpenHelper {
         int mensDays = sharedPrefs.getInt(SettingsFragment.KEY_PREF_MENS_DAYS, 3);
         int cycleDays = sharedPrefs.getInt(SettingsFragment.KEY_PREF_CYCLE_DAYS, 28);
         String lastMonthMensDate = sharedPrefs.getString(SettingsFragment.KEY_PREF_LAST_MONTH_MENS_DATE, "2016-05-21");
+        int lutealPhaseDays = sharedPrefs.getInt(SettingsFragment.KEY_PREF_LUTEAL_PHASE_DAYS, 14);
         int ovulationDays = 5;
-        int luteralPhaseDays = 14;
         boolean cycleCreated = sharedPrefs.getBoolean(InitialSettingsActivity.IS_CYCLE_CREATED, true);
-        int daysBeforeFertilityWindow = cycleDays - (luteralPhaseDays + 3);
+        int daysBeforeFertilityWindow = cycleDays - (lutealPhaseDays + 3);
         int calendarYear = DatePreference.getYear(lastMonthMensDate);
         int calendarMonth = DatePreference.getMonth(lastMonthMensDate) - 1;
         int calendarDay = DatePreference.getDate(lastMonthMensDate);
@@ -224,7 +225,8 @@ public class MyCycleDbHelper extends SQLiteOpenHelper {
             for (Integer i = 0; i < mensDays; i++) {
 //                compactCalendarView.addEvent(new Event(Color.argb(255, 235, 147, 147), cal.getTimeInMillis()), false);
 
-                events.add(new MCEvent(MCUtils.formatDate(cal.getTime()), "#EB9393"));
+                events.add(new MCEvent(MCUtils.formatDate(cal.getTime()),
+                        context.getString(R.color.colorPeriod)));
                 cal.add(Calendar.DATE, 1);
             }
 
@@ -234,7 +236,8 @@ public class MyCycleDbHelper extends SQLiteOpenHelper {
 
             for (Integer j = 0; j < ovulationDays; j++) {
 //                compactCalendarView.addEvent(new Event(Color.argb(140, 0, 138, 230), cal.getTimeInMillis()), false);
-                events.add(new MCEvent(MCUtils.formatDate(cal.getTime()), "#8C008AE6"));
+                events.add(new MCEvent(MCUtils.formatDate(cal.getTime()),
+                        context.getString(R.color.colorOvulationWindow)));
                 cal.add(Calendar.DATE, 1);
             }
 

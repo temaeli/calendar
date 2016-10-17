@@ -10,6 +10,8 @@ import android.widget.DatePicker;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 
+import tz.co.wadau.calenderapp.R;
+
 public class DatePreference extends DialogPreference {
     private int lastDate = 0;
     private int lastMonth = 0;
@@ -36,8 +38,8 @@ public class DatePreference extends DialogPreference {
     public DatePreference(Context ctxt, AttributeSet attrs) {
         super(ctxt, attrs);
 
-        setPositiveButtonText("Set");
-        setNegativeButtonText("Cancel");
+        setPositiveButtonText(R.string.set);
+        setNegativeButtonText(R.string.cancel);
     }
 
     @Override

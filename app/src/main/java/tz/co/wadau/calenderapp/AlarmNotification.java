@@ -26,6 +26,7 @@ public class AlarmNotification {
         SharedPreferences sharedPrefs = PreferenceManager.getDefaultSharedPreferences(context);
         int cycleDays = sharedPrefs.getInt(SettingsFragment.KEY_PREF_CYCLE_DAYS, 28);
         String lastMonthMensDate = sharedPrefs.getString(SettingsFragment.KEY_PREF_LAST_MONTH_MENS_DATE, "2016-05-21");
+        int lutealPhaseDays = sharedPrefs.getInt(SettingsFragment.KEY_PREF_LUTEAL_PHASE_DAYS, 14);
         int notifyBeforePeriod = sharedPrefs.getInt(SettingsFragment.KEY_PREF_PERIOD_NOTIFY_BEFORE_DAYS, 1); //Days to notifiy before period
         int notifyBeforeOvulation = sharedPrefs.getInt(SettingsFragment.KEY_PREF_OVULATION_NOTIFY_BEFORE_DAYS, 2); //Days to notifiy before ovulation
         boolean isPeriodNotificationEnabled = sharedPrefs.getBoolean(SettingsFragment.KEY_PREF_PERIOD_NOTIFICATIONS, true);
@@ -39,8 +40,7 @@ public class AlarmNotification {
         Calendar todayCalendar = Calendar.getInstance(Locale.getDefault());
         periodDate.set(calendarYear, calendarMonth, calendarDay, 0, 0, 1);
 
-        int luteralPhaseDays = 14;
-        int daysBeforeFertilityWindow = cycleDays - (luteralPhaseDays + 3);
+        int daysBeforeFertilityWindow = cycleDays - (lutealPhaseDays + 3);
         int daysBeforeOvulation = daysBeforeFertilityWindow + 2;
 
         long dateDiff = TimeUnit.MILLISECONDS.toDays(todayCalendar.getTimeInMillis() - periodDate.getTimeInMillis()); //days

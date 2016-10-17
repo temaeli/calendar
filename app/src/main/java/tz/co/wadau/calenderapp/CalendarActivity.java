@@ -30,6 +30,8 @@ import java.util.Locale;
 
 import tz.co.wadau.calenderapp.helper.MyCycleDbHelper;
 
+import static tz.co.wadau.calenderapp.SettingsFragment.setLocale;
+
 public class CalendarActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
     private final String TAG = CalendarActivity.class.getSimpleName();
 
@@ -37,7 +39,6 @@ public class CalendarActivity extends AppCompatActivity implements NavigationVie
     private static ActionBar actionBar;
     public static CompactCalendarView compactCalendarView;
     int[] colorKeyImage = {R.drawable.ic_color_key_red_24dp, R.drawable.ic_color_key_blue_24dp};
-    String[] colorKeyDescription = {"Period days", "Ovulation days (Fertility window)"};
     private static SimpleDateFormat dateFormatForMonth = new SimpleDateFormat("MMM yyyy", Locale.getDefault());
 
     public CalendarActivity() throws ParseException {
@@ -45,9 +46,13 @@ public class CalendarActivity extends AppCompatActivity implements NavigationVie
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-
+        setLocale(getApplicationContext());
         super.onCreate(savedInstanceState);
+
         setContentView(R.layout.activity_calendar_app);
+
+        String[] colorKeyDescription = {getApplicationContext().getString(R.string.period_days),
+                getApplicationContext().getString(R.string.ovulation_days)};
 
         toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
@@ -94,6 +99,12 @@ public class CalendarActivity extends AppCompatActivity implements NavigationVie
         navigationView.setNavigationItemSelectedListener(this);
     }
 
+    @Override
+    protected void onResume(){
+        super.onResume();
+        setLocale(getApplicationContext());
+    }
+
     @SuppressWarnings("StatementWithEmptyBody")
     @Override
     public boolean onNavigationItemSelected(final MenuItem item) {
@@ -106,21 +117,21 @@ public class CalendarActivity extends AppCompatActivity implements NavigationVie
             @Override
             public void run() {
                 // Handle navigation view item clicks here.
+                Context context = getApplicationContext();
                 int id = item.getItemId();
-
                 switch (id){
-                    case R.id.nav_calendar :
-                        startActivity(new Intent(getApplicationContext(), CalendarActivity.class));
+                    case R.id.nav_calendar:
+                        startActivity(new Intent(context, CalendarActivity.class));
                         finish();
                         break;
                     case R.id.nav_cycle_history:
-                        startActivity(new Intent(getApplicationContext(), CycleHistoryActivity.class));
+                        startActivity(new Intent(context, CycleHistoryActivity.class));
                         break;
                     case R.id.nav_settings:
-                        startActivity(new Intent(getApplicationContext(), SettingsActivity.class));
+                        startActivity(new Intent(context, SettingsActivity.class));
                         break;
                     case R.id.nav_help:
-                        startActivity(new Intent(getApplicationContext(), HelpActivity.class));
+                        startActivity(new Intent(context, HelpActivity.class));
                         break;
                 }
             }
