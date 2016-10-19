@@ -127,6 +127,7 @@ public class CycleHistoryActivity extends AppCompatActivity
         barChart.invalidate();
 
         XAxis xAxis = barChart.getXAxis();
+        xAxis.setLabelCount(xValues.size());
         xAxis.setPosition(XAxis.XAxisPosition.BOTTOM);
         xAxis.setDrawGridLines(false);
 
