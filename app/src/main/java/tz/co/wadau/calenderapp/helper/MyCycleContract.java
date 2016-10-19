@@ -10,6 +10,7 @@ public class MyCycleContract {
 //        public static final String COLUMN_EVENT_ID = "id";
         public static final String COLUMN_EVENT_DATE = "date";
         public static final String COLUMN_EVENT_COLOR = "color";
+        public static final String COLUMN_EVENT_FIRST_PERIOD_DATE = "first_period_date";
     }
 
     public static final class CategoryEntry implements BaseColumns {

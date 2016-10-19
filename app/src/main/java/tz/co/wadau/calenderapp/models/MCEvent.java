@@ -4,20 +4,23 @@ public class MCEvent {
     int id;
     String date;
     String color;
+    String firstPeriodDate;
 
     public MCEvent(){
 
     }
 
-    public MCEvent(String date, String color){
+    public MCEvent(String date, String color, String firstPeriodDate){
         this.date = date;
         this.color = color;
+        this.firstPeriodDate = firstPeriodDate;
     }
 
-    public MCEvent(int id, String date, String color){
+    public MCEvent(int id, String date, String color, String firstPeriodDate){
         this.id = id;
         this.date = date;
         this.color = color;
+        this.firstPeriodDate = firstPeriodDate;
     }
 
     public int getId() {
@@ -44,4 +47,11 @@ public class MCEvent {
         this.color = color;
     }
 
+    public String getFirstPeriodDate() {
+        return firstPeriodDate;
+    }
+
+    public void setFirstPeriodDate(String firstPeriodDate) {
+        this.firstPeriodDate = firstPeriodDate;
+    }
 }

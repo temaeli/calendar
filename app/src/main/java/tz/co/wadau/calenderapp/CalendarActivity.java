@@ -81,7 +81,7 @@ public class CalendarActivity extends AppCompatActivity implements NavigationVie
         });
 
         //Reading user settings then adding mentral and ovulation days to calendar
-        compactCalendarView.addEvents(getEventsFromDb(getApplicationContext()));
+        compactCalendarView.addEvents(getEventsFromDb(this));
         gotoToday();
 
         //Adding key for menstrual cycle colors

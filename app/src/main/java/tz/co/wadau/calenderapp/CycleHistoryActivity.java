@@ -24,11 +24,15 @@ import com.github.mikephil.charting.data.BarEntry;
 import com.github.mikephil.charting.formatter.AxisValueFormatter;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import tz.co.wadau.calenderapp.customviews.MCUtils;
+import tz.co.wadau.calenderapp.helper.MyCycleDbHelper;
 
 public class CycleHistoryActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
+
+    public final  String TAG = CycleHistoryActivity.class.getSimpleName();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -37,57 +41,15 @@ public class CycleHistoryActivity extends AppCompatActivity
         Toolbar toolbar = (Toolbar) findViewById(R.id.cycle_history_toolbar);
         setSupportActionBar(toolbar);
 
+        MyCycleDbHelper db = new MyCycleDbHelper(this);
+
         TextView avgPeriodDays = (TextView) findViewById(R.id.avg_period_days);
         TextView avgCycleDays = (TextView) findViewById(R.id.av_cycle_days);
 
         MCUtils.animateTextView(0, 4, 1000, avgPeriodDays);
         MCUtils.animateTextView(0, 30, 1000, avgCycleDays);
 
-        BarChart barChart = (BarChart) findViewById(R.id.bar_chart);
-
-        ArrayList<BarEntry> entries = new ArrayList<>();
-        entries.add(new BarEntry(0, 10));
-        entries.add(new BarEntry(1, 18));
-        entries.add(new BarEntry(2, 12));
-        entries.add(new BarEntry(3, 8));
-        entries.add(new BarEntry(4, 17));
-        entries.add(new BarEntry(5, 5));
-
-        BarDataSet barDataSet = new BarDataSet(entries, "Cycle days");
-
-        final ArrayList<String> labels = new ArrayList<>();
-        labels.add("January");
-        labels.add("February");
-        labels.add("March");
-        labels.add("April");
-        labels.add("May");
-        labels.add("June");
-
-        BarData barData = new BarData(barDataSet);
-        barData.setBarWidth(0.75f);
-        barChart.setDescription("");
-        barChart.animateY(1000);
-        barChart.setFitBars(true);
-        barChart.setData(barData);
-        barChart.invalidate();
-
-        XAxis xAxis = barChart.getXAxis();
-        xAxis.setPosition(XAxis.XAxisPosition.BOTTOM);
-        xAxis.setDrawGridLines(false);
-        xAxis.setValueFormatter(new AxisValueFormatter() {
-            @Override
-            public String getFormattedValue(float value, AxisBase axis) {
-                return labels.get((int) value);
-            }
-
-            @Override
-            public int getDecimalDigits() {
-                return 0;
-            }
-        });
-
-        YAxis rightAxis = barChart.getAxisRight();
-        rightAxis.setEnabled(false);
+        loagBarGraph();
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
@@ -141,5 +103,46 @@ public class CycleHistoryActivity extends AppCompatActivity
         }, 300);
 
         return true;
+    }
+
+
+    public void loagBarGraph() {
+        MyCycleDbHelper db = new MyCycleDbHelper(getApplicationContext());
+        BarChart barChart = (BarChart) findViewById(R.id.bar_chart);
+
+        List<String> yValues = db.getYPeriodHistory();
+        final List<String> xValues = db.getXPeriodHistory();
+        ArrayList<BarEntry> entries = new ArrayList<>();
+        for(int i=0; i < yValues.size(); i++){
+            entries.add(new BarEntry(i, Float.parseFloat(yValues.get(i))));
+        }
+
+        BarDataSet barDataSet = new BarDataSet(entries, "Cycle days");
+        BarData barData = new BarData(barDataSet);
+        barData.setBarWidth(0.75f);
+        barChart.setDescription("");
+        barChart.animateY(1000);
+        barChart.setFitBars(true);
+        barChart.setData(barData);
+        barChart.invalidate();
+
+        XAxis xAxis = barChart.getXAxis();
+        xAxis.setPosition(XAxis.XAxisPosition.BOTTOM);
+        xAxis.setDrawGridLines(false);
+
+        xAxis.setValueFormatter(new AxisValueFormatter() {
+            @Override
+            public String getFormattedValue(float value, AxisBase axis) {
+                return xValues.get((int) value);
+            }
+
+            @Override
+            public int getDecimalDigits() {
+                return 0;
+            }
+        });
+
+        YAxis rightAxis = barChart.getAxisRight();
+        rightAxis.setEnabled(false);
     }
 }

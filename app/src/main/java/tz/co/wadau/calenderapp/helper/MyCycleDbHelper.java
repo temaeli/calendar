@@ -15,6 +15,7 @@ import com.github.sundeepk.compactcalendarview.domain.Event;
 import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 import java.util.Locale;
 
@@ -44,7 +45,8 @@ public class MyCycleDbHelper extends SQLiteOpenHelper {
     final String SQL_CREATE_EVENTS_TABLE = "CREATE TABLE " + EventEntry.TABLE_NAME + " ( "
             + EventEntry._ID + " INTEGER PRIMARY KEY AUTOINCREMENT, "
             + EventEntry.COLUMN_EVENT_DATE + " VARCHAR(255) NOT NULL, "
-            + EventEntry.COLUMN_EVENT_COLOR + " VARCHAR(255) NOT NULL "
+            + EventEntry.COLUMN_EVENT_COLOR + " VARCHAR(255) NOT NULL, "
+            + EventEntry.COLUMN_EVENT_FIRST_PERIOD_DATE + " DATE"
             + ");";
 
     final String SQL_CREATE_CATEGORIES_TABLE = "CREATE TABLE " + CategoryEntry.TABLE_NAME + " ( "
@@ -75,19 +77,20 @@ public class MyCycleDbHelper extends SQLiteOpenHelper {
 
    /*Creating an MCEvent*/
 
-    public long createEvent(MCEvent event) {
+    public long insertEvent(MCEvent event) {
         SQLiteDatabase db = this.getReadableDatabase();
 
         ContentValues values = new ContentValues();
         values.put(EventEntry.COLUMN_EVENT_DATE, event.getDate());
         values.put(EventEntry.COLUMN_EVENT_COLOR, event.getColor());
+        values.put(EventEntry.COLUMN_EVENT_FIRST_PERIOD_DATE, event.getFirstPeriodDate());
 
         long eventId = db.insert(EventEntry.TABLE_NAME, null, values);
         db.close();
         return eventId;
     }
 
-    public List<Long> createEvents(List<MCEvent> events) {
+    public List<Long> insertEvents(List<MCEvent> events) {
         SQLiteDatabase db = this.getReadableDatabase();
         ContentValues values = new ContentValues();
         MCEvent event;
@@ -96,10 +99,11 @@ public class MyCycleDbHelper extends SQLiteOpenHelper {
         db.beginTransaction();
         try {
 
-            for(int i=0; i < events.size(); i++){
+            for (int i = 0; i < events.size(); i++) {
                 event = events.get(i);
                 values.put(EventEntry.COLUMN_EVENT_DATE, event.getDate());
                 values.put(EventEntry.COLUMN_EVENT_COLOR, event.getColor());
+                values.put(EventEntry.COLUMN_EVENT_FIRST_PERIOD_DATE, event.getFirstPeriodDate());
                 eventIds.add(db.insert(EventEntry.TABLE_NAME, null, values));
             }
 
@@ -108,7 +112,7 @@ public class MyCycleDbHelper extends SQLiteOpenHelper {
             db.endTransaction();
         }
         db.close();
-
+        Log.d(TAG, "Events created " + String.valueOf(eventIds.size()));
         return eventIds;
     }
 
@@ -147,6 +151,7 @@ public class MyCycleDbHelper extends SQLiteOpenHelper {
                 event.setId(c.getInt(c.getColumnIndex(EventEntry._ID)));
                 event.setDate(c.getString(c.getColumnIndex(EventEntry.COLUMN_EVENT_DATE)));
                 event.setColor(c.getString(c.getColumnIndex(EventEntry.COLUMN_EVENT_COLOR)));
+                event.setFirstPeriodDate(c.getString(c.getColumnIndex(EventEntry.COLUMN_EVENT_FIRST_PERIOD_DATE)));
 
                 //Add event to the list
                 events.add(event);
@@ -182,6 +187,62 @@ public class MyCycleDbHelper extends SQLiteOpenHelper {
         SQLiteDatabase db = this.getReadableDatabase();
         db.delete(EventEntry.TABLE_NAME, null, null);
         db.close();
+    }
+
+//    public int getAvgPeriodDays(Context context) {
+//        SQLiteDatabase database = this.getReadableDatabase();
+//        final String SQL_SELECT_AVG_PEROID_DAYS = "SELECT CAST(AVG(" + EventEntry.COLUMN_EVENT_COLOR
+//                + ") AS INTEGER) AS avg FROM " + EventEntry.TABLE_NAME;
+//        Log.d(TAG, SQL_SELECT_AVG_PEROID_DAYS);
+//
+//        Cursor c = database.rawQuery(SQL_SELECT_AVG_PEROID_DAYS, null);
+//        if (c.moveToFirst()) {
+//            return c.getInt(c.getColumnIndex("avg"));
+//        }
+//
+//        return 0;
+//    }
+
+    public List<String> getXPeriodHistory() {
+        SQLiteDatabase database = this.getReadableDatabase();
+        List<String> x = new ArrayList<>();
+        final String SQL_SELECT_PERIOD_HISTORY = "SELECT strftime('%d/%m', " +
+                EventEntry.COLUMN_EVENT_FIRST_PERIOD_DATE +
+                ") AS " + EventEntry.COLUMN_EVENT_FIRST_PERIOD_DATE +
+                ", COUNT(" + EventEntry.COLUMN_EVENT_COLOR + ") AS count FROM " +
+                EventEntry.TABLE_NAME + " WHERE " + EventEntry.COLUMN_EVENT_COLOR + " = '#ffeb9393' " +
+                "GROUP BY " + EventEntry.COLUMN_EVENT_FIRST_PERIOD_DATE + ";";
+        Log.d(TAG, SQL_SELECT_PERIOD_HISTORY);
+
+        Cursor c = database.rawQuery(SQL_SELECT_PERIOD_HISTORY, null);
+        if (c.moveToFirst()) {
+            do {
+                x.add(c.getString(c.getColumnIndex(EventEntry.COLUMN_EVENT_FIRST_PERIOD_DATE)));
+            } while (c.moveToNext());
+        }
+        c.close();
+        database.close();
+        return x;
+    }
+
+    public List<String> getYPeriodHistory() {
+        SQLiteDatabase database = this.getReadableDatabase();
+        List<String> y = new ArrayList<>();
+        final String SQL_SELECT_PERIOD_HISTORY = "SELECT " + EventEntry.COLUMN_EVENT_FIRST_PERIOD_DATE +
+                ", COUNT(" + EventEntry.COLUMN_EVENT_COLOR + ") AS count FROM " +
+                EventEntry.TABLE_NAME + " WHERE " + EventEntry.COLUMN_EVENT_COLOR + " = '#ffeb9393' " +
+                "GROUP BY " + EventEntry.COLUMN_EVENT_FIRST_PERIOD_DATE + ";";
+        Log.d(TAG, SQL_SELECT_PERIOD_HISTORY);
+
+        Cursor c = database.rawQuery(SQL_SELECT_PERIOD_HISTORY, null);
+        if (c.moveToFirst()) {
+            do {
+                y.add(c.getString(c.getColumnIndex("count")));
+            } while (c.moveToNext());
+        }
+        c.close();
+        database.close();
+        return y;
     }
 
     //Closing connection
@@ -222,11 +283,14 @@ public class MyCycleDbHelper extends SQLiteOpenHelper {
         //Add mens days to the database for 2 years
         for (Integer k = 0; k <= 24; k++) {
 
+            Date firstPerodDate = cal.getTime();
+
             for (Integer i = 0; i < mensDays; i++) {
 //                compactCalendarView.addEvent(new Event(Color.argb(255, 235, 147, 147), cal.getTimeInMillis()), false);
 
                 events.add(new MCEvent(MCUtils.formatDate(cal.getTime()),
-                        context.getString(R.color.colorPeriod)));
+                        context.getString(Integer.parseInt(String.valueOf(R.color.colorPeriod))),
+                        MCUtils.formatDate(firstPerodDate)));
                 cal.add(Calendar.DATE, 1);
             }
 
@@ -237,7 +301,8 @@ public class MyCycleDbHelper extends SQLiteOpenHelper {
             for (Integer j = 0; j < ovulationDays; j++) {
 //                compactCalendarView.addEvent(new Event(Color.argb(140, 0, 138, 230), cal.getTimeInMillis()), false);
                 events.add(new MCEvent(MCUtils.formatDate(cal.getTime()),
-                        context.getString(R.color.colorOvulationWindow)));
+                        context.getString(Integer.parseInt(String.valueOf(R.color.colorOvulationWindow))),
+                        MCUtils.formatDate(firstPerodDate)));
                 cal.add(Calendar.DATE, 1);
             }
 
@@ -246,7 +311,7 @@ public class MyCycleDbHelper extends SQLiteOpenHelper {
         }
 
         dbHelper.deleteAllEvents();
-        dbHelper.createEvents(events);
+        dbHelper.insertEvents(events);
         dbHelper.closeDb();
     }
 
