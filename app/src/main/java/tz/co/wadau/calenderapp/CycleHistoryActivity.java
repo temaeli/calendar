@@ -122,7 +122,7 @@ public class CycleHistoryActivity extends AppCompatActivity
         barData.setBarWidth(0.75f);
         barChart.setDescription("");
         barChart.animateY(1000);
-        barChart.setFitBars(true);
+//        barChart.setFitBars(true);
         barChart.setData(barData);
         barChart.invalidate();
 

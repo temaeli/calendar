@@ -211,7 +211,7 @@ public class MyCycleDbHelper extends SQLiteOpenHelper {
                 ") AS " + EventEntry.COLUMN_EVENT_FIRST_PERIOD_DATE +
                 ", COUNT(" + EventEntry.COLUMN_EVENT_COLOR + ") AS count FROM " +
                 EventEntry.TABLE_NAME + " WHERE " + EventEntry.COLUMN_EVENT_COLOR + " = '#ffeb9393' " +
-                "GROUP BY " + EventEntry.COLUMN_EVENT_FIRST_PERIOD_DATE + ";";
+                "AND date < date('now') GROUP BY " + EventEntry.COLUMN_EVENT_FIRST_PERIOD_DATE + ";";
         Log.d(TAG, SQL_SELECT_PERIOD_HISTORY);
 
         Cursor c = database.rawQuery(SQL_SELECT_PERIOD_HISTORY, null);
@@ -230,8 +230,8 @@ public class MyCycleDbHelper extends SQLiteOpenHelper {
         List<String> y = new ArrayList<>();
         final String SQL_SELECT_PERIOD_HISTORY = "SELECT " + EventEntry.COLUMN_EVENT_FIRST_PERIOD_DATE +
                 ", COUNT(" + EventEntry.COLUMN_EVENT_COLOR + ") AS count FROM " +
-                EventEntry.TABLE_NAME + " WHERE " + EventEntry.COLUMN_EVENT_COLOR + " = '#ffeb9393' " +
-                "GROUP BY " + EventEntry.COLUMN_EVENT_FIRST_PERIOD_DATE + ";";
+                EventEntry.TABLE_NAME + " WHERE " + EventEntry.COLUMN_EVENT_COLOR + " = '#ffeb9393' "
+                + "AND date < date('now') GROUP BY " + EventEntry.COLUMN_EVENT_FIRST_PERIOD_DATE + ";";
         Log.d(TAG, SQL_SELECT_PERIOD_HISTORY);
 
         Cursor c = database.rawQuery(SQL_SELECT_PERIOD_HISTORY, null);
