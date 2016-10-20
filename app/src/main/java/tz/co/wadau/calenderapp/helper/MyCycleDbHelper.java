@@ -245,6 +245,45 @@ public class MyCycleDbHelper extends SQLiteOpenHelper {
         return y;
     }
 
+    public List<Long> getYCycleHistory() {
+        SQLiteDatabase database = this.getReadableDatabase();
+        List<Long> x = new ArrayList<>();
+        long cycleLenght = 0;
+        String currentDate;
+        String nextDate;
+        Calendar calendar = Calendar.getInstance(Locale.getDefault());
+        final String SQL_QUERY_CYCLE_HISTORY = "SELECT " + EventEntry.COLUMN_EVENT_FIRST_PERIOD_DATE
+                + " FROM " + EventEntry.TABLE_NAME + " WHERE " + EventEntry.COLUMN_EVENT_FIRST_PERIOD_DATE
+                + " < date('now') GROUP BY " + EventEntry.COLUMN_EVENT_FIRST_PERIOD_DATE + ";";
+
+        Log.d(TAG, SQL_QUERY_CYCLE_HISTORY);
+
+        Cursor c = database.rawQuery(SQL_QUERY_CYCLE_HISTORY, null);
+
+        if (c.moveToFirst()) {
+            do {
+                currentDate = c.getString(c.getColumnIndex(EventEntry.COLUMN_EVENT_FIRST_PERIOD_DATE));
+                if (c.moveToNext()) {
+                    nextDate = c.getString(c.getColumnIndex(EventEntry.COLUMN_EVENT_FIRST_PERIOD_DATE));
+                    c.moveToPrevious();
+                } else {
+                    //Use current date
+                    nextDate = MCUtils.formatDate(calendar.getTime());
+                }
+
+                try {
+                    cycleLenght = MCUtils.dateDiffInDays(MCUtils.getTimeInMills(nextDate),
+                            MCUtils.getTimeInMills(currentDate));
+                } catch (ParseException e) {
+                    e.printStackTrace();
+                }
+
+                x.add(cycleLenght);
+            } while (c.moveToNext());
+        }
+        return x;
+    }
+
     //Closing connection
     public void closeDb() {
         SQLiteDatabase db = this.getReadableDatabase();
@@ -323,12 +362,12 @@ public class MyCycleDbHelper extends SQLiteOpenHelper {
         int color;
         long date;
 
-        for (int i=0; i<mcEvents.size(); i++){
+        for (int i = 0; i < mcEvents.size(); i++) {
             e = (MCEvent) mcEvents.get(i);
             color = Color.parseColor(e.getColor());
             date = getTimeInMills(e.getDate());
             events.add(new Event(color, date));
         }
-        return  events;
+        return events;
     }
 }

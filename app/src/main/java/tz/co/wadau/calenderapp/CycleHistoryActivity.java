@@ -11,6 +11,7 @@ import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.MenuItem;
 import android.widget.TextView;
 
@@ -49,7 +50,8 @@ public class CycleHistoryActivity extends AppCompatActivity
         MCUtils.animateTextView(0, 4, 1000, avgPeriodDays);
         MCUtils.animateTextView(0, 30, 1000, avgCycleDays);
 
-        loagBarGraph();
+        loadBarGraph();
+
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
@@ -106,15 +108,18 @@ public class CycleHistoryActivity extends AppCompatActivity
     }
 
 
-    public void loagBarGraph() {
+    public void loadBarGraph() {
         MyCycleDbHelper db = new MyCycleDbHelper(getApplicationContext());
         BarChart barChart = (BarChart) findViewById(R.id.bar_chart);
 
+        Log.d(TAG, String.valueOf(db.getYCycleHistory()));
+
         List<String> yValues = db.getYPeriodHistory();
+        List<Long> yCycleHistory = db.getYCycleHistory();
         final List<String> xValues = db.getXPeriodHistory();
         ArrayList<BarEntry> entries = new ArrayList<>();
         for(int i=0; i < yValues.size(); i++){
-            entries.add(new BarEntry(i, Float.parseFloat(yValues.get(i))));
+            entries.add(new BarEntry(i, new float[] { Float.parseFloat(yValues.get(i)), yCycleHistory.get(i)}));
         }
 
         BarDataSet barDataSet = new BarDataSet(entries, "Cycle days");
