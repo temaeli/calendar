@@ -2,6 +2,7 @@ package tz.co.wadau.calenderapp;
 
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
@@ -123,17 +124,21 @@ public class CycleHistoryActivity extends AppCompatActivity
         }
 
         BarDataSet barDataSet = new BarDataSet(entries, "Cycle days");
+        barDataSet.setColors(new int[] { Color.parseColor("#4DD0E1"), Color.parseColor("#8ceaff")});
         BarData barData = new BarData(barDataSet);
-        barData.setBarWidth(0.75f);
+        barData.setBarWidth(0.8f);
         barChart.setDescription("");
         barChart.animateY(1000);
-//        barChart.setFitBars(true);
+        barChart.setFitBars(true);
+        barChart.setTouchEnabled(false);
+//        barChart.setHighlightFullBarEnabled(true);
         barChart.setData(barData);
         barChart.invalidate();
 
         XAxis xAxis = barChart.getXAxis();
         xAxis.setPosition(XAxis.XAxisPosition.BOTTOM);
         xAxis.setDrawGridLines(false);
+        xAxis.setGranularity(1f);
 
         xAxis.setValueFormatter(new AxisValueFormatter() {
             @Override
@@ -147,7 +152,15 @@ public class CycleHistoryActivity extends AppCompatActivity
             }
         });
 
+//        LimitLine limitLine = new LimitLine(30f, "Average Cycle days");
+//        limitLine.setLineColor(Color.RED);
+//        limitLine.setTextSize(10);
+
         YAxis rightAxis = barChart.getAxisRight();
         rightAxis.setEnabled(false);
+        YAxis leftAxis = barChart.getAxisLeft();
+        leftAxis.setAxisMinValue(0f);
+        leftAxis.setAxisMaxValue(50f);
+//        leftAxis.addLimitLine(limitLine);
     }
 }
