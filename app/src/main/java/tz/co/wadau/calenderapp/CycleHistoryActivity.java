@@ -177,9 +177,13 @@ public class CycleHistoryActivity extends AppCompatActivity
 
         LineDataSet lineDataSet = new LineDataSet(lineEntries, "Period days");
         LineData lineData = new LineData();
-        lineDataSet.setColor(Color.RED);
-        lineDataSet.setCircleColor(Color.RED);
+        lineDataSet.setColor(Color.parseColor("#eb9393"));
+        lineDataSet.setCircleColor(Color.parseColor("#eb9393"));
+        lineDataSet.setMode(LineDataSet.Mode.CUBIC_BEZIER);
         lineDataSet.setLineWidth(2.5f);
+//        lineDataSet.setValueTextSize(10f);
+        lineDataSet.setDrawValues(true);
+//        lineDataSet.setValueTextColor(Color.parseColor("#eb9393"));
         lineDataSet.setCircleRadius(5f);
         lineData.addDataSet(lineDataSet);
         return lineData;
