@@ -12,17 +12,20 @@ import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
 import android.view.MenuItem;
 import android.widget.TextView;
 
-import com.github.mikephil.charting.charts.BarChart;
+import com.github.mikephil.charting.charts.CombinedChart;
 import com.github.mikephil.charting.components.AxisBase;
 import com.github.mikephil.charting.components.XAxis;
 import com.github.mikephil.charting.components.YAxis;
 import com.github.mikephil.charting.data.BarData;
 import com.github.mikephil.charting.data.BarDataSet;
 import com.github.mikephil.charting.data.BarEntry;
+import com.github.mikephil.charting.data.CombinedData;
+import com.github.mikephil.charting.data.Entry;
+import com.github.mikephil.charting.data.LineData;
+import com.github.mikephil.charting.data.LineDataSet;
 import com.github.mikephil.charting.formatter.AxisValueFormatter;
 
 import java.util.ArrayList;
@@ -43,16 +46,13 @@ public class CycleHistoryActivity extends AppCompatActivity
         Toolbar toolbar = (Toolbar) findViewById(R.id.cycle_history_toolbar);
         setSupportActionBar(toolbar);
 
-        MyCycleDbHelper db = new MyCycleDbHelper(this);
-
         TextView avgPeriodDays = (TextView) findViewById(R.id.avg_period_days);
         TextView avgCycleDays = (TextView) findViewById(R.id.av_cycle_days);
 
         MCUtils.animateTextView(0, 4, 1000, avgPeriodDays);
         MCUtils.animateTextView(0, 30, 1000, avgCycleDays);
 
-        loadBarGraph();
-
+        loadCombinedGraph();
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
@@ -108,34 +108,16 @@ public class CycleHistoryActivity extends AppCompatActivity
         return true;
     }
 
-
-    public void loadBarGraph() {
+    public void loadCombinedGraph() {
         MyCycleDbHelper db = new MyCycleDbHelper(getApplicationContext());
-        BarChart barChart = (BarChart) findViewById(R.id.bar_chart);
-
-        Log.d(TAG, String.valueOf(db.getYCycleHistory()));
-
-        List<String> yValues = db.getYPeriodHistory();
-        List<Long> yCycleHistory = db.getYCycleHistory();
         final List<String> xValues = db.getXPeriodHistory();
-        ArrayList<BarEntry> entries = new ArrayList<>();
-        for(int i=0; i < yValues.size(); i++){
-            entries.add(new BarEntry(i, new float[] { Float.parseFloat(yValues.get(i)), yCycleHistory.get(i)}));
-        }
+        CombinedChart combinedChart = (CombinedChart) findViewById(R.id.combined_chart);
 
-        BarDataSet barDataSet = new BarDataSet(entries, "Cycle days");
-        barDataSet.setColors(new int[] { Color.parseColor("#4DD0E1"), Color.parseColor("#8ceaff")});
-        BarData barData = new BarData(barDataSet);
-        barData.setBarWidth(0.8f);
-        barChart.setDescription("");
-        barChart.animateY(1000);
-        barChart.setFitBars(true);
-        barChart.setTouchEnabled(false);
-//        barChart.setHighlightFullBarEnabled(true);
-        barChart.setData(barData);
-        barChart.invalidate();
+        combinedChart.setDescription("");
+        combinedChart.animateY(1000);
+        combinedChart.setTouchEnabled(false);
 
-        XAxis xAxis = barChart.getXAxis();
+        XAxis xAxis = combinedChart.getXAxis();
         xAxis.setPosition(XAxis.XAxisPosition.BOTTOM);
         xAxis.setDrawGridLines(false);
         xAxis.setGranularity(1f);
@@ -156,11 +138,50 @@ public class CycleHistoryActivity extends AppCompatActivity
 //        limitLine.setLineColor(Color.RED);
 //        limitLine.setTextSize(10);
 
-        YAxis rightAxis = barChart.getAxisRight();
+        YAxis rightAxis = combinedChart.getAxisRight();
         rightAxis.setEnabled(false);
-        YAxis leftAxis = barChart.getAxisLeft();
+
+        YAxis leftAxis = combinedChart.getAxisLeft();
         leftAxis.setAxisMinValue(0f);
-        leftAxis.setAxisMaxValue(50f);
-//        leftAxis.addLimitLine(limitLine);
+        leftAxis.setAxisMaxValue(45f);
+
+        CombinedData combinedData = new CombinedData();
+        combinedData.setData(generateBarData(db));
+        combinedData.setData(generateLineData(db));
+
+        combinedChart.setData(combinedData);
+        combinedChart.invalidate();
+    }
+
+    private BarData generateBarData(MyCycleDbHelper dbHelper){
+        List<Long> yCycleHistory = dbHelper.getYCycleHistory();
+        ArrayList<BarEntry> barEntries = new ArrayList<>();
+
+        for(int i=0; i < yCycleHistory.size(); i++){
+            barEntries.add(new BarEntry(i, yCycleHistory.get(i)));
+        }
+
+        BarDataSet barDataSet = new BarDataSet(barEntries, "Cycle days");
+        BarData barData = new BarData(barDataSet);
+        barData.setBarWidth(0.8f);
+        return barData;
+    }
+
+    private LineData generateLineData(MyCycleDbHelper dbHelper){
+        List<String> yValues = dbHelper.getYPeriodHistory();
+        ArrayList<Entry> lineEntries = new ArrayList<>();
+
+        for(int i=0; i < yValues.size(); i++){
+            lineEntries.add(new Entry(i, Float.parseFloat(yValues.get(i))));
+        }
+
+        LineDataSet lineDataSet = new LineDataSet(lineEntries, "Period days");
+        LineData lineData = new LineData();
+        lineDataSet.setColor(Color.RED);
+        lineDataSet.setCircleColor(Color.RED);
+        lineDataSet.setLineWidth(2.5f);
+        lineDataSet.setCircleRadius(5f);
+        lineData.addDataSet(lineDataSet);
+        return lineData;
     }
 }

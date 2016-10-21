@@ -105,8 +105,8 @@
                 app:contentPadding="8dp"
                 app:cardCornerRadius="0dp">
 
-                <com.github.mikephil.charting.charts.BarChart
-                    android:id="@+id/bar_chart"
+                <com.github.mikephil.charting.charts.CombinedChart
+                    android:id="@+id/combined_chart"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent" />
             </android.support.v7.widget.CardView>
