@@ -16,8 +16,10 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.ListView;
 
+import com.github.clans.fab.FloatingActionMenu;
 import com.github.sundeepk.compactcalendarview.CompactCalendarView;
 import com.github.sundeepk.compactcalendarview.domain.Event;
 
@@ -40,6 +42,7 @@ public class CalendarActivity extends AppCompatActivity implements NavigationVie
     public static CompactCalendarView compactCalendarView;
     int[] colorKeyImage = {R.drawable.ic_color_key_red_24dp, R.drawable.ic_color_key_blue_24dp};
     private static SimpleDateFormat dateFormatForMonth = new SimpleDateFormat("MMM yyyy", Locale.getDefault());
+    private FloatingActionMenu floatingActionMenu;
 
     public CalendarActivity() throws ParseException {
     }
@@ -57,8 +60,9 @@ public class CalendarActivity extends AppCompatActivity implements NavigationVie
         toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         actionBar = getSupportActionBar();
-         // Setting default toolbar title to empty
+        // Setting default toolbar title to empty
         actionBar.setTitle(null);
+        floatingActionMenu = (FloatingActionMenu) findViewById(R.id.fab_menu);
 
         compactCalendarView = (CompactCalendarView) findViewById(R.id.compactcalendar_view);
         compactCalendarView.setUseThreeLetterAbbreviation(true);
@@ -96,11 +100,12 @@ public class CalendarActivity extends AppCompatActivity implements NavigationVie
         toggle.syncState();
 
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
+        navigationView.setCheckedItem(R.id.nav_calendar);
         navigationView.setNavigationItemSelectedListener(this);
     }
 
     @Override
-    protected void onResume(){
+    protected void onResume() {
         super.onResume();
         setLocale(getApplicationContext());
     }
@@ -119,7 +124,7 @@ public class CalendarActivity extends AppCompatActivity implements NavigationVie
                 // Handle navigation view item clicks here.
                 Context context = getApplicationContext();
                 int id = item.getItemId();
-                switch (id){
+                switch (id) {
                     case R.id.nav_calendar:
                         startActivity(new Intent(context, CalendarActivity.class));
                         finish();
@@ -171,7 +176,7 @@ public class CalendarActivity extends AppCompatActivity implements NavigationVie
         editor.apply();
     }
 
-    public static List<Event> getEventsFromDb(Context context){
+    public static List<Event> getEventsFromDb(Context context) {
         MyCycleDbHelper db = new MyCycleDbHelper(context);
         List<Event> eventList = null;
         try {
@@ -182,6 +187,17 @@ public class CalendarActivity extends AppCompatActivity implements NavigationVie
         db.closeDb();
 
         return eventList;
+    }
+
+    public void addNote(View v) {
+        floatingActionMenu.close(true);
+        new Handler(Looper.getMainLooper()).postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                startActivity(new Intent(getApplicationContext(), AddNoteActivity.class));
+            }
+        }, 200);
+
     }
 
 }

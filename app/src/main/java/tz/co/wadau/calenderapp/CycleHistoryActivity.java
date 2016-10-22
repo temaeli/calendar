@@ -17,6 +17,7 @@ import android.widget.TextView;
 
 import com.github.mikephil.charting.charts.CombinedChart;
 import com.github.mikephil.charting.components.AxisBase;
+import com.github.mikephil.charting.components.Legend;
 import com.github.mikephil.charting.components.XAxis;
 import com.github.mikephil.charting.components.YAxis;
 import com.github.mikephil.charting.data.BarData;
@@ -116,7 +117,6 @@ public class CycleHistoryActivity extends AppCompatActivity
         combinedChart.setDescription("");
         combinedChart.animateY(1000);
         combinedChart.setTouchEnabled(false);
-
         XAxis xAxis = combinedChart.getXAxis();
         xAxis.setPosition(XAxis.XAxisPosition.BOTTOM);
         xAxis.setDrawGridLines(false);
@@ -143,12 +143,18 @@ public class CycleHistoryActivity extends AppCompatActivity
 
         YAxis leftAxis = combinedChart.getAxisLeft();
         leftAxis.setAxisMinValue(0f);
-        leftAxis.setAxisMaxValue(45f);
+
+
+        Legend legend = combinedChart.getLegend();
+        legend.setWordWrapEnabled(true);
+        legend.setVerticalAlignment(Legend.LegendVerticalAlignment.BOTTOM);
+        legend.setHorizontalAlignment(Legend.LegendHorizontalAlignment.LEFT);
+        legend.setOrientation(Legend.LegendOrientation.HORIZONTAL);
 
         CombinedData combinedData = new CombinedData();
         combinedData.setData(generateBarData(db));
         combinedData.setData(generateLineData(db));
-
+        leftAxis.setAxisMaxValue(combinedData.getYMax() + 5f);
         combinedChart.setData(combinedData);
         combinedChart.invalidate();
     }
@@ -162,6 +168,7 @@ public class CycleHistoryActivity extends AppCompatActivity
         }
 
         BarDataSet barDataSet = new BarDataSet(barEntries, "Cycle days");
+//        barDataSet.setAxisDependency(YAxis.AxisDependency.LEFT);
         BarData barData = new BarData(barDataSet);
         barData.setBarWidth(0.8f);
         return barData;

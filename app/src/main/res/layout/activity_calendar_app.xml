@@ -1,11 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <android.support.v4.widget.DrawerLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/drawer_layout"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:layout_margin="0dp">
 
-    <android.support.design.widget.CoordinatorLayout
-        xmlns:app="http://schemas.android.com/apk/res-auto"
+    <android.support.design.widget.CoordinatorLayout xmlns:app="http://schemas.android.com/apk/res-auto"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical">
@@ -51,8 +52,8 @@
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="8dp"
                 android:layout_marginTop="8dp"
-                app:cardCornerRadius="0dp"
                 app:cardBackgroundColor="@android:color/white"
+                app:cardCornerRadius="0dp"
                 app:cardElevation="1dp">
 
                 <LinearLayout
@@ -85,16 +86,74 @@
         </LinearLayout>
 
         <!--<android.support.design.widget.FloatingActionButton-->
-        <!--android:id="@+id/fab"-->
-        <!--android:layout_width="wrap_content"-->
-        <!--android:layout_height="wrap_content"-->
-        <!--android:layout_margin="16dp"-->
-        <!--android:clickable="true"-->
-        <!--android:src="@drawable/ic_add_white_24dp"-->
-        <!--app:layout_anchor="@id/calendar_layout"-->
-        <!--app:layout_anchorGravity="bottom|right|end" />-->
+            <!--android:id="@+id/fab"-->
+            <!--android:layout_width="wrap_content"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:layout_margin="16dp"-->
+            <!--android:clickable="true"-->
+            <!--android:src="@drawable/ic_add_white_24dp"-->
+            <!--app:backgroundTint="@color/colorAccentSecondary"-->
+            <!--android:layout_gravity="bottom|end" />-->
+
+        <com.github.clans.fab.FloatingActionMenu
+            android:id="@+id/fab_menu"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_margin="0dp"
+            android:layout_gravity="bottom|end"
+            android:elevation="6dp"
+            android:padding="13dp"
+            app:menu_backgroundColor="#CCFFFFFF"
+            app:menu_colorNormal="@color/colorAccentSecondary"
+            app:menu_colorPressed="@android:color/white"
+            app:menu_icon="@drawable/ic_add_white_24dp"
+            app:menu_labels_colorNormal="@android:color/white"
+            app:menu_labels_colorPressed="@android:color/white"
+            app:menu_labels_paddingLeft="6dp"
+            app:menu_labels_paddingRight="6dp"
+            app:menu_labels_paddingTop="2dp"
+            app:menu_labels_paddingBottom="2dp"
+            app:menu_labels_textSize="14dp"
+            app:menu_labels_textColor="@android:color/primary_text_light"
+            app:menu_labels_margin="24dp">
+
+            <com.github.clans.fab.FloatingActionButton
+                android:id="@+id/fab_menu_item_add_note"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/ic_fab_note"
+                android:onClick="addNote"
+                app:fab_size="mini"
+                app:fab_label="@string/add_note"
+                style="@style/MenuButtonsSmall"/>
+
+            <com.github.clans.fab.FloatingActionButton
+                android:id="@+id/fab_menu_item_edit"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/ic_fab_edit"
+                app:fab_size="mini"
+                app:fab_label="@string/edit_period_days"
+                style="@style/MenuButtonsSmall" />
+
+        </com.github.clans.fab.FloatingActionMenu>
+
+        <Button
+            android:id="@+id/btn_period_started"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textAllCaps="true"
+            android:text="@string/period_started"
+            android:layout_gravity="bottom"
+            android:textAlignment="center"
+            android:elevation="0dp"
+            android:textColor="@android:color/white"
+            android:background="@color/colorPrimary"
+            android:layout_margin="0dp"
+            style="@style/Widget.AppCompat.Button.Borderless" />
 
     </android.support.design.widget.CoordinatorLayout>
+
     <include layout="@layout/navigation_view" />
 </android.support.v4.widget.DrawerLayout>
 

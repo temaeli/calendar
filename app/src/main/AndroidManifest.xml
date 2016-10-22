@@ -11,40 +11,35 @@
         android:label="@string/app_name"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-
         <activity
             android:name=".MainActivity"
             android:noHistory="true"
             android:theme="@style/SplashTheme">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
+
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-
         <activity
             android:name=".SettingsActivity"
-            android:parentActivityName=".CalendarActivity"
-            android:configChanges="locale|orientation"/>
-
+            android:configChanges="locale|orientation"
+            android:parentActivityName=".CalendarActivity" />
         <activity
             android:name=".InitialSettingsActivity"
             android:noHistory="true" />
-
         <activity
             android:name=".CalendarActivity"
             android:configChanges="locale|orientation"
-            android:screenOrientation="portrait"/>
-
+            android:screenOrientation="portrait" />
         <activity
             android:name=".HelpActivity"
-            android:parentActivityName=".CalendarActivity"
-            android:configChanges="locale|orientation|screenSize"/>
-
+            android:configChanges="locale|orientation|screenSize"
+            android:parentActivityName=".CalendarActivity" />
         <activity
             android:name=".CycleHistoryActivity"
             android:configChanges="locale|orientation|screenSize"
-            android:theme="@style/AppTheme"/>
+            android:theme="@style/AppTheme" />
 
         <receiver android:name=".AlarmReceiver">
             <intent-filter>
@@ -53,12 +48,14 @@
                 <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
         </receiver>
-
         <receiver android:name=".BootReceiver">
             <intent-filter>
                 <action android:name="android.intent.action.BOOT_COMPLETED" />
             </intent-filter>
         </receiver>
+
+        <activity android:name=".AddNoteActivity"
+            android:parentActivityName=".CalendarActivity"></activity>
     </application>
 
 </manifest>

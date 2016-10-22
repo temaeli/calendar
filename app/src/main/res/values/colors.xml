@@ -20,4 +20,5 @@
     <color name="textColorCaption">#61000000</color>
 
     <color name="navItemBg">#ebedf0</color>
+    <color name="colorAccentSecondary">#FFFF00</color>
 </resources>
