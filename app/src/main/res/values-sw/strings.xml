@@ -48,4 +48,5 @@
     <string name="period_started">Period started</string>
     <string name="add_note">Add note</string>
     <string name="edit_period_days">Edit period days</string>
+    <string name="action_save">Save</string>
 </resources>

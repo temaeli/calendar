@@ -122,19 +122,24 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:src="@drawable/ic_fab_note"
-                android:onClick="addNote"
+                android:onClick="showAddNote"
                 app:fab_size="mini"
                 app:fab_label="@string/add_note"
-                style="@style/MenuButtonsSmall"/>
+                app:fab_colorNormal="#FFAB40"
+                app:fab_colorPressed="#CCFFFFFF"
+                app:fab_colorRipple="#CCFFFFFF"/>
 
             <com.github.clans.fab.FloatingActionButton
                 android:id="@+id/fab_menu_item_edit"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:src="@drawable/ic_fab_edit"
+                android:onClick="showEditPeriodDays"
                 app:fab_size="mini"
-                app:fab_label="@string/edit_period_days"
-                style="@style/MenuButtonsSmall" />
+                app:fab_colorNormal="#E040FB"
+                app:fab_colorPressed="#CCFFFFFF"
+                app:fab_colorRipple="#CCFFFFFF"
+                app:fab_label="@string/edit_period_days" />
 
         </com.github.clans.fab.FloatingActionMenu>
 

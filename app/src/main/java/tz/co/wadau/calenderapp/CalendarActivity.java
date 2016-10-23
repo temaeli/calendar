@@ -189,7 +189,7 @@ public class CalendarActivity extends AppCompatActivity implements NavigationVie
         return eventList;
     }
 
-    public void addNote(View v) {
+    public void showAddNote(View v) {
         floatingActionMenu.close(true);
         new Handler(Looper.getMainLooper()).postDelayed(new Runnable() {
             @Override
@@ -197,7 +197,15 @@ public class CalendarActivity extends AppCompatActivity implements NavigationVie
                 startActivity(new Intent(getApplicationContext(), AddNoteActivity.class));
             }
         }, 200);
-
     }
 
+    public void showEditPeriodDays(View view){
+        floatingActionMenu.close(true);
+        new Handler(Looper.getMainLooper()).postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                startActivity(new Intent(getApplicationContext(), EditPeriodDaysActivity.class));
+            }
+        }, 200);
+    }
 }

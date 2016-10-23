@@ -40,6 +40,10 @@
             android:name=".CycleHistoryActivity"
             android:configChanges="locale|orientation|screenSize"
             android:theme="@style/AppTheme" />
+        <activity
+            android:name=".AddNoteActivity"
+            android:parentActivityName=".CalendarActivity"
+            android:theme="@style/AddNoteTheme" />
 
         <receiver android:name=".AlarmReceiver">
             <intent-filter>
@@ -54,8 +58,9 @@
             </intent-filter>
         </receiver>
 
-        <activity android:name=".AddNoteActivity"
-            android:parentActivityName=".CalendarActivity"></activity>
+        <activity android:name=".EditPeriodDaysActivity"
+            android:parentActivityName=".CalendarActivity"
+            android:theme="@style/EditPeriodDaysTheme"></activity>
     </application>
 
 </manifest>

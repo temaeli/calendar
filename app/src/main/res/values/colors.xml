@@ -8,6 +8,12 @@
     <color name="background_light">#EEEEEE</color>
     <color name="splash_dark">#BDBDBD</color>
 
+    <color name="colorPrimaryAddNote">#FFC107</color>
+    <color name="colorPrimaryDarkAddNote">#FFA000</color>
+
+    <color name="colorPrimaryEditPeriodDays">#9C27B0</color>
+    <color name="colorPrimaryDarkEditPeriodDays">#7B1FA2</color>
+
     <color name="colorControlHighlight">#ffffff</color>
     <color name="textColorHint">#5F000000</color>
     <!--<color name="textColorHint">#4C000000</color>-->
@@ -20,5 +26,5 @@
     <color name="textColorCaption">#61000000</color>
 
     <color name="navItemBg">#ebedf0</color>
-    <color name="colorAccentSecondary">#FFFF00</color>
+    <color name="colorAccentSecondary">#18FFFF</color>
 </resources>

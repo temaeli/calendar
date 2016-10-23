@@ -1,25 +1,33 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/activity_add_note"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/activity_edit_period_days"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context="tz.co.wadau.calenderapp.AddNoteActivity">
+    tools:context="tz.co.wadau.calenderapp.EditPeriodDaysActivity">
 
     <android.support.v7.widget.Toolbar
-        android:id="@+id/add_note_toolbar"
+        android:id="@+id/edit_period_days_toolbar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:minHeight="?attr/actionBarSize"
-        android:background="@color/colorPrimaryAddNote"
+        android:background="@color/colorPrimaryEditPeriodDays"
         app:navigationIcon="@drawable/ic_close_24dp"
-        app:title="@string/add_note"
+        app:title="@string/edit_period_days"
         app:theme="@style/ThemeOverlay.AppCompat.Light"
         app:popupTheme="@style/ThemeOverlay.AppCompat.Light"
         app:titleTextColor="@android:color/white"
-        app:navigationContentDescription="@string/abc_action_bar_up_description"
         android:elevation="4dp"/>
 
+    <android.support.v7.widget.CardView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:cardElevation="1dp"
+        app:cardCornerRadius="0dp">
+        <CalendarView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"/>
+    </android.support.v7.widget.CardView>
 </LinearLayout>
