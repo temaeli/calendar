@@ -6,6 +6,12 @@ import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.TextView;
+
+import java.util.Calendar;
+import java.util.Locale;
+
+import tz.co.wadau.calenderapp.customviews.MCUtils;
 
 public class AddNoteActivity extends AppCompatActivity {
     private final String TAG = AddNoteActivity.class.getSimpleName();
@@ -17,6 +23,10 @@ public class AddNoteActivity extends AppCompatActivity {
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.add_note_toolbar);
         setSupportActionBar(toolbar);
+
+        TextView textView = (TextView) findViewById(R.id.add_note_date);
+        Calendar calendar = Calendar.getInstance(Locale.getDefault());
+        textView.setText(MCUtils.formatToSystemDateFormat(this, MCUtils.formatDate(calendar.getTime())));
     }
 
     @Override

@@ -11,12 +11,10 @@ import android.preference.PreferenceFragment;
 import android.preference.PreferenceManager;
 import android.util.DisplayMetrics;
 
-import java.text.Format;
-import java.text.SimpleDateFormat;
-import java.util.Calendar;
 import java.util.Locale;
 
 import tz.co.wadau.calenderapp.customviews.DatePreference;
+import tz.co.wadau.calenderapp.customviews.MCUtils;
 import tz.co.wadau.calenderapp.customviews.NumberPickerPreference;
 import tz.co.wadau.calenderapp.helper.MyCycleDbHelper;
 
@@ -124,22 +122,14 @@ public class SettingsFragment extends PreferenceFragment {
         if (preference instanceof NumberPickerPreference) {
             preference.setSummary(String.valueOf(sharedPreferences.getInt(preference.getKey(), 0)));
         } else if (preference instanceof DatePreference) {
-            preference.setSummary(formatToSystemDateFormat(sharedPreferences.getString(preference.getKey(), "")));
+            preference.setSummary(MCUtils.formatToSystemDateFormat(getActivity().getApplicationContext(),
+                    sharedPreferences.getString(preference.getKey(), "")));
         } else {
             preference.setSummary(sharedPreferences.getString(preference.getKey(), ""));
         }
     }
 
-    public String formatToSystemDateFormat(String str) {
-        //Reading system date format
-        Format dateFormat = android.text.format.DateFormat.getDateFormat(getActivity().getApplicationContext());
-        String pattern = ((SimpleDateFormat) dateFormat).toLocalizedPattern();
 
-        SimpleDateFormat systemDateFormat = new SimpleDateFormat(pattern);
-        Calendar calendar = Calendar.getInstance(Locale.getDefault());
-        calendar.set(DatePreference.getYear(str), DatePreference.getMonth(str) - 1, DatePreference.getDate(str));
-        return systemDateFormat.format(calendar.getTime());
-    }
 
     public void updateMentralCycleDays() {
         CalendarActivity.compactCalendarView.removeAllEvents();

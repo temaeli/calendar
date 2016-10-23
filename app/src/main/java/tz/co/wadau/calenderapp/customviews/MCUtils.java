@@ -1,10 +1,13 @@
 package tz.co.wadau.calenderapp.customviews;
 
 import android.animation.ValueAnimator;
+import android.content.Context;
 import android.widget.TextView;
 
+import java.text.Format;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.Locale;
 import java.util.concurrent.TimeUnit;
@@ -41,5 +44,16 @@ public class MCUtils {
 
     public static long dateDiffInDays(Long HighMills, Long LowMills){
         return  TimeUnit.MILLISECONDS.toDays(HighMills - LowMills);
+    }
+
+    public static String formatToSystemDateFormat(Context context, String str) {
+        //Reading system date format
+        Format dateFormat = android.text.format.DateFormat.getDateFormat(context);
+        String pattern = ((SimpleDateFormat) dateFormat).toLocalizedPattern();
+
+        SimpleDateFormat systemDateFormat = new SimpleDateFormat(pattern);
+        Calendar calendar = Calendar.getInstance(Locale.getDefault());
+        calendar.set(DatePreference.getYear(str), DatePreference.getMonth(str) - 1, DatePreference.getDate(str));
+        return systemDateFormat.format(calendar.getTime());
     }
 }

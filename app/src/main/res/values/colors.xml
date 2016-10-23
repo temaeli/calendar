@@ -8,8 +8,8 @@
     <color name="background_light">#EEEEEE</color>
     <color name="splash_dark">#BDBDBD</color>
 
-    <color name="colorPrimaryAddNote">#FFC107</color>
-    <color name="colorPrimaryDarkAddNote">#FFA000</color>
+    <color name="colorPrimaryAddNote">#03A9F4</color>
+    <color name="colorPrimaryDarkAddNote">#0288D1</color>
 
     <color name="colorPrimaryEditPeriodDays">#9C27B0</color>
     <color name="colorPrimaryDarkEditPeriodDays">#7B1FA2</color>

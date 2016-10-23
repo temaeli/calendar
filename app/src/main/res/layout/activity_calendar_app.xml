@@ -95,6 +95,20 @@
             <!--app:backgroundTint="@color/colorAccentSecondary"-->
             <!--android:layout_gravity="bottom|end" />-->
 
+        <Button
+            android:id="@+id/btn_period_started"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textAllCaps="true"
+            android:text="@string/period_started"
+            android:layout_gravity="bottom"
+            android:textAlignment="center"
+            android:elevation="0dp"
+            android:textColor="@android:color/white"
+            android:background="@color/colorPrimary"
+            android:layout_margin="0dp"
+            style="@style/Widget.AppCompat.Button.Borderless" />
+
         <com.github.clans.fab.FloatingActionMenu
             android:id="@+id/fab_menu"
             android:layout_width="match_parent"
@@ -115,17 +129,21 @@
             app:menu_labels_paddingBottom="2dp"
             app:menu_labels_textSize="14dp"
             app:menu_labels_textColor="@android:color/primary_text_light"
-            app:menu_labels_margin="24dp">
+            app:menu_labels_margin="24dp"
+            app:menu_buttonSpacing="5dp">
 
             <com.github.clans.fab.FloatingActionButton
                 android:id="@+id/fab_menu_item_add_note"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:src="@drawable/ic_fab_note"
+                android:src="@drawable/ic_note_add"
                 android:onClick="showAddNote"
                 app:fab_size="mini"
+                app:fab_shadowRadius="1dp"
+                app:fab_shadowYOffset="1dp"
+                app:fab_shadowXOffset="0dp"
                 app:fab_label="@string/add_note"
-                app:fab_colorNormal="#FFAB40"
+                app:fab_colorNormal="#40C4FF"
                 app:fab_colorPressed="#CCFFFFFF"
                 app:fab_colorRipple="#CCFFFFFF"/>
 
@@ -136,26 +154,15 @@
                 android:src="@drawable/ic_fab_edit"
                 android:onClick="showEditPeriodDays"
                 app:fab_size="mini"
+                app:fab_shadowRadius="1dp"
+                app:fab_shadowYOffset="1dp"
+                app:fab_shadowXOffset="0dp"
                 app:fab_colorNormal="#E040FB"
                 app:fab_colorPressed="#CCFFFFFF"
                 app:fab_colorRipple="#CCFFFFFF"
                 app:fab_label="@string/edit_period_days" />
 
         </com.github.clans.fab.FloatingActionMenu>
-
-        <Button
-            android:id="@+id/btn_period_started"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:textAllCaps="true"
-            android:text="@string/period_started"
-            android:layout_gravity="bottom"
-            android:textAlignment="center"
-            android:elevation="0dp"
-            android:textColor="@android:color/white"
-            android:background="@color/colorPrimary"
-            android:layout_margin="0dp"
-            style="@style/Widget.AppCompat.Button.Borderless" />
 
     </android.support.design.widget.CoordinatorLayout>
 

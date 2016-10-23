@@ -38,7 +38,7 @@ import tz.co.wadau.calenderapp.helper.MyCycleDbHelper;
 public class CycleHistoryActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
 
-    public final  String TAG = CycleHistoryActivity.class.getSimpleName();
+    public final String TAG = CycleHistoryActivity.class.getSimpleName();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -159,11 +159,11 @@ public class CycleHistoryActivity extends AppCompatActivity
         combinedChart.invalidate();
     }
 
-    private BarData generateBarData(MyCycleDbHelper dbHelper){
+    private BarData generateBarData(MyCycleDbHelper dbHelper) {
         List<Long> yCycleHistory = dbHelper.getYCycleHistory();
         ArrayList<BarEntry> barEntries = new ArrayList<>();
 
-        for(int i=0; i < yCycleHistory.size(); i++){
+        for (int i = 0; i < yCycleHistory.size(); i++) {
             barEntries.add(new BarEntry(i, yCycleHistory.get(i)));
         }
 
@@ -174,11 +174,11 @@ public class CycleHistoryActivity extends AppCompatActivity
         return barData;
     }
 
-    private LineData generateLineData(MyCycleDbHelper dbHelper){
+    private LineData generateLineData(MyCycleDbHelper dbHelper) {
         List<String> yValues = dbHelper.getYPeriodHistory();
         ArrayList<Entry> lineEntries = new ArrayList<>();
 
-        for(int i=0; i < yValues.size(); i++){
+        for (int i = 0; i < yValues.size(); i++) {
             lineEntries.add(new Entry(i, Float.parseFloat(yValues.get(i))));
         }
 
