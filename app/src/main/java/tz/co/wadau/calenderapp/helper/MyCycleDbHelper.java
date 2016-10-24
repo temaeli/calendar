@@ -27,7 +27,9 @@ import tz.co.wadau.calenderapp.customviews.DatePreference;
 import tz.co.wadau.calenderapp.customviews.MCUtils;
 import tz.co.wadau.calenderapp.helper.MyCycleContract.CategoryEntry;
 import tz.co.wadau.calenderapp.helper.MyCycleContract.EventEntry;
+import tz.co.wadau.calenderapp.helper.MyCycleContract.NoteEntry;
 import tz.co.wadau.calenderapp.models.MCEvent;
+import tz.co.wadau.calenderapp.models.MCNote;
 
 import static tz.co.wadau.calenderapp.CalendarActivity.setCycleStatus;
 import static tz.co.wadau.calenderapp.customviews.MCUtils.getTimeInMills;
@@ -54,6 +56,11 @@ public class MyCycleDbHelper extends SQLiteOpenHelper {
             + CategoryEntry.COLUMN_CATEGORY_NAME + " VARCHAR(255) NOT NULL "
             + ");";
 
+    final String SQL_CREATE_NOTES_TABLE = "CREATE TABLE " + NoteEntry.TABLE_NAME + " ( "
+            + NoteEntry._ID + " INTEGER PRIMARY KEY AUTOINCREMENT, "
+            + NoteEntry.COLUMN_CREATED_AT + " DATE, "
+            + NoteEntry.COLUMN_TEXT + " TEXT );";
+
     public MyCycleDbHelper(Context context) {
         super(context, DATABASE_NAME, null, DATABASE_VERSION);
     }
@@ -63,6 +70,7 @@ public class MyCycleDbHelper extends SQLiteOpenHelper {
         Log.d(TAG, "Creating database");
         db.execSQL(SQL_CREATE_EVENTS_TABLE);
         db.execSQL(SQL_CREATE_CATEGORIES_TABLE);
+        db.execSQL(SQL_CREATE_NOTES_TABLE);
     }
 
     @Override
@@ -364,5 +372,18 @@ public class MyCycleDbHelper extends SQLiteOpenHelper {
             events.add(new Event(color, date));
         }
         return events;
+    }
+
+//    NOTES
+    public long insertNote(MCNote note){
+        SQLiteDatabase db = getReadableDatabase();
+
+        ContentValues values = new ContentValues();
+        values.put(NoteEntry.COLUMN_CREATED_AT, note.getCreatedAt());
+        values.put(NoteEntry.COLUMN_TEXT, note.getText());
+
+        long noteId = db.insert(NoteEntry.TABLE_NAME, null, values);
+        db.close();
+        return noteId;
     }
 }

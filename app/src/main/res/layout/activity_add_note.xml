@@ -15,7 +15,7 @@
         android:background="@color/colorPrimaryAddNote"
         android:elevation="4dp"
         android:minHeight="?attr/actionBarSize"
-        app:navigationContentDescription="@string/abc_action_bar_up_description"
+        app:titleTextColor="@android:color/white"
         app:navigationIcon="@drawable/ic_close_24dp"
         app:popupTheme="@style/ThemeOverlay.AppCompat.Light"
         app:theme="@style/ThemeOverlay.AppCompat.Light"
@@ -27,7 +27,7 @@
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            android:layout_height="wrap_content"
             android:orientation="vertical"
             android:padding="16dp">
 
@@ -36,21 +36,15 @@
                 android:layout_height="wrap_content"
                 android:orientation="horizontal">
 
-                <ImageView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginBottom="16dp"
-                    android:layout_marginRight="24dp"
-                    android:layout_marginTop="16dp"
-                    android:src="@drawable/ic_clock" />
-
                 <TextView
                     android:id="@+id/add_note_date"
+                    android:drawableStart="@drawable/ic_clock"
+                    android:drawablePadding="24dp"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_vertical"
                     android:gravity="center_vertical"
-                    android:textSize="16dp"
+                    android:textSize="16sp"
                     android:textColor="@android:color/primary_text_light"/>
             </LinearLayout>
 
@@ -64,16 +58,17 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginBottom="16dp"
-                    android:layout_marginRight="24dp"
+                    android:layout_marginEnd="24dp"
                     android:layout_marginTop="16dp"
                     android:src="@drawable/ic_note" />
 
                 <EditText
+                    android:id="@+id/note_text"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_vertical"
-                    android:hint="Write a note"
-                    android:textSize="16dp"
+                    android:hint="@string/write_a_note"
+                    android:textSize="16sp"
                     android:textColorHighlight="@color/editTextHintColor"
                     android:inputType="textCapSentences|textMultiLine" />
             </LinearLayout>
