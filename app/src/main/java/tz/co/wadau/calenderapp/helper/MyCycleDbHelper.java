@@ -190,25 +190,17 @@ public class MyCycleDbHelper extends SQLiteOpenHelper {
         db.close();
     }
 
+    public void deleteEvenFrom(String date){
+        SQLiteDatabase db = this.getReadableDatabase();
+        db.delete(EventEntry.TABLE_NAME, EventEntry.COLUMN_EVENT_DATE
+                + " >= ?", new String[] {date});
+    }
+
     public void deleteAllEvents() {
         SQLiteDatabase db = this.getReadableDatabase();
         db.delete(EventEntry.TABLE_NAME, null, null);
         db.close();
     }
-
-//    public int getAvgPeriodDays(Context context) {
-//        SQLiteDatabase database = this.getReadableDatabase();
-//        final String SQL_SELECT_AVG_PEROID_DAYS = "SELECT CAST(AVG(" + EventEntry.COLUMN_EVENT_COLOR
-//                + ") AS INTEGER) AS avg FROM " + EventEntry.TABLE_NAME;
-//        Log.d(TAG, SQL_SELECT_AVG_PEROID_DAYS);
-//
-//        Cursor c = database.rawQuery(SQL_SELECT_AVG_PEROID_DAYS, null);
-//        if (c.moveToFirst()) {
-//            return c.getInt(c.getColumnIndex("avg"));
-//        }
-//
-//        return 0;
-//    }
 
     public List<String> getXPeriodHistory() {
         SQLiteDatabase database = this.getReadableDatabase();
@@ -353,6 +345,66 @@ public class MyCycleDbHelper extends SQLiteOpenHelper {
         }
 
         dbHelper.deleteAllEvents();
+        dbHelper.insertEvents(events);
+        dbHelper.closeDb();
+    }
+
+    public static void addMensCycleDaysFrom(Context context, String date) {
+
+        MyCycleDbHelper dbHelper = new MyCycleDbHelper(context);
+        List<MCEvent> events = new ArrayList<>();
+
+        //Reading user settings then adding menstrual and ovulation days to calendar
+        SharedPreferences sharedPrefs = PreferenceManager.getDefaultSharedPreferences(context);
+        int mensDays = sharedPrefs.getInt(SettingsFragment.KEY_PREF_MENS_DAYS, 3);
+        int cycleDays = sharedPrefs.getInt(SettingsFragment.KEY_PREF_CYCLE_DAYS, 28);
+        String lastMonthMensDate = date;
+        int lutealPhaseDays = sharedPrefs.getInt(SettingsFragment.KEY_PREF_LUTEAL_PHASE_DAYS, 14);
+        int ovulationDays = 5;
+        boolean cycleCreated = sharedPrefs.getBoolean(InitialSettingsActivity.IS_CYCLE_CREATED, true);
+        int daysBeforeFertilityWindow = cycleDays - (lutealPhaseDays + 3);
+        int calendarYear = DatePreference.getYear(lastMonthMensDate);
+        int calendarMonth = DatePreference.getMonth(lastMonthMensDate) - 1;
+        int calendarDay = DatePreference.getDate(lastMonthMensDate);
+        Calendar cal = Calendar.getInstance(Locale.getDefault());
+        cal.set(calendarYear, calendarMonth, calendarDay, 0, 0, 1);
+
+        if (!cycleCreated) {
+            AlarmNotification alarmNotification = new AlarmNotification();
+            alarmNotification.setAlarm(context);
+            setCycleStatus(context, true);
+        }
+
+        //Add mens days to the database for 2 years
+        for (Integer k = 0; k <= 24; k++) {
+
+            Date firstPerodDate = cal.getTime();
+
+            for (Integer i = 0; i < mensDays; i++) {
+//                compactCalendarView.addEvent(new Event(Color.argb(255, 235, 147, 147), cal.getTimeInMillis()), false);
+
+                events.add(new MCEvent(MCUtils.formatDate(cal.getTime()),
+                        context.getString(Integer.parseInt(String.valueOf(R.color.colorPeriod))),
+                        MCUtils.formatDate(firstPerodDate)));
+                cal.add(Calendar.DATE, 1);
+            }
+
+            //Add ovulating days to the database for 2 years
+            cal.add(Calendar.DATE, -mensDays);
+            cal.add(Calendar.DATE, daysBeforeFertilityWindow);
+
+            for (Integer j = 0; j < ovulationDays; j++) {
+//                compactCalendarView.addEvent(new Event(Color.argb(140, 0, 138, 230), cal.getTimeInMillis()), false);
+                events.add(new MCEvent(MCUtils.formatDate(cal.getTime()),
+                        context.getString(Integer.parseInt(String.valueOf(R.color.colorOvulationWindow))),
+                        MCUtils.formatDate(firstPerodDate)));
+                cal.add(Calendar.DATE, 1);
+            }
+
+            cal.add(Calendar.DATE, -(daysBeforeFertilityWindow + ovulationDays)); //Reset calender day to the previous month first mens day
+            cal.add(Calendar.DATE, cycleDays);
+        }
+
         dbHelper.insertEvents(events);
         dbHelper.closeDb();
     }

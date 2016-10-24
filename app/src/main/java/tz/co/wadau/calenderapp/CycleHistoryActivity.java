@@ -39,6 +39,7 @@ public class CycleHistoryActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
 
     public final String TAG = CycleHistoryActivity.class.getSimpleName();
+    MyCycleDbHelper db;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -47,11 +48,12 @@ public class CycleHistoryActivity extends AppCompatActivity
         Toolbar toolbar = (Toolbar) findViewById(R.id.cycle_history_toolbar);
         setSupportActionBar(toolbar);
 
+        db = new MyCycleDbHelper(getApplicationContext());
         TextView avgPeriodDays = (TextView) findViewById(R.id.avg_period_days);
         TextView avgCycleDays = (TextView) findViewById(R.id.av_cycle_days);
 
-        MCUtils.animateTextView(0, 4, 1000, avgPeriodDays);
-        MCUtils.animateTextView(0, 30, 1000, avgCycleDays);
+        MCUtils.animateTextView(0, getAveragePeriod(db), 1000, avgPeriodDays);
+        MCUtils.animateTextView(0, getAverageCycleDays(db), 1000, avgCycleDays);
 
         loadCombinedGraph();
 
@@ -110,7 +112,7 @@ public class CycleHistoryActivity extends AppCompatActivity
     }
 
     public void loadCombinedGraph() {
-        MyCycleDbHelper db = new MyCycleDbHelper(getApplicationContext());
+
         final List<String> xValues = db.getXPeriodHistory();
         CombinedChart combinedChart = (CombinedChart) findViewById(R.id.combined_chart);
 
@@ -143,7 +145,6 @@ public class CycleHistoryActivity extends AppCompatActivity
 
         YAxis leftAxis = combinedChart.getAxisLeft();
         leftAxis.setAxisMinValue(0f);
-
 
         Legend legend = combinedChart.getLegend();
         legend.setWordWrapEnabled(true);
@@ -194,5 +195,38 @@ public class CycleHistoryActivity extends AppCompatActivity
         lineDataSet.setCircleRadius(5f);
         lineData.addDataSet(lineDataSet);
         return lineData;
+    }
+
+    private int getAveragePeriod(MyCycleDbHelper dbHelper) {
+        List<String> periodHistory = dbHelper.getYPeriodHistory();
+
+        int size = periodHistory.size();
+        float sum = 0;
+        if (size > 0) {
+            for (int i = 0; i < size; i++) {
+                sum += Float.valueOf(periodHistory.get(i));
+            }
+
+            return Math.round(sum / size);
+        } else {
+            return 0;
+        }
+    }
+
+    private  int getAverageCycleDays(MyCycleDbHelper dbHelper){
+        List<Long> cycleHistory = dbHelper.getYCycleHistory();
+
+        int size = cycleHistory.size();
+        float sum = 0;
+        if(size > 0){
+            for (int i = 0; i < size; i++){
+                sum += Float.valueOf(cycleHistory.get(i));
+            }
+
+            return Math.round(sum / size);
+        }else {
+            return 0;
+        }
+
     }
 }

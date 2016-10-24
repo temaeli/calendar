@@ -17,6 +17,7 @@ import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.Button;
 import android.widget.ListView;
 
 import com.github.clans.fab.FloatingActionMenu;
@@ -52,10 +53,11 @@ public class CalendarActivity extends AppCompatActivity implements NavigationVie
         setLocale(getApplicationContext());
         super.onCreate(savedInstanceState);
 
-        setContentView(R.layout.activity_calendar_app);
+        setContentView(R.layout.activity_calendar);
 
         String[] colorKeyDescription = {getApplicationContext().getString(R.string.period_days),
                 getApplicationContext().getString(R.string.ovulation_days)};
+        final Button periodStarted = (Button) findViewById(R.id.btn_period_started);
 
         toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
@@ -102,6 +104,17 @@ public class CalendarActivity extends AppCompatActivity implements NavigationVie
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setCheckedItem(R.id.nav_calendar);
         navigationView.setNavigationItemSelectedListener(this);
+
+        periodStarted.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                periodStarted("2016-10-24");
+                compactCalendarView.removeAllEvents();
+                compactCalendarView.addEvents(getEventsFromDb(getApplicationContext()));
+                compactCalendarView.invalidate();
+                gotoToday();
+            }
+        });
     }
 
     @Override
@@ -199,7 +212,7 @@ public class CalendarActivity extends AppCompatActivity implements NavigationVie
         }, 200);
     }
 
-    public void showEditPeriodDays(View view){
+    public void showEditPeriodDays(View view) {
         floatingActionMenu.close(true);
         new Handler(Looper.getMainLooper()).postDelayed(new Runnable() {
             @Override
@@ -207,5 +220,11 @@ public class CalendarActivity extends AppCompatActivity implements NavigationVie
                 startActivity(new Intent(getApplicationContext(), EditPeriodDaysActivity.class));
             }
         }, 200);
+    }
+
+    public void periodStarted(String date) {
+        MyCycleDbHelper db = new MyCycleDbHelper(this);
+        db.deleteEvenFrom(date);
+        db.addMensCycleDaysFrom(this, date);
     }
 }
