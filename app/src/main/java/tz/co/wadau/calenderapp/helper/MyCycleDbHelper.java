@@ -197,19 +197,22 @@ public class MyCycleDbHelper extends SQLiteOpenHelper {
     }
 
     public void deleteLastCycleFrom(String date){
-        SQLiteDatabase db = this.getReadableDatabase();
+        SQLiteDatabase dbs = this.getReadableDatabase();
 
         final String SQL_SELECT_PREVIOUS_PERIOD = "DELETE FROM " + EventEntry.TABLE_NAME +
                 " WHERE " + EventEntry.COLUMN_EVENT_FIRST_PERIOD_DATE +
-                " =  (SELECT " + EventEntry.COLUMN_EVENT_FIRST_PERIOD_DATE +
+                " IN  (SELECT " + EventEntry.COLUMN_EVENT_FIRST_PERIOD_DATE +
                 " FROM " + EventEntry.TABLE_NAME + " WHERE " + EventEntry.COLUMN_EVENT_FIRST_PERIOD_DATE
-                + " < \"" +  date + "\" GROUP BY " + EventEntry.COLUMN_EVENT_FIRST_PERIOD_DATE
+                + " < '" +  date + "' GROUP BY " + EventEntry.COLUMN_EVENT_FIRST_PERIOD_DATE
                 + " ORDER BY " + EventEntry.COLUMN_EVENT_FIRST_PERIOD_DATE + " DESC LIMIT 1)";
 
         Log.d(TAG, SQL_SELECT_PREVIOUS_PERIOD);
 
-        db.rawQuery(SQL_SELECT_PREVIOUS_PERIOD, null);
-        db.close();
+        Cursor cursor = dbs.rawQuery(SQL_SELECT_PREVIOUS_PERIOD, null);
+        if(cursor.moveToFirst()){
+            Log.d(TAG, "there is");
+        }
+        dbs.close();
     }
 
     public void deleteAllEvents() {
