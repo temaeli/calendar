@@ -14,6 +14,7 @@ import android.support.v7.app.ActionBar;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -31,6 +32,7 @@ import java.util.Date;
 import java.util.List;
 import java.util.Locale;
 
+import tz.co.wadau.calenderapp.customviews.MCUtils;
 import tz.co.wadau.calenderapp.helper.MyCycleDbHelper;
 
 import static tz.co.wadau.calenderapp.SettingsFragment.setLocale;
@@ -44,6 +46,9 @@ public class CalendarActivity extends AppCompatActivity implements NavigationVie
     int[] colorKeyImage = {R.drawable.ic_color_key_red_24dp, R.drawable.ic_color_key_blue_24dp};
     private static SimpleDateFormat dateFormatForMonth = new SimpleDateFormat("MMM yyyy", Locale.getDefault());
     private FloatingActionMenu floatingActionMenu;
+    Calendar todayCalendar = Calendar.getInstance(Locale.getDefault());
+    String today = MCUtils.formatDate(todayCalendar.getTime());
+
 
     public CalendarActivity() throws ParseException {
     }
@@ -76,7 +81,8 @@ public class CalendarActivity extends AppCompatActivity implements NavigationVie
         compactCalendarView.setListener(new CompactCalendarView.CompactCalendarViewListener() {
             @Override
             public void onDayClick(Date dateClicked) {
-
+                today = MCUtils.formatDate(dateClicked);
+                Log.d(TAG, "Clicked date " + today);
             }
 
             @Override
@@ -96,7 +102,7 @@ public class CalendarActivity extends AppCompatActivity implements NavigationVie
         colorKeyList.setAdapter(adapter);
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
-        ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
+        final ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
                 this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
         drawer.setDrawerListener(toggle);
         toggle.syncState();
@@ -108,7 +114,7 @@ public class CalendarActivity extends AppCompatActivity implements NavigationVie
         periodStarted.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                periodStarted("2016-10-24");
+                periodStarted(today);
                 compactCalendarView.removeAllEvents();
                 compactCalendarView.addEvents(getEventsFromDb(getApplicationContext()));
                 compactCalendarView.invalidate();
@@ -224,6 +230,7 @@ public class CalendarActivity extends AppCompatActivity implements NavigationVie
 
     public void periodStarted(String date) {
         MyCycleDbHelper db = new MyCycleDbHelper(this);
+        db.deleteLastCycleFrom(date);
         db.deleteEvenFrom(date);
         db.addMensCycleDaysFrom(this, date);
     }

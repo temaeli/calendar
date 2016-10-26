@@ -41,7 +41,7 @@
                     android:layout_height="250dp"
                     app:compactCalendarBackgroundColor="@color/colorPrimary"
                     app:compactCalendarCurrentDayBackgroundColor="#50FFFFFF"
-                    app:compactCalendarCurrentSelectedDayBackgroundColor="@android:color/transparent"
+                    app:compactCalendarCurrentSelectedDayBackgroundColor="#50FFFFFF"
                     app:compactCalendarEventIndicatorStyle="fill_large_indicator"
                     app:compactCalendarTextColor="#FFF"
                     app:compactCalendarTextSize="13sp" />
@@ -109,7 +109,7 @@
             android:padding="13dp"
             app:menu_backgroundColor="#CCFFFFFF"
             app:menu_colorNormal="@color/colorAccentSecondary"
-            app:menu_colorPressed="@android:color/white"
+            app:menu_colorPressed="@color/colorAccentSecondary"
             app:menu_icon="@drawable/ic_add_white_24dp"
             app:menu_labels_colorNormal="@android:color/white"
             app:menu_labels_colorPressed="@android:color/white"
@@ -134,7 +134,7 @@
                 app:fab_shadowXOffset="0dp"
                 app:fab_label="@string/add_note"
                 app:fab_colorNormal="#40C4FF"
-                app:fab_colorPressed="#CCFFFFFF"
+                app:fab_colorPressed="#40C4FF"
                 app:fab_colorRipple="#CCFFFFFF"/>
 
             <com.github.clans.fab.FloatingActionButton
@@ -148,7 +148,7 @@
                 app:fab_shadowYOffset="1dp"
                 app:fab_shadowXOffset="0dp"
                 app:fab_colorNormal="#E040FB"
-                app:fab_colorPressed="#CCFFFFFF"
+                app:fab_colorPressed="#E040FB"
                 app:fab_colorRipple="#CCFFFFFF"
                 app:fab_label="@string/edit_period_days" />
 
