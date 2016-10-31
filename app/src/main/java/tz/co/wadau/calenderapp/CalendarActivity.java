@@ -70,6 +70,7 @@ public class CalendarActivity extends AppCompatActivity implements NavigationVie
         // Setting default toolbar title to empty
         actionBar.setTitle(null);
         floatingActionMenu = (FloatingActionMenu) findViewById(R.id.fab_menu);
+        floatingActionMenu.setClosedOnTouchOutside(true);
 
         compactCalendarView = (CompactCalendarView) findViewById(R.id.compactcalendar_view);
         compactCalendarView.setUseThreeLetterAbbreviation(true);
