@@ -199,6 +199,7 @@ public class MyCycleDbHelper extends SQLiteOpenHelper {
     public void deleteLastCycleFrom(String date){
         SQLiteDatabase dbs = this.getReadableDatabase();
 
+
         final String SQL_SELECT_PREVIOUS_PERIOD = "DELETE FROM " + EventEntry.TABLE_NAME +
                 " WHERE " + EventEntry.COLUMN_EVENT_FIRST_PERIOD_DATE +
                 " IN  (SELECT " + EventEntry.COLUMN_EVENT_FIRST_PERIOD_DATE +
@@ -206,12 +207,19 @@ public class MyCycleDbHelper extends SQLiteOpenHelper {
                 + " < '" +  date + "' GROUP BY " + EventEntry.COLUMN_EVENT_FIRST_PERIOD_DATE
                 + " ORDER BY " + EventEntry.COLUMN_EVENT_FIRST_PERIOD_DATE + " DESC LIMIT 1)";
 
+        final String SQL_SELECT_NEXT_PERIOD = "DELETE FROM " + EventEntry.TABLE_NAME +
+                " WHERE " + EventEntry.COLUMN_EVENT_FIRST_PERIOD_DATE +
+                " IN  (SELECT " + EventEntry.COLUMN_EVENT_FIRST_PERIOD_DATE +
+                " FROM " + EventEntry.TABLE_NAME + " WHERE " + EventEntry.COLUMN_EVENT_FIRST_PERIOD_DATE
+                + " > '" +  date + "' GROUP BY " + EventEntry.COLUMN_EVENT_FIRST_PERIOD_DATE
+                + " ORDER BY " + EventEntry.COLUMN_EVENT_FIRST_PERIOD_DATE + " ASC LIMIT 1)";
+
         Log.d(TAG, SQL_SELECT_PREVIOUS_PERIOD);
 
         Cursor cursor = dbs.rawQuery(SQL_SELECT_PREVIOUS_PERIOD, null);
-        if(cursor.moveToFirst()){
-            Log.d(TAG, "there is");
-        }
+        cursor.moveToFirst();
+        Cursor cursor1 = dbs.rawQuery(SQL_SELECT_NEXT_PERIOD, null);
+        cursor1.moveToFirst();
         dbs.close();
     }
 
@@ -314,7 +322,7 @@ public class MyCycleDbHelper extends SQLiteOpenHelper {
 
         //Reading user settings then adding menstrual and ovulation days to calendar
         SharedPreferences sharedPrefs = PreferenceManager.getDefaultSharedPreferences(context);
-        int mensDays = sharedPrefs.getInt(SettingsFragment.KEY_PREF_MENS_DAYS, 3);
+        int mensDays = sharedPrefs.getInt(SettingsFragment.KEY_PREF_MENS_DAYS, 4);
         int cycleDays = sharedPrefs.getInt(SettingsFragment.KEY_PREF_CYCLE_DAYS, 28);
         String lastMonthMensDate = sharedPrefs.getString(SettingsFragment.KEY_PREF_LAST_MONTH_MENS_DATE, "2016-05-21");
         int lutealPhaseDays = sharedPrefs.getInt(SettingsFragment.KEY_PREF_LUTEAL_PHASE_DAYS, 14);
@@ -375,7 +383,7 @@ public class MyCycleDbHelper extends SQLiteOpenHelper {
 
         //Reading user settings then adding menstrual and ovulation days to calendar
         SharedPreferences sharedPrefs = PreferenceManager.getDefaultSharedPreferences(context);
-        int mensDays = sharedPrefs.getInt(SettingsFragment.KEY_PREF_MENS_DAYS, 3);
+        int mensDays = sharedPrefs.getInt(SettingsFragment.KEY_PREF_MENS_DAYS, 4);
         int cycleDays = sharedPrefs.getInt(SettingsFragment.KEY_PREF_CYCLE_DAYS, 28);
         String lastMonthMensDate = date;
         int lutealPhaseDays = sharedPrefs.getInt(SettingsFragment.KEY_PREF_LUTEAL_PHASE_DAYS, 14);

@@ -12,6 +12,7 @@ import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.MenuItem;
 import android.widget.TextView;
 
@@ -114,6 +115,7 @@ public class CycleHistoryActivity extends AppCompatActivity
     public void loadCombinedGraph() {
 
         final List<String> xValues = db.getXPeriodHistory();
+        Log.d(TAG, String.valueOf(xValues));
         CombinedChart combinedChart = (CombinedChart) findViewById(R.id.combined_chart);
 
         combinedChart.setDescription("");

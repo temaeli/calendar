@@ -12,7 +12,7 @@
             android:title="@string/last_month_mens_date" />
 
         <tz.co.wadau.calenderapp.customviews.NumberPickerPreference
-            android:defaultValue="3"
+            android:defaultValue="4"
             android:key="prefs_mens_days"
             android:summary="@string/mens_days_description"
             android:title="@string/mens_days"

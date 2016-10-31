@@ -48,7 +48,7 @@ public class InitialSettingsActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 int periodDaysDefault = !TextUtils.isEmpty(editPeriodDays.getText().toString()) ?
-                        Integer.valueOf(editPeriodDays.getText().toString()) : 3;
+                        Integer.valueOf(editPeriodDays.getText().toString()) : 4;
                 NumberPickerEditText newNumberFragment =
                         NumberPickerEditText.newInstance(2, 7, periodDaysDefault, editPeriodDays.getId());
                 newNumberFragment.show(getSupportFragmentManager(), "inputPeriodDays");
