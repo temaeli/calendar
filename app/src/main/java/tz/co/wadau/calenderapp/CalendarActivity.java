@@ -232,7 +232,7 @@ public class CalendarActivity extends AppCompatActivity implements NavigationVie
     public void periodStarted(String date) {
         MyCycleDbHelper db = new MyCycleDbHelper(this);
         db.deleteLastCycleFrom(date);
-        db.deleteEvenFrom(date);
+        db.deleteEventFrom(date);
         db.addMensCycleDaysFrom(this, date);
     }
 }
