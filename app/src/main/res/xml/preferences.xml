@@ -75,9 +75,9 @@
 
     <PreferenceCategory android:title="@string/general">
         <ListPreference
-            android:defaultValue="en"
+            android:defaultValue="English"
             android:entries="@array/prefs_lang_entries"
-            android:entryValues="@array/prefs_lang_values"
+            android:entryValues="@array/prefs_lang_entries"
             android:key="prefs_language"
             android:summary="@string/english"
             android:title="@string/language" />
