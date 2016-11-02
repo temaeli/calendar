@@ -35,16 +35,24 @@
                 android:orientation="vertical"
                 android:padding="8dp">
 
-                <com.github.sundeepk.compactcalendarview.CompactCalendarView
-                    android:id="@+id/compactcalendar_view"
+                <android.support.percent.PercentFrameLayout
                     android:layout_width="match_parent"
-                    android:layout_height="250dp"
-                    app:compactCalendarBackgroundColor="@color/colorPrimary"
-                    app:compactCalendarCurrentDayBackgroundColor="#50FFFFFF"
-                    app:compactCalendarCurrentSelectedDayBackgroundColor="#50FFFFFF"
-                    app:compactCalendarEventIndicatorStyle="fill_large_indicator"
-                    app:compactCalendarTextColor="#FFF"
-                    app:compactCalendarTextSize="13sp" />
+                    android:layout_height="wrap_content">
+
+                    <com.github.sundeepk.compactcalendarview.CompactCalendarView
+                        android:id="@+id/compactcalendar_view"
+                        android:layout_width="match_parent"
+                        android:layout_height="0dp"
+                        app:compactCalendarBackgroundColor="@color/colorPrimary"
+                        app:compactCalendarCurrentDayBackgroundColor="#50FFFFFF"
+                        app:compactCalendarCurrentSelectedDayBackgroundColor="#50FFFFFF"
+                        app:compactCalendarEventIndicatorStyle="fill_large_indicator"
+                        app:compactCalendarTextColor="#FFF"
+                        app:compactCalendarTextSize="14sp"
+                        app:layout_aspectRatio="133%"
+                        app:layout_widthPercent="100%" />
+
+                </android.support.percent.PercentFrameLayout>
             </LinearLayout>
 
             <android.support.v7.widget.CardView
@@ -87,70 +95,70 @@
 
         <Button
             android:id="@+id/btn_period_started"
+            style="@style/Widget.AppCompat.Button.Borderless"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:textAllCaps="true"
-            android:text="@string/period_started"
             android:layout_gravity="bottom"
-            android:textAlignment="center"
-            android:elevation="0dp"
-            android:textColor="@android:color/white"
-            android:background="@color/colorPrimary"
             android:layout_margin="0dp"
-            style="@style/Widget.AppCompat.Button.Borderless" />
+            android:background="@drawable/bg_period_started_btn"
+            android:elevation="0dp"
+            android:text="@string/period_started"
+            android:textAlignment="center"
+            android:textAllCaps="true"
+            android:textColor="@color/bg_period_started_text" />
 
         <com.github.clans.fab.FloatingActionMenu
             android:id="@+id/fab_menu"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_margin="0dp"
             android:layout_gravity="bottom|end"
+            android:layout_margin="0dp"
             android:elevation="6dp"
             android:padding="13dp"
             app:menu_backgroundColor="#CCFFFFFF"
+            app:menu_buttonSpacing="5dp"
             app:menu_colorNormal="@color/colorAccentSecondary"
             app:menu_colorPressed="@color/colorAccentSecondary"
             app:menu_icon="@drawable/ic_add_white_24dp"
             app:menu_labels_colorNormal="@android:color/white"
             app:menu_labels_colorPressed="@android:color/white"
+            app:menu_labels_margin="24dp"
+            app:menu_labels_paddingBottom="4dp"
             app:menu_labels_paddingLeft="6dp"
             app:menu_labels_paddingRight="6dp"
             app:menu_labels_paddingTop="4dp"
-            app:menu_labels_paddingBottom="4dp"
-            app:menu_labels_textSize="14dp"
             app:menu_labels_textColor="@android:color/primary_text_light"
-            app:menu_labels_margin="24dp"
-            app:menu_buttonSpacing="5dp">
+            app:menu_labels_textSize="14dp">
 
             <com.github.clans.fab.FloatingActionButton
                 android:id="@+id/fab_menu_item_add_note"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:src="@drawable/ic_note_add"
                 android:onClick="showAddNote"
-                app:fab_size="mini"
-                app:fab_shadowRadius="1dp"
-                app:fab_shadowYOffset="1dp"
-                app:fab_shadowXOffset="0dp"
-                app:fab_label="@string/add_note"
+                android:src="@drawable/ic_note_add"
                 app:fab_colorNormal="#40C4FF"
                 app:fab_colorPressed="#40C4FF"
-                app:fab_colorRipple="#CCFFFFFF"/>
+                app:fab_colorRipple="#CCFFFFFF"
+                app:fab_label="@string/add_note"
+                app:fab_shadowRadius="1dp"
+                app:fab_shadowXOffset="0dp"
+                app:fab_shadowYOffset="1dp"
+                app:fab_size="mini" />
 
             <com.github.clans.fab.FloatingActionButton
                 android:id="@+id/fab_menu_item_edit"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:src="@drawable/ic_fab_edit"
                 android:onClick="showEditPeriodDays"
-                app:fab_size="mini"
-                app:fab_shadowRadius="1dp"
-                app:fab_shadowYOffset="1dp"
-                app:fab_shadowXOffset="0dp"
+                android:src="@drawable/ic_fab_edit"
                 app:fab_colorNormal="#E040FB"
                 app:fab_colorPressed="#E040FB"
                 app:fab_colorRipple="#CCFFFFFF"
-                app:fab_label="@string/edit_period_days" />
+                app:fab_label="@string/edit_period_days"
+                app:fab_shadowRadius="1dp"
+                app:fab_shadowXOffset="0dp"
+                app:fab_shadowYOffset="1dp"
+                app:fab_size="mini" />
 
         </com.github.clans.fab.FloatingActionMenu>
     </android.support.design.widget.CoordinatorLayout>

@@ -82,6 +82,17 @@ public class CalendarActivity extends AppCompatActivity implements NavigationVie
         compactCalendarView.setListener(new CompactCalendarView.CompactCalendarViewListener() {
             @Override
             public void onDayClick(Date dateClicked) {
+                long difference = MCUtils.dateDiffInDays(todayCalendar.getTimeInMillis(), dateClicked.getTime());
+
+                if(difference >= 0){
+                    //Enable custom period started day
+                   periodStarted.setEnabled(true);
+
+                }else {
+                    periodStarted.setEnabled(false);
+                    //Disable custom period started day for future days
+                }
+                Log.d(TAG, "This is it " + difference);
                 today = MCUtils.formatDate(dateClicked);
                 Log.d(TAG, "Clicked date " + today);
             }
@@ -230,9 +241,18 @@ public class CalendarActivity extends AppCompatActivity implements NavigationVie
     }
 
     public void periodStarted(String date) {
-        MyCycleDbHelper db = new MyCycleDbHelper(this);
-        db.deleteLastCycleFrom(date);
-        db.deleteEventFrom(date);
-        db.addMensCycleDaysFrom(this, date);
+//        MyCycleDbHelper db = new MyCycleDbHelper(this);
+        Calendar today = Calendar.getInstance(Locale.getDefault());
+
+        try {
+            long diff = MCUtils.dateDiffInDays(today.getTimeInMillis(), MCUtils.getTimeInMills(date));
+            Log.d(TAG, "Difference in days " + diff);
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+
+//        db.deleteLastCycleFrom(date);
+//        db.deleteEventFrom(date);
+//        db.addMensCycleDaysFrom(this, date);
     }
 }
