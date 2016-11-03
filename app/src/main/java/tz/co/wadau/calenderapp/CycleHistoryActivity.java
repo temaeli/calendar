@@ -94,7 +94,6 @@ public class CycleHistoryActivity extends AppCompatActivity
                 switch (id) {
                     case R.id.nav_calendar:
                         startActivity(new Intent(context, CalendarActivity.class));
-                        finish();
                         break;
                     case R.id.nav_cycle_history:
                         startActivity(new Intent(context, CycleHistoryActivity.class));

@@ -19,7 +19,6 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
-import android.widget.ListView;
 
 import com.github.clans.fab.FloatingActionMenu;
 import com.github.sundeepk.compactcalendarview.CompactCalendarView;
@@ -43,7 +42,7 @@ public class CalendarActivity extends AppCompatActivity implements NavigationVie
     private Toolbar toolbar;
     private static ActionBar actionBar;
     public static CompactCalendarView compactCalendarView;
-    int[] colorKeyImage = {R.drawable.ic_color_key_red_24dp, R.drawable.ic_color_key_blue_24dp};
+//    int[] colorKeyImage = {R.drawable.ic_color_key_red_24dp, R.drawable.ic_color_key_blue_24dp};
     private static SimpleDateFormat dateFormatForMonth = new SimpleDateFormat("MMM yyyy", Locale.getDefault());
     private FloatingActionMenu floatingActionMenu;
     Calendar todayCalendar = Calendar.getInstance(Locale.getDefault());
@@ -109,9 +108,9 @@ public class CalendarActivity extends AppCompatActivity implements NavigationVie
         gotoToday();
 
         //Adding key for menstrual cycle colors
-        CustomListAdapter adapter = new CustomListAdapter(this, colorKeyImage, colorKeyDescription);
-        ListView colorKeyList = (ListView) findViewById(R.id.color_key_list);
-        colorKeyList.setAdapter(adapter);
+//        CustomListAdapter adapter = new CustomListAdapter(this, colorKeyImage, colorKeyDescription);
+//        ListView colorKeyList = (ListView) findViewById(R.id.color_key_list);
+//        colorKeyList.setAdapter(adapter);
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         final ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
@@ -158,7 +157,6 @@ public class CalendarActivity extends AppCompatActivity implements NavigationVie
                 switch (id) {
                     case R.id.nav_calendar:
                         startActivity(new Intent(context, CalendarActivity.class));
-                        finish();
                         break;
                     case R.id.nav_cycle_history:
                         startActivity(new Intent(context, CycleHistoryActivity.class));
