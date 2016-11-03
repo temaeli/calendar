@@ -27,124 +27,159 @@
                 app:popupTheme="@style/ThemeOverlay.AppCompat.Light"
                 app:titleTextColor="@android:color/white" />
 
-            <LinearLayout
-                android:id="@+id/calendar_layout"
+            <ScrollView
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:background="@color/colorPrimary"
-                android:orientation="vertical"
-                android:padding="8dp">
-
-                <android.support.percent.PercentFrameLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content">
-
-                    <com.github.sundeepk.compactcalendarview.CompactCalendarView
-                        android:id="@+id/compactcalendar_view"
-                        android:layout_width="match_parent"
-                        android:layout_height="0dp"
-                        app:compactCalendarBackgroundColor="@color/colorPrimary"
-                        app:compactCalendarCurrentDayBackgroundColor="#50FFFFFF"
-                        app:compactCalendarCurrentSelectedDayBackgroundColor="#50FFFFFF"
-                        app:compactCalendarEventIndicatorStyle="fill_large_indicator"
-                        app:compactCalendarTextColor="#FFF"
-                        app:compactCalendarTextSize="14sp"
-                        app:layout_aspectRatio="133%"
-                        app:layout_widthPercent="100%" />
-
-                </android.support.percent.PercentFrameLayout>
-            </LinearLayout>
-
-            <!--<android.support.v7.widget.CardView-->
-                <!--android:layout_width="match_parent"-->
-                <!--android:layout_height="wrap_content"-->
-                <!--android:layout_marginBottom="8dp"-->
-                <!--android:layout_marginTop="8dp"-->
-                <!--app:cardBackgroundColor="@android:color/white"-->
-                <!--app:cardCornerRadius="0dp"-->
-                <!--app:cardElevation="1dp">-->
+                android:layout_height="match_parent"
+                android:scrollbars="none">
 
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:orientation="vertical"
-                    android:paddingBottom="16dp">
+                    android:orientation="vertical">
+
+                    <LinearLayout
+                        android:id="@+id/calendar_layout"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:background="@color/colorPrimary"
+                        android:orientation="vertical"
+                        android:padding="8dp">
+
+                        <android.support.percent.PercentFrameLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content">
+
+                            <com.github.sundeepk.compactcalendarview.CompactCalendarView
+                                android:id="@+id/compactcalendar_view"
+                                android:layout_width="match_parent"
+                                android:layout_height="0dp"
+                                app:compactCalendarBackgroundColor="@color/colorPrimary"
+                                app:compactCalendarCurrentDayBackgroundColor="#50FFFFFF"
+                                app:compactCalendarCurrentSelectedDayBackgroundColor="#50FFFFFF"
+                                app:compactCalendarEventIndicatorStyle="fill_large_indicator"
+                                app:compactCalendarTextColor="#FFF"
+                                app:compactCalendarTextSize="14sp"
+                                app:layout_aspectRatio="133%"
+                                app:layout_widthPercent="100%" />
+
+                        </android.support.percent.PercentFrameLayout>
+                    </LinearLayout>
 
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:orientation="horizontal">
+                        android:orientation="horizontal"
+                        android:layout_marginTop="8dp"
+                        android:layout_marginBottom="8dp"
+                        android:layout_marginLeft="16dp"
+                        android:layout_marginRight="16dp">
 
-                        <LinearLayout
-                            android:layout_width="0dp"
+                        <TextView
+                            android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:layout_weight="1"
-                            android:orientation="vertical">
+                            android:text="@string/period_days"
+                            android:gravity="center_vertical"
+                            android:drawableStart="@drawable/ic_color_key_red_24dp"
+                            android:drawablePadding="8dp"
+                            android:layout_marginEnd="16dp"
+                            android:textSize="12sp"/>
 
-                            <TextView
-                                android:layout_width="match_parent"
-                                android:layout_height="wrap_content"
-                                android:text="04"
-                                android:textSize="112sp"
-                                android:textColor="@color/colorAccent"
-                                android:gravity="center"/>
-                            
-                            <TextView
-                                android:layout_width="match_parent"
-                                android:layout_height="wrap_content"
-                                android:text="DAYS PAST"
-                                android:textColor="@color/textColorCaption"
-                                android:gravity="center"/>
-
-                        </LinearLayout>
-
-                        <LinearLayout
-                            android:layout_width="0dp"
+                        <TextView
+                            android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:layout_weight="1"
-                            android:orientation="vertical">
-
-                            <TextView
-                                android:layout_width="match_parent"
-                                android:layout_height="wrap_content"
-                                android:text="12"
-                                android:textSize="112sp"
-                                android:textColor="@color/colorAccent"
-                                android:gravity="center"/>
-
-                            <TextView
-                                android:layout_width="match_parent"
-                                android:layout_height="wrap_content"
-                                android:text="DAYS TO OVULATION"
-                                android:textColor="@color/textColorCaption"
-                                android:gravity="center"/>
-
-                        </LinearLayout>
+                            android:text="@string/ovulation_days"
+                            android:gravity="center_vertical"
+                            android:drawableStart="@drawable/ic_color_key_blue_24dp"
+                            android:drawablePadding="8dp"
+                            android:layout_marginEnd="16dp"
+                            android:textSize="12sp"/>
 
                     </LinearLayout>
 
-                    <!--<ListView-->
-                        <!--android:id="@+id/color_key_list"-->
-                        <!--android:layout_width="fill_parent"-->
-                        <!--android:layout_height="wrap_content"-->
-                        <!--android:divider="#FFFFFF"-->
-                        <!--android:listSelector="@android:color/transparent"-->
-                        <!--android:padding="8dp"></ListView>-->
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical"
+                        android:paddingBottom="16dp">
 
-                    <!--<View-->
-                        <!--android:id="@+id/separator"-->
-                        <!--android:layout_width="match_parent"-->
-                        <!--android:layout_height="1dp"-->
-                        <!--android:background="@color/separator_background" />-->
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:orientation="horizontal">
 
-                    <!--<TextView-->
-                        <!--android:layout_width="match_parent"-->
-                        <!--android:layout_height="wrap_content"-->
-                        <!--android:padding="16dp"-->
-                        <!--android:text="@string/menstral_cycle_note"-->
-                        <!--android:textStyle="italic" />-->
+                            <LinearLayout
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="1"
+                                android:orientation="vertical">
+
+                                <TextView
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:gravity="center"
+                                    android:text="04"
+                                    android:textColor="@color/colorAccent"
+                                    android:textSize="72sp" />
+
+                                <TextView
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:gravity="center"
+                                    android:text="DAYS PAST"
+                                    android:textColor="@color/textColorCaption"
+                                    android:textSize="12sp"/>
+
+                            </LinearLayout>
+
+                            <LinearLayout
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="1"
+                                android:orientation="vertical">
+
+                                <TextView
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:gravity="center"
+                                    android:text="12"
+                                    android:textColor="@color/colorAccent"
+                                    android:textSize="72sp" />
+
+                                <TextView
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:gravity="center"
+                                    android:text="DAYS TO OVULATION"
+                                    android:textColor="@color/textColorCaption"
+                                    android:textSize="12sp"/>
+
+                            </LinearLayout>
+
+                        </LinearLayout>
+
+                        <android.support.v7.widget.CardView
+                            android:layout_width="match_parent"
+                            android:layout_height="250dp"
+                            android:layout_marginTop="16dp"
+                            app:cardCornerRadius="0dp"
+                            app:cardElevation="1dp"
+                            app:contentPadding="8dp">
+
+                        </android.support.v7.widget.CardView>
+
+                        <android.support.v7.widget.CardView
+                            android:layout_width="match_parent"
+                            android:layout_height="250dp"
+                            android:layout_marginTop="8dp"
+                            app:cardCornerRadius="0dp"
+                            app:cardElevation="1dp"
+                            app:contentPadding="8dp"
+                            android:layout_marginBottom="50dp">
+
+                            </android.support.v7.widget.CardView>
+                    </LinearLayout>
                 </LinearLayout>
-            <!--</android.support.v7.widget.CardView>-->
+            </ScrollView>
         </LinearLayout>
 
         <Button
