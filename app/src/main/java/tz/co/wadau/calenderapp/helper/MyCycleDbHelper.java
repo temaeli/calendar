@@ -147,7 +147,10 @@ public class MyCycleDbHelper extends SQLiteOpenHelper {
         SQLiteDatabase db = this.getReadableDatabase();
         List<MCEvent> events = new ArrayList<>();
 
-        final String SQL_SELECT_ALL_EVENTS = "SELECT * FROM " + EventEntry.TABLE_NAME;
+        final String SQL_SELECT_ALL_EVENTS = "SELECT * FROM " + EventEntry.TABLE_NAME
+                + " WHERE " + EventEntry.COLUMN_EVENT_COLOR + " <> ''";
+
+        Log.d(TAG, SQL_SELECT_ALL_EVENTS);
 
         Cursor c = db.rawQuery(SQL_SELECT_ALL_EVENTS, null);
 
@@ -190,28 +193,49 @@ public class MyCycleDbHelper extends SQLiteOpenHelper {
         db.close();
     }
 
-    public void deleteEvenFrom(String date){
+    public void deleteEventFrom(String date) {
         SQLiteDatabase db = this.getReadableDatabase();
         db.delete(EventEntry.TABLE_NAME, EventEntry.COLUMN_EVENT_DATE
                 + " >= ?", new String[] {date});
     }
 
-    public void deleteLastCycleFrom(String date){
+    public void deleteLastCycleFrom(String date) {
         SQLiteDatabase dbs = this.getReadableDatabase();
+//
+//
+//        final String SQL_SELECT_PREVIOUS_PERIOD = "DELETE FROM " + EventEntry.TABLE_NAME +
+//                " WHERE " + EventEntry.COLUMN_EVENT_FIRST_PERIOD_DATE +
+//                " IN  (SELECT " + EventEntry.COLUMN_EVENT_FIRST_PERIOD_DATE +
+//                " FROM " + EventEntry.TABLE_NAME + " WHERE " + EventEntry.COLUMN_EVENT_FIRST_PERIOD_DATE
+//                + " < '" + date + "' GROUP BY " + EventEntry.COLUMN_EVENT_FIRST_PERIOD_DATE
+//                + " ORDER BY " + EventEntry.COLUMN_EVENT_FIRST_PERIOD_DATE + " DESC LIMIT 1)";
+//
+//        final String SQL_SELECT_NEXT_PERIOD = "DELETE FROM " + EventEntry.TABLE_NAME +
+//                " WHERE " + EventEntry.COLUMN_EVENT_FIRST_PERIOD_DATE +
+//                " IN  (SELECT " + EventEntry.COLUMN_EVENT_FIRST_PERIOD_DATE +
+//                " FROM " + EventEntry.TABLE_NAME + " WHERE " + EventEntry.COLUMN_EVENT_FIRST_PERIOD_DATE
+//                + " > '" + date + "' GROUP BY " + EventEntry.COLUMN_EVENT_FIRST_PERIOD_DATE
+//                + " ORDER BY " + EventEntry.COLUMN_EVENT_FIRST_PERIOD_DATE + " ASC LIMIT 1)";
+//
+//        Log.d(TAG, SQL_SELECT_PREVIOUS_PERIOD);
+//
+//        Cursor cursor = dbs.rawQuery(SQL_SELECT_PREVIOUS_PERIOD, null);
+//        cursor.moveToFirst();
+//        Cursor cursor1 = dbs.rawQuery(SQL_SELECT_NEXT_PERIOD, null);
+//        cursor1.moveToFirst();
 
-        final String SQL_SELECT_PREVIOUS_PERIOD = "DELETE FROM " + EventEntry.TABLE_NAME +
-                " WHERE " + EventEntry.COLUMN_EVENT_FIRST_PERIOD_DATE +
-                " IN  (SELECT " + EventEntry.COLUMN_EVENT_FIRST_PERIOD_DATE +
-                " FROM " + EventEntry.TABLE_NAME + " WHERE " + EventEntry.COLUMN_EVENT_FIRST_PERIOD_DATE
-                + " < '" +  date + "' GROUP BY " + EventEntry.COLUMN_EVENT_FIRST_PERIOD_DATE
-                + " ORDER BY " + EventEntry.COLUMN_EVENT_FIRST_PERIOD_DATE + " DESC LIMIT 1)";
+        SQLiteDatabase db = this.getReadableDatabase();
+        final String SQL_DELETE_BAD_DAYS = "DELETE FROM " + EventEntry.TABLE_NAME + " WHERE "
+                + EventEntry.COLUMN_EVENT_FIRST_PERIOD_DATE + " IN (SELECT "
+                + EventEntry.COLUMN_EVENT_FIRST_PERIOD_DATE + " FROM " + EventEntry.TABLE_NAME
+                + " WHERE " + EventEntry.COLUMN_EVENT_DATE + " = '" + date + "');";
 
-        Log.d(TAG, SQL_SELECT_PREVIOUS_PERIOD);
+        Log.d(TAG, SQL_DELETE_BAD_DAYS);
 
-        Cursor cursor = dbs.rawQuery(SQL_SELECT_PREVIOUS_PERIOD, null);
-        if(cursor.moveToFirst()){
-            Log.d(TAG, "there is");
-        }
+        Cursor c = db.rawQuery(SQL_DELETE_BAD_DAYS, null);
+        c.moveToFirst();
+        c.close();
+        db.close();
         dbs.close();
     }
 
@@ -224,14 +248,14 @@ public class MyCycleDbHelper extends SQLiteOpenHelper {
     public List<String> getXPeriodHistory() {
         SQLiteDatabase database = this.getReadableDatabase();
         List<String> x = new ArrayList<>();
-        final String SQL_SELECT_PERIOD_HISTORY = "SELECT strftime('%d/%m', " +
+        final String SQL_SELECT_X_PERIOD_HISTORY = "SELECT strftime('%d/%m', " +
                 EventEntry.COLUMN_EVENT_FIRST_PERIOD_DATE +
                 ") AS " + EventEntry.COLUMN_EVENT_FIRST_PERIOD_DATE +
                 ", COUNT(" + EventEntry.COLUMN_EVENT_COLOR + ") AS count FROM " +
                 EventEntry.TABLE_NAME + " WHERE " + EventEntry.COLUMN_EVENT_COLOR + " = '#ffeb9393' " +
                 "AND date < date('now') GROUP BY " + EventEntry.COLUMN_EVENT_FIRST_PERIOD_DATE + ";";
 
-        Cursor c = database.rawQuery(SQL_SELECT_PERIOD_HISTORY, null);
+        Cursor c = database.rawQuery(SQL_SELECT_X_PERIOD_HISTORY, null);
         if (c.moveToFirst()) {
             do {
                 x.add(c.getString(c.getColumnIndex(EventEntry.COLUMN_EVENT_FIRST_PERIOD_DATE)));
@@ -239,6 +263,7 @@ public class MyCycleDbHelper extends SQLiteOpenHelper {
         }
         c.close();
         database.close();
+        Log.d(TAG, String.valueOf(x));
         return x;
     }
 
@@ -264,37 +289,21 @@ public class MyCycleDbHelper extends SQLiteOpenHelper {
     public List<Long> getYCycleHistory() {
         SQLiteDatabase database = this.getReadableDatabase();
         List<Long> x = new ArrayList<>();
-        long cycleLenght = 0;
-        String currentDate;
-        String nextDate;
-        Calendar calendar = Calendar.getInstance(Locale.getDefault());
+
         final String SQL_QUERY_CYCLE_HISTORY = "SELECT " + EventEntry.COLUMN_EVENT_FIRST_PERIOD_DATE
-                + " FROM " + EventEntry.TABLE_NAME + " WHERE " + EventEntry.COLUMN_EVENT_FIRST_PERIOD_DATE
-                + " < date('now') GROUP BY " + EventEntry.COLUMN_EVENT_FIRST_PERIOD_DATE + ";";
+                + ",  COUNT(*) AS count FROM " + EventEntry.TABLE_NAME
+                + " WHERE date < date('now')"
+                + " GROUP BY " + EventEntry.COLUMN_EVENT_FIRST_PERIOD_DATE + ";";
 
         Cursor c = database.rawQuery(SQL_QUERY_CYCLE_HISTORY, null);
 
         if (c.moveToFirst()) {
             do {
-                currentDate = c.getString(c.getColumnIndex(EventEntry.COLUMN_EVENT_FIRST_PERIOD_DATE));
-                if (c.moveToNext()) {
-                    nextDate = c.getString(c.getColumnIndex(EventEntry.COLUMN_EVENT_FIRST_PERIOD_DATE));
-                    c.moveToPrevious();
-                } else {
-                    //Use current date
-                    nextDate = MCUtils.formatDate(calendar.getTime());
-                }
-
-                try {
-                    cycleLenght = MCUtils.dateDiffInDays(MCUtils.getTimeInMills(nextDate),
-                            MCUtils.getTimeInMills(currentDate));
-                } catch (ParseException e) {
-                    e.printStackTrace();
-                }
-
-                x.add(cycleLenght);
+                x.add(c.getLong(c.getColumnIndex("count")));
             } while (c.moveToNext());
         }
+        c.close();
+        database.close();
         return x;
     }
 
@@ -314,7 +323,7 @@ public class MyCycleDbHelper extends SQLiteOpenHelper {
 
         //Reading user settings then adding menstrual and ovulation days to calendar
         SharedPreferences sharedPrefs = PreferenceManager.getDefaultSharedPreferences(context);
-        int mensDays = sharedPrefs.getInt(SettingsFragment.KEY_PREF_MENS_DAYS, 3);
+        int mensDays = sharedPrefs.getInt(SettingsFragment.KEY_PREF_MENS_DAYS, 4);
         int cycleDays = sharedPrefs.getInt(SettingsFragment.KEY_PREF_CYCLE_DAYS, 28);
         String lastMonthMensDate = sharedPrefs.getString(SettingsFragment.KEY_PREF_LAST_MONTH_MENS_DATE, "2016-05-21");
         int lutealPhaseDays = sharedPrefs.getInt(SettingsFragment.KEY_PREF_LUTEAL_PHASE_DAYS, 14);
@@ -339,7 +348,6 @@ public class MyCycleDbHelper extends SQLiteOpenHelper {
             Date firstPerodDate = cal.getTime();
 
             for (Integer i = 0; i < mensDays; i++) {
-//                compactCalendarView.addEvent(new Event(Color.argb(255, 235, 147, 147), cal.getTimeInMillis()), false);
 
                 events.add(new MCEvent(MCUtils.formatDate(cal.getTime()),
                         context.getString(Integer.parseInt(String.valueOf(R.color.colorPeriod))),
@@ -347,20 +355,23 @@ public class MyCycleDbHelper extends SQLiteOpenHelper {
                 cal.add(Calendar.DATE, 1);
             }
 
-            //Add ovulating days to the database for 2 years
-            cal.add(Calendar.DATE, -mensDays);
-            cal.add(Calendar.DATE, daysBeforeFertilityWindow);
+            for (int m = 0; m < (daysBeforeFertilityWindow - mensDays); m++) {
+                events.add(new MCEvent(MCUtils.formatDate(cal.getTime()), "", MCUtils.formatDate(firstPerodDate)));
+                cal.add(Calendar.DATE, 1);
+            }
 
+            //Add ovulating days to the database for 2 years
             for (Integer j = 0; j < ovulationDays; j++) {
-//                compactCalendarView.addEvent(new Event(Color.argb(140, 0, 138, 230), cal.getTimeInMillis()), false);
                 events.add(new MCEvent(MCUtils.formatDate(cal.getTime()),
                         context.getString(Integer.parseInt(String.valueOf(R.color.colorOvulationWindow))),
                         MCUtils.formatDate(firstPerodDate)));
                 cal.add(Calendar.DATE, 1);
             }
 
-            cal.add(Calendar.DATE, -(daysBeforeFertilityWindow + ovulationDays)); //Reset calender day to the previous month first mens day
-            cal.add(Calendar.DATE, cycleDays);
+            for (int m = 0; m < (cycleDays - (daysBeforeFertilityWindow + ovulationDays)); m++) {
+                events.add(new MCEvent(MCUtils.formatDate(cal.getTime()), "", MCUtils.formatDate(firstPerodDate)));
+                cal.add(Calendar.DATE, 1);
+            }
         }
 
         dbHelper.deleteAllEvents();
@@ -375,7 +386,7 @@ public class MyCycleDbHelper extends SQLiteOpenHelper {
 
         //Reading user settings then adding menstrual and ovulation days to calendar
         SharedPreferences sharedPrefs = PreferenceManager.getDefaultSharedPreferences(context);
-        int mensDays = sharedPrefs.getInt(SettingsFragment.KEY_PREF_MENS_DAYS, 3);
+        int mensDays = sharedPrefs.getInt(SettingsFragment.KEY_PREF_MENS_DAYS, 4);
         int cycleDays = sharedPrefs.getInt(SettingsFragment.KEY_PREF_CYCLE_DAYS, 28);
         String lastMonthMensDate = date;
         int lutealPhaseDays = sharedPrefs.getInt(SettingsFragment.KEY_PREF_LUTEAL_PHASE_DAYS, 14);
@@ -400,28 +411,29 @@ public class MyCycleDbHelper extends SQLiteOpenHelper {
             Date firstPerodDate = cal.getTime();
 
             for (Integer i = 0; i < mensDays; i++) {
-//                compactCalendarView.addEvent(new Event(Color.argb(255, 235, 147, 147), cal.getTimeInMillis()), false);
-
                 events.add(new MCEvent(MCUtils.formatDate(cal.getTime()),
                         context.getString(Integer.parseInt(String.valueOf(R.color.colorPeriod))),
                         MCUtils.formatDate(firstPerodDate)));
                 cal.add(Calendar.DATE, 1);
             }
 
-            //Add ovulating days to the database for 2 years
-            cal.add(Calendar.DATE, -mensDays);
-            cal.add(Calendar.DATE, daysBeforeFertilityWindow);
+            for (int m = 0; m < (daysBeforeFertilityWindow - mensDays); m++) {
+                events.add(new MCEvent(MCUtils.formatDate(cal.getTime()), "", MCUtils.formatDate(firstPerodDate)));
+                cal.add(Calendar.DATE, 1);
+            }
 
+            //Add ovulating days to the database for 2 years
             for (Integer j = 0; j < ovulationDays; j++) {
-//                compactCalendarView.addEvent(new Event(Color.argb(140, 0, 138, 230), cal.getTimeInMillis()), false);
                 events.add(new MCEvent(MCUtils.formatDate(cal.getTime()),
                         context.getString(Integer.parseInt(String.valueOf(R.color.colorOvulationWindow))),
                         MCUtils.formatDate(firstPerodDate)));
                 cal.add(Calendar.DATE, 1);
             }
 
-            cal.add(Calendar.DATE, -(daysBeforeFertilityWindow + ovulationDays)); //Reset calender day to the previous month first mens day
-            cal.add(Calendar.DATE, cycleDays);
+            for (int m = 0; m < (cycleDays - (daysBeforeFertilityWindow + ovulationDays)); m++) {
+                events.add(new MCEvent(MCUtils.formatDate(cal.getTime()), "", MCUtils.formatDate(firstPerodDate)));
+                cal.add(Calendar.DATE, 1);
+            }
         }
 
         dbHelper.insertEvents(events);
@@ -445,8 +457,8 @@ public class MyCycleDbHelper extends SQLiteOpenHelper {
         return events;
     }
 
-//    NOTES
-    public long insertNote(MCNote note){
+    //    NOTES
+    public long insertNote(MCNote note) {
         SQLiteDatabase db = getReadableDatabase();
 
         ContentValues values = new ContentValues();

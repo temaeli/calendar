@@ -30,6 +30,7 @@
             android:noHistory="true" />
         <activity
             android:name=".CalendarActivity"
+            android:launchMode="singleTask"
             android:configChanges="locale|orientation"
             android:screenOrientation="portrait" />
         <activity
@@ -38,6 +39,7 @@
             android:parentActivityName=".CalendarActivity" />
         <activity
             android:name=".CycleHistoryActivity"
+            android:launchMode="singleTask"
             android:configChanges="locale|orientation|screenSize"
             android:theme="@style/AppTheme" />
         <activity

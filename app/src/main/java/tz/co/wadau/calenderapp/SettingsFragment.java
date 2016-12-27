@@ -95,11 +95,11 @@ public class SettingsFragment extends PreferenceFragment {
                             break;
 
                         case KEY_PREF_LANGUAGE:
-                        bindPreferenceSummaryToValue(findPreference(KEY_PREF_LANGUAGE));
+                            bindPreferenceSummaryToValue(findPreference(KEY_PREF_LANGUAGE));
                             setLocale(context);
                             startActivity(new Intent(context, SettingsActivity.class));
                             getActivity().finish();
-                        break;
+                            break;
                     }
                 }
             };
@@ -130,7 +130,6 @@ public class SettingsFragment extends PreferenceFragment {
     }
 
 
-
     public void updateMentralCycleDays() {
         CalendarActivity.compactCalendarView.removeAllEvents();
         CalendarActivity.setCycleStatus(getActivity().getApplicationContext(), false);
@@ -139,7 +138,19 @@ public class SettingsFragment extends PreferenceFragment {
 
     public static void setLocale(Context context) {
         SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(context);
-        String lang = sharedPreferences.getString(KEY_PREF_LANGUAGE, "en");
+        String lang = sharedPreferences.getString(KEY_PREF_LANGUAGE, "English");
+
+        switch (lang) {
+            case "English":
+                lang = "en";
+                break;
+            case "Swahili":
+                lang = "sw";
+                break;
+            default:
+                lang = "en";
+                break;
+        }
         Locale myLocale = new Locale(lang);
         Resources res = context.getResources();
         DisplayMetrics dm = res.getDisplayMetrics();

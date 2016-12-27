@@ -27,130 +27,241 @@
                 app:popupTheme="@style/ThemeOverlay.AppCompat.Light"
                 app:titleTextColor="@android:color/white" />
 
-            <LinearLayout
-                android:id="@+id/calendar_layout"
+            <ScrollView
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:background="@color/colorPrimary"
-                android:orientation="vertical"
-                android:padding="8dp">
-
-                <com.github.sundeepk.compactcalendarview.CompactCalendarView
-                    android:id="@+id/compactcalendar_view"
-                    android:layout_width="match_parent"
-                    android:layout_height="250dp"
-                    app:compactCalendarBackgroundColor="@color/colorPrimary"
-                    app:compactCalendarCurrentDayBackgroundColor="#50FFFFFF"
-                    app:compactCalendarCurrentSelectedDayBackgroundColor="#50FFFFFF"
-                    app:compactCalendarEventIndicatorStyle="fill_large_indicator"
-                    app:compactCalendarTextColor="#FFF"
-                    app:compactCalendarTextSize="13sp" />
-            </LinearLayout>
-
-            <android.support.v7.widget.CardView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginBottom="8dp"
-                android:layout_marginTop="8dp"
-                app:cardBackgroundColor="@android:color/white"
-                app:cardCornerRadius="0dp"
-                app:cardElevation="1dp">
+                android:layout_height="match_parent"
+                android:scrollbars="none">
 
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:orientation="vertical">
 
-                    <ListView
-                        android:id="@+id/color_key_list"
-                        android:layout_width="fill_parent"
-                        android:layout_height="wrap_content"
-                        android:divider="#FFFFFF"
-                        android:listSelector="@android:color/transparent"
-                        android:padding="8dp"></ListView>
-
-                    <View
-                        android:id="@+id/separator"
-                        android:layout_width="match_parent"
-                        android:layout_height="1dp"
-                        android:background="@color/separator_background" />
-
-                    <TextView
+                    <LinearLayout
+                        android:id="@+id/calendar_layout"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:padding="16dp"
-                        android:text="@string/menstral_cycle_note"
-                        android:textStyle="italic" />
+                        android:background="@color/colorPrimary"
+                        android:orientation="vertical"
+                        android:padding="8dp">
+
+                        <android.support.percent.PercentFrameLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content">
+
+                            <com.github.sundeepk.compactcalendarview.CompactCalendarView
+                                android:id="@+id/compactcalendar_view"
+                                android:layout_width="match_parent"
+                                android:layout_height="0dp"
+                                app:compactCalendarBackgroundColor="@color/colorPrimary"
+                                app:compactCalendarCurrentDayBackgroundColor="#50FFFFFF"
+                                app:compactCalendarCurrentSelectedDayBackgroundColor="#50FFFFFF"
+                                app:compactCalendarEventIndicatorStyle="fill_large_indicator"
+                                app:compactCalendarTextColor="#FFF"
+                                app:compactCalendarTextSize="14sp"
+                                app:layout_aspectRatio="133%"
+                                app:layout_widthPercent="100%" />
+
+                        </android.support.percent.PercentFrameLayout>
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal"
+                        android:layout_marginTop="8dp"
+                        android:layout_marginBottom="8dp"
+                        android:layout_marginLeft="16dp"
+                        android:layout_marginRight="16dp">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="@string/period_days"
+                            android:gravity="center_vertical"
+                            android:drawableStart="@drawable/ic_color_key_red_24dp"
+                            android:drawablePadding="8dp"
+                            android:layout_marginEnd="16dp"
+                            android:textSize="12sp"/>
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="@string/ovulation_days"
+                            android:gravity="center_vertical"
+                            android:drawableStart="@drawable/ic_color_key_blue_24dp"
+                            android:drawablePadding="8dp"
+                            android:layout_marginEnd="16dp"
+                            android:textSize="12sp"/>
+
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical"
+                        android:paddingBottom="16dp">
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:orientation="horizontal">
+
+                            <LinearLayout
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="1"
+                                android:orientation="vertical">
+
+                                <TextView
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:gravity="center"
+                                    android:text="04"
+                                    android:textColor="@color/colorAccent"
+                                    android:textSize="72sp" />
+
+                                <TextView
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:gravity="center"
+                                    android:text="DAYS PAST"
+                                    android:textColor="@color/textColorCaption"
+                                    android:textSize="12sp"/>
+
+                            </LinearLayout>
+
+                            <LinearLayout
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="1"
+                                android:orientation="vertical">
+
+                                <TextView
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:gravity="center"
+                                    android:text="12"
+                                    android:textColor="@color/colorAccent"
+                                    android:textSize="72sp" />
+
+                                <TextView
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:gravity="center"
+                                    android:text="DAYS TO OVULATION"
+                                    android:textColor="@color/textColorCaption"
+                                    android:textSize="12sp"/>
+
+                            </LinearLayout>
+
+                        </LinearLayout>
+
+                        <android.support.v7.widget.CardView
+                            android:layout_width="match_parent"
+                            android:layout_height="250dp"
+                            android:layout_marginTop="16dp"
+                            app:cardCornerRadius="0dp"
+                            app:cardElevation="1dp"
+                            app:contentPadding="16dp">
+
+                            <LinearLayout
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:orientation="vertical">
+
+                                <TextView
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:text="Notes"
+                                    android:textAppearance="@style/TextAppearance.AppCompat.Title"
+                                    android:drawableStart="@drawable/ic_note_blue"
+                                    android:drawablePadding="24dp"/>
+                            </LinearLayout>
+
+                        </android.support.v7.widget.CardView>
+
+                        <android.support.v7.widget.CardView
+                            android:layout_width="match_parent"
+                            android:layout_height="250dp"
+                            android:layout_marginTop="8dp"
+                            app:cardCornerRadius="0dp"
+                            app:cardElevation="1dp"
+                            app:contentPadding="16dp"
+                            android:layout_marginBottom="50dp">
+
+                            </android.support.v7.widget.CardView>
+                    </LinearLayout>
                 </LinearLayout>
-            </android.support.v7.widget.CardView>
+            </ScrollView>
         </LinearLayout>
 
         <Button
             android:id="@+id/btn_period_started"
+            style="@style/Widget.AppCompat.Button.Borderless"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:textAllCaps="true"
-            android:text="@string/period_started"
             android:layout_gravity="bottom"
-            android:textAlignment="center"
-            android:elevation="0dp"
-            android:textColor="@android:color/white"
-            android:background="@color/colorPrimary"
             android:layout_margin="0dp"
-            style="@style/Widget.AppCompat.Button.Borderless" />
+            android:background="@drawable/bg_period_started_btn"
+            android:elevation="0dp"
+            android:text="@string/period_started"
+            android:textAlignment="center"
+            android:textAllCaps="true"
+            android:textColor="@color/bg_period_started_text" />
 
         <com.github.clans.fab.FloatingActionMenu
             android:id="@+id/fab_menu"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_margin="0dp"
             android:layout_gravity="bottom|end"
+            android:layout_margin="0dp"
             android:elevation="6dp"
             android:padding="13dp"
             app:menu_backgroundColor="#CCFFFFFF"
+            app:menu_buttonSpacing="5dp"
             app:menu_colorNormal="@color/colorAccentSecondary"
             app:menu_colorPressed="@color/colorAccentSecondary"
             app:menu_icon="@drawable/ic_add_white_24dp"
             app:menu_labels_colorNormal="@android:color/white"
             app:menu_labels_colorPressed="@android:color/white"
+            app:menu_labels_margin="24dp"
+            app:menu_labels_paddingBottom="4dp"
             app:menu_labels_paddingLeft="6dp"
             app:menu_labels_paddingRight="6dp"
             app:menu_labels_paddingTop="4dp"
-            app:menu_labels_paddingBottom="4dp"
-            app:menu_labels_textSize="14dp"
             app:menu_labels_textColor="@android:color/primary_text_light"
-            app:menu_labels_margin="24dp"
-            app:menu_buttonSpacing="5dp">
+            app:menu_labels_textSize="14dp">
 
             <com.github.clans.fab.FloatingActionButton
                 android:id="@+id/fab_menu_item_add_note"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:src="@drawable/ic_note_add"
                 android:onClick="showAddNote"
-                app:fab_size="mini"
-                app:fab_shadowRadius="1dp"
-                app:fab_shadowYOffset="1dp"
-                app:fab_shadowXOffset="0dp"
-                app:fab_label="@string/add_note"
+                android:src="@drawable/ic_note_add"
                 app:fab_colorNormal="#40C4FF"
                 app:fab_colorPressed="#40C4FF"
-                app:fab_colorRipple="#CCFFFFFF"/>
+                app:fab_colorRipple="#CCFFFFFF"
+                app:fab_label="@string/add_note"
+                app:fab_shadowRadius="1dp"
+                app:fab_shadowXOffset="0dp"
+                app:fab_shadowYOffset="1dp"
+                app:fab_size="mini" />
 
             <com.github.clans.fab.FloatingActionButton
                 android:id="@+id/fab_menu_item_edit"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:src="@drawable/ic_fab_edit"
                 android:onClick="showEditPeriodDays"
-                app:fab_size="mini"
-                app:fab_shadowRadius="1dp"
-                app:fab_shadowYOffset="1dp"
-                app:fab_shadowXOffset="0dp"
+                android:src="@drawable/ic_fab_edit"
                 app:fab_colorNormal="#E040FB"
                 app:fab_colorPressed="#E040FB"
                 app:fab_colorRipple="#CCFFFFFF"
-                app:fab_label="@string/edit_period_days" />
+                app:fab_label="@string/edit_period_days"
+                app:fab_shadowRadius="1dp"
+                app:fab_shadowXOffset="0dp"
+                app:fab_shadowYOffset="1dp"
+                app:fab_size="mini" />
 
         </com.github.clans.fab.FloatingActionMenu>
     </android.support.design.widget.CoordinatorLayout>

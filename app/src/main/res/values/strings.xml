@@ -41,7 +41,7 @@
     <string name="language">Language</string>
     <string name="english">English</string>
     <string name="swahili">Swahili</string>
-    <string name="ovulation_days">Ovulation days (Fertility window)</string>
+    <string name="ovulation_days">Fertility window</string>
     <string name="luteal_phase_days">Luteal phase days</string>
     <string name="luteal_phase_description">Days between ovulation and your next period</string>
     <string name="set">Set</string>
